@@ -1,0 +1,60 @@
+<p>home works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="container">
+    <div class="column1">
+      <div class="body1">
+
+        <div class="container1">
+          <img src="assets/Logo.png" alt="BsuLogo">
+          <p>Center of Technopreneurship and Innovation</p>
+        </div>
+
+        <div class="container2">
+          <h1>Login</h1>
+          <p>Inventory Management System</p>
+        </div>
+
+        <div class="container3">
+          <div class="text-with-lines">
+            <span class="line"></span>
+            <span class="text">or Sign in with Email</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <div class="container4">
+          <form method="post" form [formGroup]="accounts">
+            <label>Email*</label> <br>
+            <input class="textbox"placeholder="Enter your E-mail" id="email"name="email" formControlName="email">
+            <br>
+            <label>Password*</label> <br>
+            <input  class="textbox"placeholder="Confirm your password" id="password"name="password" formControlName="password" type ="password">
+            <br>
+            <input type="checkbox" id="myCheckbox">
+            <label for="myCheckbox">Remember Me</label>
+            <label class="fg">Forgot Password?</label>
+            <br>
+
+            <button  name ="button1" (click)="submit()">Login</button>
+        </form>
+
+
+        </div>
+
+      </div>
+    </div>
+    <div class="column2">
+      <img class="bg" src="assets/CTI Office.JPG" alt="BsuLogo" >
+    </div>
+    </div>
+
+</body>
+</html>
