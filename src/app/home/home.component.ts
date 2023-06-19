@@ -47,9 +47,11 @@ export class HomeComponent {
       this.router.navigate(['admin']);
     }else if(value.data[0].position=='user'){
       this.router.navigate(['user']);
+    }else{
+      alert(value);
     }
-
-    console.log(value);
+    localStorage.setItem('name',value.data[0].name)
+    localStorage.setItem('position',value.data[0].position)
   });}
 
   signup(){
