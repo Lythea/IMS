@@ -7,6 +7,7 @@ body{
   border-color: gray;
   position:fixed;
   padding:0;
+  margin-top:0; 
 }
 .column1{
   margin-top:5%;
@@ -15,22 +16,30 @@ body{
 width:30%;
 }
 .column2{
-  width:70%;
+  width:73%;
+  margin-bottom:5%;
 }
 .bg{
-  height:50%;
+  height:98.5%;
+  width:117%;
+  margin-bottom:2%;
 }
 
 .container1{
   display: flex;
+  margin-left:5%;
+  width:90%;
+
 }
 .container1 img{
-width:150px;
-height:150px;
+width:120px;
+height:120px;
 }
 .container1 p{
+  margin-left:10px;
+  margin-top:8%;
   font-weight: bold;
-  font-size:30px;
+  font-size:20px;
 }
 .container2 h1{
   margin-bottom:0;
@@ -41,9 +50,9 @@ height:150px;
 .text-with-lines {
   display: flex;
   align-items: center;
-  width:80%;
+  width:100%;
   color:gray;
-  margin-left:10%;
+  
   margin-bottom:5%;
 }
 .line {
@@ -53,4 +62,39 @@ height:150px;
 .text {
   font-size:18px;
   padding: 0 10px;
+}
+.fg{
+  margin-left:45%;
+}
+.container3{
+  margin-top:20%;
+}
+
+.container4 input{
+  text-indent: 20px;
+  margin-top:2%;
+  height:30px;
+  width:100%;
+  border-radius: 15px;
+}
+
+.container4 input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+}
+.login{
+  margin-top: 10%;;
+  background-color: red;
+  width:100%;
+  height:40px;
+  font-size:16px;
+  border-radius: 25px;
+  color:white;
+  margin-bottom:2%;
+}
+select{
+  width:100%;
+  height:40px;
+  border-radius: 15px;
+  text-indent:20px;
 }
