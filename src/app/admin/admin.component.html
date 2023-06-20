@@ -7,7 +7,7 @@
   <script src="https://unpkg.com/angular/angular.js"></script>
   <title>Document</title>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myController">
     <div class="container">
         <div class="column1">
             <div class="image-container">
@@ -17,15 +17,15 @@
             <img ><br>
             <div class="logo1">
                 <img class="minilogo" id="label1" src="assets/dashboard.png" alt="BsuLogo">
-                <label class="label" id="label1">Dashboard</label><br>
+                <label class="label" id="label1" (click)="toggleContent('content1')">Dashboard</label><br>
             </div>
             <div class="logo1">
                 <img class="minilogo" id="label1" src="assets/stock.png" alt="BsuLogo">
-                <label class="label" id="label1">In Stock</label><br>
+                <label class="label" id="label1"(click)="toggleContent('content2')">In Stock</label><br>
             </div>
             <div class="logo1">
                 <img class="minilogo" id="label1"src="assets/aboutus.png" alt="BsuLogo">
-                <label class="label" id="label1">About</label><br>
+                <label class="label" id="label1"(click)="toggleContent('content3')">About</label><br>
             </div>
         </div>
         <div class="column2">
@@ -45,52 +45,452 @@
                        </div>
                     </div>  
             </div>
-            <label><h1>In Stock</h1></label>
-            <div class="subcontainer">
+            <div class="subcontainer2" *ngIf="showContent1">
+                <label class="instock"><h1></h1></label>
+            </div>
+            <div class="subcontainer" *ngIf="showContent2">
+                <div class="things">
+                    <div class="thing1">
+                        <label class="instock"><h1>In Stock</h1></label>
+                    </div>
+                    <div class="thing2">
+                                      
+               
+                <img class="buttons" (click)="add()" src="assets/add.png">
+                <img class="buttons" src="assets/delete.png">
+                    </div>
+                </div>
+  
+                <div class="scrollablecontent">
+                    <table class="resizable-table" border="1">
+                        <colgroup>
+                            <col style="width: 100px;"><!-- Code -->
+                            <col style="width: 500px;"><!-- Product Name -->
+                            <col style="width: 200px;"><!-- Category -->
+                            <col style="width: 100px;"><!-- Unit of Measure -->
+                            <col style="width: 100px;"><!-- Quantity per Property Card -->
+                            <col style="width: 100px;"><!-- Quantity per Physical Card -->
+                            <col style="width: 300px;"><!-- Location -->
+                            <col style="width: 150px;"><!-- Condition -->
+                            <col style="width: 300px;"><!-- Specific Location -->
+                            <col style="width: 100px;"><!-- Project -->
+                            <col style="width: 100px;"><!-- Unit Cost -->
+                            <col style="width: 100px;"><!-- Total Cost -->
+                            <col style="width: 130px;"><!-- Date Acquired -->
+                            <col style="width: 100px;"><!-- Quantity -->
+
+                          </colgroup>
+                        <tr>
+                            <th>Code</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Unit of Measure</th>
+                            <th>Quantity per Property Card</th>
+                            <th>Quantity per Physical Card</th>
+                            <th>Location</th>
+                            <th>Condition</th>
+                            <th>Specific Location</th>
+                            <th>Project</th>
+                            <th>Unit Cost</th>
+                            <th>Total Cost</th>
+                            <th>Date Acquired</th>
+                            <th>Quantity</th>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                          </tr>
+                      </table>
+             
                 
-                <div class="c1">
-                    <label>Code</label>
-                </div>
-                <div class="c2">
-                    <label>Product Name</label>
-                </div>
-                <div class="c3">
-                    <label>Category</label>
-                </div>
-                <div class="c4">   
-                    <label>Unit of Measure</label>
-                </div>
-                <div class="c5">
-                    <label>Quantity per Property Card</label>
-                </div>
-                <div class="c6">
-                    <label>Quantity per Physical Card</label>
-                </div>
-                <div class="c7">
-                    <label>Location</label>
-                </div>
-                <div class="c8">
-                    <label>Condition</label>
-                </div>
-                <div class="c9">
-                    <label>Specific Location</label>
-                </div>
-                <div class="c10">
-                    <label>Project</label>
-                </div>
-                <div class="c11">
-                    <label>Unit Cost</label>
-                </div>
-                <div class="c12">
-                    <label>Total Cost</label>
-                </div>
-                <div class="c13">
-                    <label>Date Acquired</label>
-                </div>
-                <div class="c14">
-                    <label>Quanity</label>
                 </div>
             </div>
+            
+            <div class="subcontainer3" *ngIf="showContent3">
+                <label><h1>About Us</h1></label>
+                <div class="content">
+                    <label class="head1"><h1>Inventory Management System</h1></label>
+                    <p class="p">
+                        Inventory management helps companies identify which and how much stock to order at what time. It tracks inventory from purchase to the sale of goods. The practice identifies and responds to trends to ensure there’s always enough stock to fulfill employee orders and proper warning of a shortage.
+                    </p>
+                    <p class="p">
+                        Once sold, inventory becomes revenue. Before it sells, inventory (although reported as an asset on the balance sheet) ties up cash. Therefore, too much stock costs money
+                        and reduces cash flow.
+                    </p>    
+                    <p class="p">
+                        One measurement of good inventory management is inventory turnover. An accounting measurement, inventory turnover reflects how often stock is sold in a period. A business does not want more stock than sales. Poor inventory turnover can lead to deadstock, or unsold stock.
+                    </p>
+                    <h1 class="dev">Developer Team</h1>
+                    <div class="profile">
+                     
+                      
+                        <table class="resizable-table1">
+
+                            <colgroup>
+                                <col style="width: 300px;"><!-- Code -->
+                                <col style="width: 300px;"><!-- Product Name -->
+                                <col style="width: 300px;"><!-- Category -->
+                              </colgroup>
+                              <tr>
+                                <td><img class="pic1" src="assets/lloyd.png"></td>
+                                <td><img class="pic1" src="assets/ron.png"></td>
+                                <td><img class="pic1" src="assets/rommel.png"></td>
+                              </tr>
+                              <tr >
+                                <td >
+                                    <h2>Lloyd Jerome Hombre</h2>
+                                    <h4>Designer and Programmer</h4>
+                                </td>
+                                <td>
+                                    <h2>Ron Iverson Del Mundo</h2>
+                                    <h4>Front-End and Backend</h4>
+                                </td>
+                                <td>
+                                    <h2>Rommel Guiterrez</h2>
+                                    <h4>Designer and Programmer</h4>
+                                </td>
+                              </tr>
+                          
+                        </table>
+                       
+                        
+
+                    </div>
+                </div>
+            </div>
+           
         </div>
     </div>
 

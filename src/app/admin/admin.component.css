@@ -3,21 +3,15 @@
     width:120px;
     margin-bottom:10%;
 }
-body{
-    
-}
+
 .container {
     padding:0;
     margin:0;
     display: flex;
     border-color: gray;
-
     padding:0;
     margin-top:0; 
     width:100%;
-  }
-  .column1{
-    
   }
 .column1 .label{
  margin-bottom:10%;
@@ -31,13 +25,82 @@ body{
     margin-bottom: 0;
      
 }
+.content{
+    margin-top:40px;
+    width:90%;
+    margin-left:5%;
+    margin-right:5%;
+    text-align: justify;
+}
+.content .p{
+    font-size:22px;
+    text-align: justify;
+}
+.subcontainer3 .content .head1{
+    text-align: center;
+    align-items: center;
+    color:red;
+    font-weight: bolder;
+    font-size:30px;
+}
+.my-table{
+    width:150%
+}
+.dev{
+    font-size:50px;
+    text-align: center;
+}
+.profile .pic1{
+    width:250px;
+    height:250px;
+}
+.resizable-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .resizable-table th,
+  .resizable-table td {
+    padding: 10px;
+    border: 1px solid #a02f2f;
+    resize: horizontal;
+   
+  }
+.resizable-table1 {
+    table-layout: fixed;
+    width: 100%;
+    text-align: center;
+}
+
+.resizable-table1 th,
+.resizable-table1 td {
+    padding: 10px;
+    resize: horizontal;
+
+}
+.scrollablecontent{
+    display:flex;
+    margin-top:0px;
+    width: 100%;
+}
 .subcontainer{
-    white-space: nowrap;
+    padding:0;
+    margin:0;
+    width: 1700px; /* Adjust the width as needed */
+    height: 826px; 
+    
     overflow-y: scroll;
       overflow-x: scroll;
+
+}
+.things{
     display:flex;
-    margin-top:35px;
-    width: 100%;
+}
+.thing2{
+    margin-left:83%;
+}
+.subcontainer3{
+    position: fixed;
 }
 .upper{
     display:flex;
@@ -57,9 +120,17 @@ body{
     width:50px;
     margin-right:50px;
 }
+.buttons{
+    margin-right:15px;
+    width:50px;
+    height:50px;
+}
 .profilelogo{
     width:35px;
     height:35px;
+}
+.profile{
+    display: flex;
 }
 .profile label{
     font-weight: bold;

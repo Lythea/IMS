@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  showContent1 = false;
+  showContent2 = true;
+
+  showContent3 = false;
   name: any;
   profile: any;
   ngOnInit(): void{
@@ -22,5 +26,24 @@ export class AdminComponent {
     });
     this.name = localStorage.getItem('name')
     this.profile = localStorage.getItem('position')?.toUpperCase();
+  }
+  toggleContent(contentId: string): void {
+    if (contentId === 'content1') {
+      this.showContent1 = true;
+      this.showContent2 = false;
+      this.showContent3 = false;
+    } else if (contentId === 'content2') {
+      this.showContent1 = false;
+      this.showContent2 = true;
+      this.showContent3 = false;
+    }
+    else if (contentId === 'content3') {
+      this.showContent1 = false;
+      this.showContent2 = false;
+      this.showContent3 = true;
+    }
+  }
+  add(){
+    alert('Wala pa chill kalang')
   }
 }
