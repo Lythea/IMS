@@ -1,18 +1,30 @@
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent {
+  myAngularxQrCode: any;
   showContent1 = false;
   showContent2 = true;
-
+  qrValue: string = 'Hello, World!'; 
   showContent3 = false;
   name: any;
   profile: any;
+  
+  fileUrl: any;
+  constructor(private sanitizer: DomSanitizer) {  }
   ngOnInit(): void{
+    this.myAngularxQrCode = 'Name:Ron Iverson Del Mundo \n Age:20 \n Gender: Male \n School:BSU \n From: Talaga East';
+    const data = 'ewqewqeqw';
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    
+    // saves the text from qr
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    
     const labels = document.querySelectorAll('.label');
     labels.forEach(label => {
       label.addEventListener('click', function() {
@@ -45,5 +57,11 @@ export class AdminComponent {
   }
   add(){
     alert('Wala pa chill kalang')
+  }
+  delete(){
+    alert('Wala pa chill kalang')
+  }
+  alert(){
+
   }
 }

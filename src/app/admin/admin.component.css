@@ -3,7 +3,50 @@
     width:120px;
     margin-bottom:10%;
 }
-
+.whitebg1{
+    position:relative;
+    margin-left:130px;
+    margin-top:115px;
+    height:250px;
+}
+.whitebg2{
+    position:relative;
+    margin-left:200px;
+    margin-top:115px;
+    height:250px;
+}
+.whitebg3{
+    position:relative;
+    margin-left:200px;
+    margin-top:115px;
+    height:250px;
+}
+.whitebg4{
+    position:relative;
+    margin-left:130px;
+    margin-top:115px;
+    height:250px;
+}
+.whitebg5{
+    position:relative;
+    margin-left:200px;
+    margin-top:115px;
+    height:250px;
+}
+.whitebg6{
+    position:relative;
+    margin-left:200px;
+    margin-top:115px;
+    height:250px;
+}
+.dashboardbg{
+    position: absolute;
+    margin-top:3%;
+    margin-bottom:2%;
+    margin-left:2%;
+    margin-right:2%;
+    width:85%;
+}
 .container {
     padding:0;
     margin:0;

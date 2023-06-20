@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
+import { AlertModule } from '@coreui/angular';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    AdminRoutingModule
+    CommonModule,AlertModule,
+    AdminRoutingModule, 
   ]
 })
 export class AdminModule { }

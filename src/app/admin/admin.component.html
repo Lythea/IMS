@@ -46,7 +46,20 @@
                     </div>  
             </div>
             <div class="subcontainer2" *ngIf="showContent1">
-                <label class="instock"><h1></h1></label>
+                <div class="thing1">
+                    <label class="instock"><h1>Dashboard</h1></label>
+                </div>
+                <div class="item1">
+                    <img class="dashboardbg"src="assets/dashboardbg.png">
+                </div>
+                <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                <img class="whitebg1"src="assets/rectangle.png">
+                <img class="whitebg2"src="assets/rectangle.png">
+                <img class="whitebg3"src="assets/rectangle.png">
+                <img class="whitebg4"src="assets/rectangle.png">
+                <img class="whitebg5"src="assets/rectangle.png">
+                <img class="whitebg6"src="assets/rectangle.png">
+
             </div>
             <div class="subcontainer" *ngIf="showContent2">
                 <div class="things">
@@ -54,10 +67,8 @@
                         <label class="instock"><h1>In Stock</h1></label>
                     </div>
                     <div class="thing2">
-                                      
-               
-                <img class="buttons" (click)="add()" src="assets/add.png">
-                <img class="buttons" src="assets/delete.png">
+                        <img class="buttons" (click)="add()" src="assets/add.png">
+                        <img class="buttons"(click)="delete()" src="assets/delete.png">
                     </div>
                 </div>
   
