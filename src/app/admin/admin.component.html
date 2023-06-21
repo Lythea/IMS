@@ -67,6 +67,9 @@
                       
                     </div>
                     <div class="thing2">
+                      <img class="refresh" (click)="refresh()" src="assets/refresh.png">
+                  </div>
+                    <div class="thing3">
                       <button class="qrbutton" id="openFormButton" (click)="qrcode()">Generate QR Code</button>
                         <img class="buttons" (click)="add()" src="assets/add.png">
                         <img class="buttons"(click)="delete()" src="assets/delete.png">
@@ -76,23 +79,30 @@
                   <div class="popupForm">
                     <span class="closeButton">&times;</span>
                     <h2 class="qrtitle">QR Generator</h2>
-                    <form id="myForm">
-                      <label for="itemcode">ITEM CODE: </label>
-                      <input type="text" id="itemcode" name="itemcode" required>
-                      <br>
-                      <button class="generate" type="submit" (click)="submit()">GENERATE</button>
-                      <div class="qrcodeformat">
+                    <form id="myForm" >
+                      <div class="itemcenter">
+                        <label for="itemcode">ITEM CODE: </label>
+                        <input type="text" id="itemcode" name="itemcode" required>
+                        <br>
+                        <button class="generate" type="submit" (click)="submit()">GENERATE</button>
+                      </div>
+                  
+                      <div class="qrcodeformat" [hidden]="isHidden">
                         <div class="upper3">
                           <div class="upper4">
-                            <img class="logo1" src="assets/Logo.png" alt="BsuLogo" >
+                            <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
                           </div>
                           <div class="upper5">
-                            <label>Center for Entrpreneurship and Innovation</label>
-                            <label >Inventory Management System</label><br>    
-                            
-                          </div>  
+                            <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
+                            <label  style="font-size: 12px;">Inventory Management System</label>
+                           </div>
+                        </div>
+                      <div class="itemcenter" >
+                        <qrcode  [qrdata]="myAngularxQrCode" [width]="170" [errorCorrectionLevel]="'M'"></qrcode>
+                        <label class="label1"style="margin-left:25%;margin-right:25%;font-style:italic;margin-bottom: 50px;">Accent Chair</label>
+                        <br>
                       </div>
-                        <qrcode [hidden]="isHidden" [qrdata]="myAngularxQrCode" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                    
                       </div>
                     
               
@@ -101,16 +111,14 @@
                 </div>
                 <div class="scrollablecontent">
                     <table class="resizable-table" border="1">
-                        <colgroup>
+                        <colgroup class="column">
                             <col style="width: 100px;"><!-- Code -->
-                            <col style="width: 500px;"><!-- Product Name -->
+                            <col style="width: 300px;"><!-- Product Name -->
                             <col style="width: 200px;"><!-- Category -->
-                            <col style="width: 300px;"><!-- Location -->
-                            <col style="width: 100px;"><!-- Project -->
+                            <col style="width: 100px;"><!-- Location -->
+                            <col style="width: 200px;"><!-- Project -->
                             <col style="width: 150px;"><!-- Condition -->
                             
-                        
-
                           </colgroup>
                         <tr>
                             <th>Code</th>
@@ -120,193 +128,15 @@
                             <th>Project</th>
                             <th>Condition</th>
                           </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                          <tr *ngFor="let item of tableData">
+                            <td>{{ item.code }}</td>
+                            <td>{{ item.productname }}</td>
+                            <td>{{ item.category }}</td>
+                            <td>{{ item.location }}</td>
+                            <td>{{ item.project }}</td>
+                            <td>{{ item.condition }}</td>
                           </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
                         
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-          
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                        
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                      
-                          </tr>
                       </table>
              
                 

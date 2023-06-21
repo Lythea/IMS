@@ -3,6 +3,9 @@
     width:120px;
     margin-bottom:10%;
 }
+.column td{
+    height:50px;
+}
 .whitebg1{
     position:relative;
     margin-left:130px;
@@ -106,6 +109,7 @@
   
   .resizable-table th,
   .resizable-table td {
+    
     padding: 10px;
     border: 1px solid #a02f2f;
     resize: horizontal;
@@ -116,7 +120,10 @@
     width: 100%;
     text-align: center;
 }
-
+.resizable-table{
+    text-align: center;
+    height: 50px;
+}
 .resizable-table1 th,
 .resizable-table1 td {
     padding: 10px;
@@ -130,7 +137,7 @@
         overflow-y: scroll;
       overflow-x: scroll;
       width: 1700px; /* Adjust the width as needed */
-      height: 826px; 
+      height: 770px; 
 }
 .subcontainer{
     padding:0;
@@ -140,10 +147,16 @@
 
 
 }
+.itemcenter{
+    align-items: center;
+    text-align: center;
+}
 .qrtitle{
     font-size:50px;
     font-weight: bolder;
     margin-bottom: 0;
+    align-items:center;
+    text-align: center;
 }
 .generate{
     font-size:16px;
@@ -151,9 +164,20 @@
     height:30px;
     margin-top:14px;
 }
-.logo1{
-    width:30px;
-    height:30px;
+.logo2{
+    width:60px;
+    height:60px;
+    margin-left:10%;
+}
+
+.upper3{
+    display:flex;
+    margin-top:15px;
+  
+}
+.upper4{
+
+    margin-left:5%;
 }
 
 .popupFormContainer {
@@ -176,8 +200,7 @@
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
-    align-items:center;
-    text-align: center;
+ 
   }
   
   .closeButton {
@@ -206,12 +229,27 @@
     font-weight: bolder;
     font-size:18px;
 }
+.qrcodeformat{
+    margin-left:7%;
+    margin-right:7%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border:2px solid black;
+}
 .things{
     display:flex;
 }
-.thing2{
+
+.thing3{
     display:flex;
-    margin-left:63%;
+    margin-left:60%;
+}
+
+.refresh{
+    margin-top:19px;
+    margin-left:5px;
+    width:20px;
+    height:20px;
 }
 .subcontainer3{
     position: fixed;
@@ -239,6 +277,7 @@
     width:50px;
     height:50px;
 }
+
 .profilelogo{
     width:35px;
     height:35px;
@@ -296,7 +335,13 @@
 .column1 .label.active {
     color:red;
 }
-
+.upper5{
+    margin-top:10px;
+    font-weight: bolder;
+    margin-left:10px;
+    width:100%;
+    font-family: 'Poppins', sans-serif;
+}
 .column1 .label.inactive {
     color: black;
 }
