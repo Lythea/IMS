@@ -18,7 +18,7 @@ export class AdminComponent {
   fileUrl: any;
   constructor(private sanitizer: DomSanitizer) {  }
   ngOnInit(): void{
-    this.myAngularxQrCode = 'Name:Ron Iverson Del Mundo \n Age:20 \n Gender: Male \n School:BSU \n From: Talaga East';
+    this.myAngularxQrCode = 'Name:Ron Iverson Del Mundo \n Age:20 \n Gender: Male \n School:BSU \n From: Talaga East \n Image Url: https://drive.google.com/file/d/1APg0hfuOyp1DcaNuWXIJKHipSIaHVxwM/view \n FAR Url: https://drive.google.com/file/d/1APg0hfuOyp1DcaNuWXIJKHipSIaHVxwM/view';
     const data = 'ewqewqeqw';
     const blob = new Blob([data], { type: 'application/octet-stream' });
     
