@@ -52,74 +52,79 @@
                 <div class="item1">
                     <img class="dashboardbg"src="assets/dashboardbg.png">
                 </div>
-                <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                
                 <img class="whitebg1"src="assets/rectangle.png">
                 <img class="whitebg2"src="assets/rectangle.png">
                 <img class="whitebg3"src="assets/rectangle.png">
                 <img class="whitebg4"src="assets/rectangle.png">
                 <img class="whitebg5"src="assets/rectangle.png">
                 <img class="whitebg6"src="assets/rectangle.png">
-
             </div>
             <div class="subcontainer" *ngIf="showContent2">
                 <div class="things">
                     <div class="thing1">
                         <label class="instock"><h1>In Stock</h1></label>
+                      
                     </div>
                     <div class="thing2">
+                      <button class="qrbutton" id="openFormButton" (click)="qrcode()">Generate QR Code</button>
                         <img class="buttons" (click)="add()" src="assets/add.png">
                         <img class="buttons"(click)="delete()" src="assets/delete.png">
                     </div>
                 </div>
-  
+                <div id="popupFormContainer" class="popupFormContainer">
+                  <div class="popupForm">
+                    <span class="closeButton">&times;</span>
+                    <h2 class="qrtitle">QR Generator</h2>
+                    <form id="myForm">
+                      <label for="itemcode">ITEM CODE: </label>
+                      <input type="text" id="itemcode" name="itemcode" required>
+                      <br>
+                      <button class="generate" type="submit" (click)="submit()">GENERATE</button>
+                      <div class="qrcodeformat">
+                        <div class="upper3">
+                          <div class="upper4">
+                            <img class="logo1" src="assets/Logo.png" alt="BsuLogo" >
+                          </div>
+                          <div class="upper5">
+                            <label>Center for Entrpreneurship and Innovation</label>
+                            <label >Inventory Management System</label><br>    
+                            
+                          </div>  
+                      </div>
+                        <qrcode [hidden]="isHidden" [qrdata]="myAngularxQrCode" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                      </div>
+                    
+              
+                    </form>
+                  </div>
+                </div>
                 <div class="scrollablecontent">
                     <table class="resizable-table" border="1">
                         <colgroup>
                             <col style="width: 100px;"><!-- Code -->
                             <col style="width: 500px;"><!-- Product Name -->
                             <col style="width: 200px;"><!-- Category -->
-                            <col style="width: 100px;"><!-- Unit of Measure -->
-                            <col style="width: 100px;"><!-- Quantity per Property Card -->
-                            <col style="width: 100px;"><!-- Quantity per Physical Card -->
                             <col style="width: 300px;"><!-- Location -->
-                            <col style="width: 150px;"><!-- Condition -->
-                            <col style="width: 300px;"><!-- Specific Location -->
                             <col style="width: 100px;"><!-- Project -->
-                            <col style="width: 100px;"><!-- Unit Cost -->
-                            <col style="width: 100px;"><!-- Total Cost -->
-                            <col style="width: 130px;"><!-- Date Acquired -->
-                            <col style="width: 100px;"><!-- Quantity -->
+                            <col style="width: 150px;"><!-- Condition -->
+                            
+                        
 
                           </colgroup>
                         <tr>
                             <th>Code</th>
                             <th>Product Name</th>
                             <th>Category</th>
-                            <th>Unit of Measure</th>
-                            <th>Quantity per Property Card</th>
-                            <th>Quantity per Physical Card</th>
                             <th>Location</th>
-                            <th>Condition</th>
-                            <th>Specific Location</th>
                             <th>Project</th>
-                            <th>Unit Cost</th>
-                            <th>Total Cost</th>
-                            <th>Date Acquired</th>
-                            <th>Quantity</th>
+                            <th>Condition</th>
                           </tr>
                           <tr>
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
                             <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
                           </tr>
@@ -130,12 +135,31 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
+                        
+                          </tr>
+                          <tr>
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
+                      
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            
+                          </tr>
+                          <tr>
+                            <td>Cell 1</td>
+                            <td>Cell 2</td>
+                            <td>Cell 3</td>
+                            <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
                           </tr>
@@ -146,14 +170,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+          
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -162,14 +179,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                        
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -178,14 +188,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -194,14 +197,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -210,14 +206,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -226,14 +215,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -242,14 +224,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -258,14 +233,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -274,14 +242,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -290,14 +251,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -306,14 +260,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -322,14 +269,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -338,14 +278,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -354,14 +287,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -370,14 +296,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                           <tr>
                             <td>Cell 1</td>
@@ -386,62 +305,7 @@
                             <td>Cell 1</td>
                             <td>Cell 2</td>
                             <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                          </tr>
-                          <tr>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
-                            <td>Cell 2</td>
-                            <td>Cell 3</td>
+                      
                           </tr>
                       </table>
              
@@ -450,7 +314,7 @@
             </div>
             
             <div class="subcontainer3" *ngIf="showContent3">
-                <label><h1>About Us</h1></label>
+                <label class="instock"><h1>About Us</h1></label>
                 <div class="content">
                     <label class="head1"><h1>Inventory Management System</h1></label>
                     <p class="p">

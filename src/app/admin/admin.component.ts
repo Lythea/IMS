@@ -14,11 +14,13 @@ export class AdminComponent {
   showContent3 = false;
   name: any;
   profile: any;
-  
+  isHidden: boolean = true;
+
+
   fileUrl: any;
   constructor(private sanitizer: DomSanitizer) {  }
   ngOnInit(): void{
-    this.myAngularxQrCode = 'Name:Ron Iverson Del Mundo \n Age:20 \n Gender: Male \n School:BSU \n From: Talaga East \n Image Url: https://drive.google.com/file/d/1APg0hfuOyp1DcaNuWXIJKHipSIaHVxwM/view \n FAR Url: https://drive.google.com/file/d/1APg0hfuOyp1DcaNuWXIJKHipSIaHVxwM/view';
+    this.myAngularxQrCode = 'Name:Ron Iverson Del Mundo \n Age:20 \n Gender: Male \n School:BSU \n From: Talaga East \n Image Url: https://drive.google.com/file/d/1APg0hfuOyp1DcaNuWXIJKHipSIaHVxwM/view \n FAR Url: https://drive.google.com/file/d/1Ao9jpjNE0gWD4AW3ig1WUSXH2Om6VB-a/view';
     const data = 'ewqewqeqw';
     const blob = new Blob([data], { type: 'application/octet-stream' });
     
@@ -63,5 +65,31 @@ export class AdminComponent {
   }
   alert(){
 
+  }
+  qrcode(){
+    const openFormButton = document.getElementById('openFormButton') as HTMLInputElement;
+const popupFormContainer = document.getElementById('popupFormContainer') as HTMLInputElement;
+const closeButton = document.querySelector('.closeButton') as HTMLInputElement;
+
+openFormButton.addEventListener('click', () => {
+  popupFormContainer.style.display = 'block';
+});
+
+closeButton.addEventListener('click', () => {
+  popupFormContainer.style.display = 'none';
+});
+
+// Handle form submission
+const myForm = document.getElementById('myForm') as HTMLInputElement;
+myForm.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent default form submission
+  // Here, you can perform further actions like sending the form data to a server
+  console.log('Form submitted');
+});
+  }
+  submit(){
+    const itemcode = document.getElementById('itemcode') as HTMLInputElement;
+    console.log(itemcode.value);
+    this.isHidden = !this.isHidden;
   }
 }
