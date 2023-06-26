@@ -29,12 +29,11 @@ $conn = new mysqli($servername, $username, $password,$db);
     }
     
     
-    $sql2 = "SELECT COUNT(state) AS total FROM items WHERE state='Defective'";
+    $sql2 = "SELECT SUM(quantity) AS total FROM defective";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
         $row = mysqli_fetch_assoc($result2);
         $data['result2'] = $row['total'];
-
     } else {
         echo "No results found.";
     }

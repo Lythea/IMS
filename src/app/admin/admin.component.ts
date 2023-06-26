@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+
 import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder,Validators,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
-export class AdminComponent {
-  myAngularxQrCode: any;
+export class AdminComponent implements OnInit{
+  myAngularxQrCode: any='Empty';
   showContent1 = true;
   showContent2 = false;
   showContent3 = false;
+  subcontainer2_content: any =[];
+  defectiveHidden = false;
+ hidden: any = ['Defective Products','Personel','Category','Location','Project'];
   name: any;
   profile: any;
   isHidden: boolean = true;
@@ -18,6 +23,7 @@ export class AdminComponent {
   tableData:any = [];
   productname: any | undefined;
   fileUrl: any;
+  
   qrgenerate = 'GENERATE';
   productData: any = [];
   defectiveData: any = [];
@@ -33,9 +39,37 @@ export class AdminComponent {
   category: any;
   project: any;
   location: any;
-  constructor(private sanitizer: DomSanitizer) {  }
+  defectiveQuantity: any;
+  info : any = ['Itemlist','Defective Products','Personel','Category','Location','Project']
+  myForm: any = FormGroup;
+  qrForm: any = FormGroup;
+  itemlistForm: any = FormGroup;
+  constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
 
   ngOnInit(): void{
+    for(let i =1; i<7;i++){
+      this.subcontainer2_content[i] == false;
+    }
+    this.myForm = this.fb.group({
+      myForm_information:['',Validators.required],
+  
+    });
+    this.defective = this.fb.group({
+      defective_itemcode:['',Validators.required],
+      defective_staff:['',Validators.required],
+      defective_location:['',Validators.required],
+      defective_quantity:['',Validators.required],
+    });
+    this.qrForm = this.fb.group({
+      qrForm_itemcode:['',Validators.required],
+    });
+    this.itemlistForm = this.fb.group({
+      itemlistForm_itemcode:['',Validators.required],
+      itemlistForm_category:['',Validators.required],
+      itemlistForm_specificlocation:['',Validators.required],
+      itemlistForm_project:['',Validators.required],
+      itemlistForm_location:['',Validators.required],
+    });
     this.name = localStorage.getItem('name')
     this.profile = localStorage.getItem('position')?.toUpperCase();
    this.refreshdashboard();
@@ -56,16 +90,19 @@ export class AdminComponent {
       };
     }
     for (let i = 0; i < value.result2.length; i++) {
-      const defectiveValue = value.result2[i];
+      const defectiveName = value.result2[i];
+      const defectiveValue = value.result11[i];
       this.defectiveData[i] = {
-        defectiveName:  defectiveValue ,
+        defectiveName:  defectiveName ,defectiveValue : defectiveValue
 
       };
     }
-    for (let i = 0; i < value.result3.length; i++) {
+    for (let i = 0; i < value.count1; i++) {
       const personelValue = value.result3[i];
+      const personelLocation = value.result10[i];
+      const personelPosition = value.result9[i];
       this.personelData[i] = {
-        personelName:  personelValue ,
+        personelLocation: personelLocation, personelName:  personelValue , personelPosition: personelPosition
 
       };
     }
@@ -82,16 +119,7 @@ export class AdminComponent {
       const floorValue = value.result6[i];
       const locationValue = value.result5[i];
       this.locationData[i] = {
-        locationName:  locationValue ,
-
-      };
-      this.floorData[i] = {
-        floorName: floorValue ,
-
-      };
-      this.fullnameData[i] = {
-        locationfullName:  locationfullValue ,
-
+        floorName:floorValue,locationName:  locationValue , locationfullName:  locationfullValue 
       };
     }
   
@@ -109,7 +137,6 @@ export class AdminComponent {
     var popup = document.getElementById("popup") as HTMLInputElement;
     popup.classList.add("show");
   }
-  
   hidePopup() {
     var popup = document.getElementById("popup")as HTMLInputElement;
     popup.classList.remove("show");
@@ -129,6 +156,34 @@ export class AdminComponent {
     this.showContent1 = false;
     this.showContent2 = true;
     this.showContent3 = false;
+    const formData = new FormData();
+    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+
+      for (let i = 0; i < value.data.length; i++) {
+        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
+        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
+        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
+        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+  
+        this.tableData[i] = {
+          code:  codeValue ,
+          productname: productValue,
+          category: categoryValue,
+          location: locationValue,
+          project: projectValue,
+          condition: conditionValue
+        };
+   // Access and log the "code" property
+      }
+    
+     });
   }
 
   toggleContent3(): void {
@@ -178,103 +233,180 @@ export class AdminComponent {
       this.toggleContent3();
     }
   }
+
+  
   add(){
-    const openFormButton1 = document.getElementById('openFormButton1') as HTMLInputElement;
-    const popupFormContainer1 = document.getElementById('popupFormContainer1') as HTMLInputElement;
-    const closeButton1 = document.querySelector('.closeButton1') as HTMLInputElement;
+    const openFormButton = document.getElementById('openFormButton') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer') as HTMLInputElement;
+    const closeButton1 = document.querySelector('.closeButton') as HTMLInputElement;
     
-     let isFormVisible1 = false; // Flag to track form visibility
+     let isFormVisible = false; // Flag to track form visibility
     
-      openFormButton1.addEventListener('click', () => {
-        isFormVisible1 = true; // Set the flag to true when opening the form
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
         updateFormDisplay();
       });
     
       closeButton1.addEventListener('click', () => {
-        isFormVisible1 = false; // Set the flag to false when closing the form
+        isFormVisible = false; // Set the flag to false when closing the form
         updateFormDisplay();
     
       });
     
       function updateFormDisplay() {
-        if (isFormVisible1) {
-          popupFormContainer1.style.display = 'block'; // Show the form
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
           
         } else {
-          popupFormContainer1.style.display = 'none'; // Hide the form
+          popupFormContainer.style.display = 'none'; // Hide the form
         }
       }
     
     
-        // Handle form submission
-        const myForm1 = document.getElementById('myForm1') as HTMLInputElement;
-        myForm1.addEventListener('submit', (event) => {
-          event.preventDefault(); // Prevent default form submission
-          // Here, you can perform further actions like sending the form data to a server
+  
+  }
+  addDashboard(){
+    this.add()
+  }
+  additemlist(){
+    const openFormButton = document.getElementById('openFormButton3') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
+    const closeButton1 = document.querySelector('.closeButton3') as HTMLInputElement;
     
-    });
-
-    const itemcode = document.getElementById('itemcode') as HTMLInputElement;
-    console.log(itemcode.value);
+     let isFormVisible = false; // Flag to track form visibility
     
-    const formData = new FormData();
-    formData.append('code',itemcode.value)
-    fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton1.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
       }
-     );
+      const myForm = document.getElementById('myForm5') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
+  
+  });
+    
+  
   }
-  delete(){
-    alert('Wala pa chill kalang')
+  deleteDashboard(){
+    const openFormButton = document.getElementById('openFormButton2') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer2') as HTMLInputElement;
+    const closeButton1 = document.querySelector('.closeButton2') as HTMLInputElement;
+    
+     let isFormVisible = false; // Flag to track form visibility
+    
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton1.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
+      }
+      const myForm = document.getElementById('myForm5') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
+  
+  });
   }
-
+  deleteItemlist(){
+    const openFormButton = document.getElementById('openFormButton4') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer4') as HTMLInputElement;
+    const closeButton1 = document.querySelector('.closeButton4') as HTMLInputElement;
+    
+     let isFormVisible = false; // Flag to track form visibility
+    
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton1.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
+      }
+      const myForm = document.getElementById('myForm5') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
+  
+  });
+  }
   generate(){
   
   }
   qrcode(){
-    const openFormButton = document.getElementById('openFormButton') as HTMLInputElement;
-    const popupFormContainer = document.getElementById('popupFormContainer') as HTMLInputElement;
-    const closeButton = document.querySelector('.closeButton') as HTMLInputElement;
-
-    let isFormVisible = false; // Flag to track form visibility
-
-    openFormButton.addEventListener('click', () => {
-      isFormVisible = true; // Set the flag to true when opening the form
-      updateFormDisplay();
-    });
-
-    closeButton.addEventListener('click', () => {
-      isFormVisible = false; // Set the flag to false when closing the form
-      updateFormDisplay();
-
-    });
-
-    function updateFormDisplay() {
-      if (isFormVisible) {
-        popupFormContainer.style.display = 'block'; // Show the form
-        
-      } else {
-        popupFormContainer.style.display = 'none'; // Hide the form
-      }
-    }
+   this.add()
     // Handle form submission
-    const myForm = document.getElementById('myForm') as HTMLInputElement;
-    myForm.addEventListener('submit', (event) => {
-      event.preventDefault(); // Prevent default form submission
-      // Here, you can perform further actions like sending the form data to a server
+  
+  }
 
-});
+  defectiveSubmit(){
+    alert( this.defective.value.itemcode + '\n ' + this.defective.value.location )
+  }
+  go(){
+    if(this.myForm.value.myForm_information=='Itemlist'){
+      this.toggleContent2()
+    }else if(this.myForm.value.myForm_information=='Defective Products'){
+      this.subcontainer2_content[1]=true;
+      this.ngOnInit()
+    }
+    else if(this.myForm.value.myForm_information=='Personel'){
+
+    }
+    else if(this.myForm.value.myForm_information=='Category'){
+
+    }
+    else if(this.myForm.value.myForm_information=='Location'){
+
+    }
+    else if(this.myForm.value.myForm_information=='Project'){
+
+    }
+  
+    this.isHidden = false;
   }
   submit(){
-    const itemcode = document.getElementById('itemcode') as HTMLInputElement;
-    console.log(itemcode.value);
-    
+   
     const formData = new FormData();
-    formData.append('code',itemcode.value)
+    formData.append('code',this.qrForm.value.qrForm_itemcode)
     fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
       method: 'POST',
       body: formData

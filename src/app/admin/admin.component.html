@@ -47,100 +47,220 @@
             </div>
             <div class="subcontainer2" *ngIf="showContent1">
                 <div class="thing0">
-                  <div class="thing1">
-                    <label class="instock"><h1>Dashboard</h1></label>
+                  <div class="item1">
+                    <img class="dashboardbg"src="assets/dashboardbg.png">
                   </div>
-                    
+                  <div class="compiler1">
+                    <div class="thing1">
+                      <label class="instock"><h1>Dashboard</h1></label>
+                    </div>
                     <div class="thing2">
                       <img class="refresh" (click)="refreshdashboard() "src="assets/refresh.png" >
-                  </div>
-                </div>
-                <div class="item1">
-                    <img class="dashboardbg"src="assets/dashboardbg.png">
-                </div>
-                
-                <div class="TotalProduct">
-                  
-                  <img class="whitebg1" img src="assets/TotalProduct.png " />
-                  <h2 class="first-txt" style="margin-bottom:50px;">
-                    <div class="popup ">
-                    <span class="hover-label">{{products}}</span>
-                    <div class="popup-content">
-                      <!-- Your popup content goes here -->
-                      <label *ngFor="let product of productData">
-                        {{ product.productName }} <br>
-                      </label>
                     </div>
-                  </div></h2>
-                  <h2 class="first-txt">Total</h2>
-                  <h2 class="second-txt">Product</h2>
-                  <img class="whitebg2" src="assets/DefectiveProduct.png" />
-                  <h2 class="third-txt"  style="margin-bottom:50px;">
-                    <div class="popup ">
-                    <span class="hover-label">{{defective}}</span>
-                    <div class="popup-content">
-                      <!-- Your popup content goes here -->
-                      <label *ngFor="let defective of defectiveData">
-                        {{ defective.defectiveName }}<br>
-                      </label>
-                    </div>
-                  </div></h2>
-                  <h2 class="third-txt">Defective</h2>
-                  <h2 class="fourth-txt">Products</h2>
-                  <img class="whitebg3"  src="assets/Personel.png"  />
-                  <h2 class="fifth-txt" style="margin-bottom:50px;">
-                    <div class="popup ">
-                    <span class="hover-label">{{personel}}</span>
-                    <div class="popup-content">
-                      <!-- Your popup content goes here -->
-                      <label *ngFor="let personel of personelData">
-                        {{ personel.personelName }}<br>
-                      </label>
-                    </div>
-                  </div></h2>
-                  <h2 class="fifth-txt">Personel</h2>
-                  <h2 class="sixth-txt"></h2>
-                  <img class="whitebg4" src="assets/CategoryProduct.png" />
-                  <h2 class="seventh-txt" style="margin-bottom:50px;">
-                    <div class="popup ">
-                    <span class="hover-label" >{{category}}</span>
-                    <div class="popup-content" >
-                      <!-- Your popup content goes here -->
-                      <label *ngFor="let category of categoryData">
-                        {{ category.categoryName }}<br>
-                      </label>
-                    </div>
-                  </div></h2>
-                  <h2 class="seventh-txt">Category</h2>
-                  <h2 class="eight-txt">Products</h2>
-                  <img class="whitebg5" src="assets/Location.png" />
-                  <h2 class="nineth-txt" style="margin-bottom:50px;">
-                    <div class="popup ">
-                    <span class="hover-label">{{location}}</span>
-                    <div class="popup-content">
-                      <!-- Your popup content goes here -->
-                      <label *ngFor="let location of locationData" >
-                        {{ location.locationName }}<br>
-                      </label>
-                    </div>
-                  </div></h2>
-                  <h2 class="nineth-txt">Location</h2>
-                  <h2 class="tenth-txt"></h2>
-                  <img class="whitebg6" src="assets/Project.png" />
-                  <h2 class="eleventh-txt" style="margin-bottom:50px;">
-                    <div class="popup ">
-                      <span class="hover-label">{{project}}</span>
-                        <div class="popup-content">
-                          <!-- Your popup content goes here -->
-                          <label *ngFor="let peroject of projectData">
-                            {{ project.projectName }}<br>
-                          </label>
+                    <div class="thing3">   
+                      <img class="buttons"  id="openFormButton" (click)="addDashboard()" src="assets/add.png">
+                        <div id="popupFormContainer" class="popupFormContainer">
+                          <div class="popupForm">
+                            <span class="closeButton">&times;</span>
+                            <h5 class="qrtitle">Additional Information</h5>
+                          
+                              <div class="itemcenter1"> 
+                                <form id="myForm1" [formGroup]="myForm" form >
+                                  <label>Select what to Add: </label>
+                                  <select formControlName="myForm_information">
+                                    <option disabled selected value="">Select to add</option>
+                                    <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
+                                  </select>
+                                  <button (click)="go()">Go</button>
+                                </form>
+                                 
+                                  <div *ngIf="subcontainer2_content[1]" style="margin-top:5%;"> <!-- Defective Products Registration -->
+                                        
+                                    <form [formGroup]="defective" form >
+                                      <label class="textlabel">Item Code: </label> 
+                                      <input  class="textbox" formControlName="defective_itemcode" type ="text"> 
+                                      <br>
+                                      <label class="textlabel">Location</label> 
+                                      <select formControlName="defective_location">
+                                        <option disabled selected value="">Select to add</option>
+                                        <option *ngFor="let location of locationData" [value]="location">{{ location.locationName }}</option>
+                                      </select>
+                                      <br>
+                                      <label class="textlabel">Quantity</label> 
+                              
+                                      <!-- Example for accessing the 'defective_staff' form control using ngFor -->
+                                  
+                                     
+                                      <br>
+                                      <button (click)="defectiveSubmit()">submit</button>
+                                    </form>
+                                  </div>
+                                  <div *ngIf="subcontainer2_content[2]" >
+                                    <label>ewqewweewq</label>
+                                  </div>
+                                  <div *ngIf="subcontainer2_content[3]" >
+                                    <label>ewqewweewq</label>
+                                  </div>
+                                  <div *ngIf="subcontainer2_content[4]" >
+                                    <label>ewqewweewq</label>
+                                  </div>
+                                  <div *ngIf="subcontainer2_content[5]" >
+                                    <label>ewqewweewq</label>
+                                  </div>
+                   
+                              </div>
+                            
+                          </div>
                         </div>
                     </div>
-                  </h2>
-                  <h2 class="eleventh-txt">Project</h2>
-                  <h2 class="twelve-txt"></h2>
+                    <div class="thing4">
+                      <img class="buttons" id="openFormButton2"(click)="deleteDashboard()" src="assets/delete.png">
+                      <div id="popupFormContainer2" class="popupFormContainer">
+                        <div class="popupForm1">
+                          <span class="closeButton2">&times;</span>
+                          <h5 class="qrtitle">Additional Information</h5>
+                        
+                            <div class="itemcenter1"> 
+                              <form id="myForm5" [formGroup]="myForm" form >
+                                <label>Select what to Delete: </label>
+                                <select formControlName="myForm_information">
+                                  <option disabled selected value="">Select to Delete</option>
+                                  <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
+                                </select>
+                                <button (click)="go()">Go</button>
+                              </form>
+                               
+                                <div *ngIf="subcontainer2_content[1]" style="margin-top:5%;"> <!-- Defective Products Registration -->
+                                      
+                                  <form [formGroup]="defective" form >
+                                    <label class="textlabel">Item Code: </label> 
+                                    <input  class="textbox" formControlName="defective_itemcode" type ="text"> 
+                                    <br>
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="defective_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <label class="textlabel">Quantity</label> 
+                                   
+                                    <!-- Example for accessing the 'defective_staff' form control using ngFor -->
+                                
+                                   
+                                    <br>
+                                    <button (click)="defectiveSubmit()">submit</button>
+                                  </form>
+                                </div>
+                                <div *ngIf="subcontainer2_content[2]" >
+                                  <label>ewqewweewq</label>
+                                </div>
+                                <div *ngIf="subcontainer2_content[3]" >
+                                  <label>ewqewweewq</label>
+                                </div>
+                                <div *ngIf="subcontainer2_content[4]" >
+                                  <label>ewqewweewq</label>
+                                </div>
+                                <div *ngIf="subcontainer2_content[5]" >
+                                  <label>ewqewweewq</label>
+                                </div>
+                 
+                            </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                    
+                    
+                  
+         
+                        
+                          <div class="TotalProduct">
+                  
+                            <img class="whitebg1" img src="assets/TotalProduct.png " />
+                            <h2 class="first-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                              <span class="hover-label">{{products}}</span>
+                              <div class="popup-content">
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let product of productData">
+                                  {{ product.productName }} <br>
+                                </label>
+                              </div>
+                            </div></h2>
+                            <h2 class="first-txt">Total</h2>
+                            <h2 class="second-txt">Product</h2>
+                            <img class="whitebg2" src="assets/DefectiveProduct.png" />
+                            <h2 class="third-txt"  style="margin-bottom:50px;">
+                              <div class="popup ">
+                              <span class="hover-label">{{defective}}</span>
+                              <div class="popup-content">
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let defective of defectiveData">
+                                  {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
+                                </label>
+                              </div>
+                            </div></h2>
+                            <h2 class="third-txt">Defective</h2>
+                            <h2 class="fourth-txt">Products</h2>
+                            <img class="whitebg3"  src="assets/Personel.png"  />
+                            <h2 class="fifth-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                              <span class="hover-label">{{personel}}</span>
+                              <div class="popup-content">
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let personel of personelData">
+                                  {{ personel.personelLocation + '  : '+ personel.personelPosition + ' - '+ personel.personelName  }}<br>
+                                </label>
+                              </div>
+                            </div></h2>
+                            <h2 class="fifth-txt">Personel</h2>
+                            <h2 class="sixth-txt"></h2>
+                            <img class="whitebg4" src="assets/CategoryProduct.png" />
+                            <h2 class="seventh-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                              <span class="hover-label" >{{category}}</span>
+                              <div class="popup-content" >
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let category of categoryData">
+                                  {{ category.categoryName }}<br>
+                                </label>
+                              </div>
+                            </div></h2>
+                            <h2 class="seventh-txt">Category</h2>
+                            <h2 class="eight-txt">Products</h2>
+                            <img class="whitebg5" src="assets/Location.png" />
+                            <h2 class="nineth-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                              <span class="hover-label">{{location}}</span>
+                              <div class="popup-content">
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let location of locationData" >
+                                  {{ location.floorName +' - ' + location.locationName +' : '+ location.locationfullName }}<br>
+                                </label>
+                              </div>
+                            </div></h2>
+                            <h2 class="nineth-txt">Location</h2>
+                            <h2 class="tenth-txt"></h2>
+                            <img class="whitebg6" src="assets/Project.png" />
+                            <h2 class="eleventh-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                                <span class="hover-label">{{project}}</span>
+                                  <div class="popup-content">
+                                    <!-- Your popup content goes here -->
+                                    <label *ngFor="let peroject of projectData">
+                                      {{ project.projectName }}<br>
+                                    </label>
+                                  </div>
+                              </div>
+                            </h2>
+                            <h2 class="eleventh-txt">Project</h2>
+                            <h2 class="twelve-txt"></h2>
+                          </div>
                 </div>
+                
+               
           
             </div>
             <div class="subcontainer" *ngIf="showContent2" >
@@ -153,116 +273,134 @@
                       <img class="refresh" (click)="refreshinstock() "src="assets/refresh.png" >
                   </div>
                     <div class="thing3">
-                      <button class="qrbutton" id="openFormButton" (click)="qrcode()">Generate QR Code</button>
-                            <div id="popupFormContainer" class="popupFormContainer">
-                              <div class="popupForm">
-                                <span class="closeButton">&times;</span>
-                                <h2 class="qrtitle">QR Generator</h2>
-                                <form id="myForm" >
-                                  <div class="itemcenter">
-                                    <label for="itemcode">ITEM CODE: </label>
-                                    <input type="text" id="itemcode" name="itemcode" required><br>
-                                    <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:43%;">item code not registered</label>
-                                    <br>
-                                    <button class="generate" type="submit" (click)="submit()">{{ qrgenerate }}</button>
-                                  </div>
-                              
-                                  <div class="qrcodeformat" [hidden]="isHidden">
-                                    <div class="upper3">
-                                      <div class="upper4">
-                                        <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
-                                      </div>
-                                      <div class="upper5">
-                                        <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
-                                        <label  style="font-size: 12px;">Inventory Management System</label>
-                                      </div>
-                                    </div>
-                                  <div class="itemcenter" >
-                                    <qrcode  [qrdata]="myAngularxQrCode" [width]="170" [errorCorrectionLevel]="'M'" ></qrcode>
-                                    <label class="label1"style="margin-left:25%;margin-right:25%;font-style:italic;margin-bottom: 50px;">{{ productname }}</label>
-                                    <br>
-                                  </div>
-                                
-                                  </div>
-                                
+                      <form id="myForm2" [formGroup]="qrForm" >
+                        <button class="qrbutton" id="openFormButton" (click)="qrcode()">Generate QR Code</button>
+                        <div id="popupFormContainer" class="popupFormContainer">
+                          <div class="popupForm">
+                            <span class="closeButton">&times;</span>
+                            <h2 class="qrtitle">QR Generator</h2>
                           
-                                </form>
+                              <div class="itemcenter">
+                                <label>ITEM CODE: </label>
+                                <input type="text" formControlName="qrForm_itemcode" required><br>
+                                <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:43%;">item code not registered</label>
+                                <br>
+                                <button class="generate" type="submit" (click)="submit()">{{ qrgenerate }}</button>
                               </div>
-                            </div>
+                          
+                              <div class="qrcodeformat" [hidden]="isHidden">
+                                <div class="upper3">
+                                  <div class="upper4">
+                                    <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
+                                  </div>
+                                  <div class="upper5">
+                                    <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
+                                    <label  style="font-size: 12px;">Inventory Management System</label>
+                                  </div>
+                                </div>
+                              <div class="itemcenter" >
+                               <qrcode [qrdata]="myAngularxQrCode" [width]="170" [allowEmptyString]="true" [errorCorrectionLevel]="'M'"></qrcode>
+                                <label class="label1" style="margin-left:25%;margin-right:25%;font-style:italic;margin-bottom: 50px;">{{ productname }}</label>
+                                <br>
+                              </div>
                             
-                      <img class="buttons"  id="openFormButton1" (click)="add()" src="assets/add.png">
-
-                        <div id="popupFormContainer1" class="popupFormContainer1">
-                          <div class="popupForm1">
-                            <span class="closeButton1">&times;</span>
-                            <h2 class="qrtitle">Item Registration</h2>
-                            <form id="myForm1" >
-                              <div class="itemcenter1"> 
-                                <label for="itemcode">PRODUCT NAME: </label>
-                                <input type="text" id="itemcode" name="itemcode" required><br>
-                                <label for="position" >CATEGORY</label>
-                                  <select id="position" formControlName="position"  >
-                                    <option disabled selected value="">Choose your position:</option>
-                                      <option value="admin">Admin</option>
-                                      <option value="user">User</option>
-                                    </select><br>
-                                <label for="position" >LOCATION: </label> 
-                                  <select id="position" formControlName="position"  >
-                                    <option disabled selected value="">Choose your position:</option>
-                                      <option value="admin">Admin</option>
-                                      <option value="user">User</option>
-                                    </select><br>
-                                <label for="position" >SPECIFIC LOCATION: </label> 
-                                <select id="position" formControlName="position"  >
-                                  <option disabled selected value="">Choose your position:</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                  </select><br> 
-                                <label for="itemcode">PROJECT: </label>
-                                <input type="text" id="itemcode" name="itemcode" required><br>
                               </div>
-                            </form>
+                          
+                           
                           </div>
                         </div>
-                        <img class="buttons"(click)="delete()" src="assets/delete.png">
+                      </form>
+                     
+                      <form id="myForm3" [formGroup]="itemlistForm">
+                        <img class="buttons" id="openFormButton3" (click)="additemlist()" src="assets/add.png">
+                        <div id="popupFormContainer3" class="popupFormContainer">
+                          <div class="popupForm">
+                            <span class="closeButton3">&times;</span>
+                            <h2 class="qrtitle">Item Registration</h2>
+                            <div>
+                              <label>PRODUCT NAME:</label>
+                              <input type="text" formControlName="itemlistForm_itemcode" required><br>
+                            </div>
+                            <div>
+                              <label>CATEGORY:</label>
+                              <select formControlName="itemlistForm_category">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>LOCATION:</label>
+                              <select formControlName="itemlistForm_location">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>SPECIFIC LOCATION:</label>
+                              <select formControlName="itemlistForm_specificlocation">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>PROJECT:</label>
+                              <input type="text" formControlName="itemlistForm_project" required><br>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <form id="myForm3" [formGroup]="itemlistForm">
+                        <img class="buttons" id="openFormButton4" (click)="deleteItemlist()" src="assets/delete.png">
+  
+                        <div id="popupFormContainer4" class="popupFormContainer">
+                          <div class="popupForm">
+                            <span class="closeButton4">&times;</span>
+                            <h2 class="qrtitle">Item Registration</h2>
+                            <div>
+                              <label>PRODUCT NAME:</label>
+                              <input type="text" formControlName="itemlistForm_itemcode" required><br>
+                            </div>
+                            <div>
+                              <label>CATEGORY:</label>
+                              <select formControlName="itemlistForm_category">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>LOCATION:</label>
+                              <select formControlName="itemlistForm_location">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>SPECIFIC LOCATION:</label>
+                              <select formControlName="itemlistForm_specificlocation">
+                                <option disabled selected value="">Choose your position:</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                              </select><br>
+                            </div>
+                            <div>
+                              <label>PROJECT:</label>
+                              <input type="text" formControlName="itemlistForm_project" required><br>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                     
+
+                      
                     </div>
                 </div>
 
-                <div id="popupFormContainer" class="popupFormContainer">
-                  <div class="popupForm">
-                    <span class="closeButton">&times;</span>
-                    <h2 class="qrtitle">QR Generator</h2>
-                    <form id="myForm" >
-                      <div class="itemcenter">
-                        <label for="itemcode">ITEM CODE: </label>
-                        <input type="text" id="itemcode" name="itemcode" required><br>
-                        <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:43%;">item code not registered</label>
-                        <br>
-                        <button class="generate" type="submit" (click)="submit()">{{ qrgenerate }}</button>
-                      </div>
-                  
-                      <div class="qrcodeformat" [hidden]="isHidden">
-                        <div class="upper3">
-                          <div class="upper4">
-                            <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
-                          </div>
-                          <div class="upper5">
-                            <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
-                            <label  style="font-size: 12px;">Inventory Management System</label>
-                           </div>
-                        </div>
-                      <div class="itemcenter" >
-                        <qrcode  [qrdata]="myAngularxQrCode" [width]="170" [errorCorrectionLevel]="'M'" ></qrcode>
-                        <label class="label1"style="margin-left:25%;margin-right:25%;font-style:italic;margin-bottom: 50px;">{{ productname }}</label>
-                        <br>
-                      </div>
-                    
-                      </div>
-                    
-              
-                    </form>
-                  </div>
-                </div>
+               
                 <div class="scrollablecontent">
                     <table class="resizable-table" border="1">
                         <colgroup class="column">
@@ -329,16 +467,16 @@
                               </tr>
                               <tr >
                                 <td >
-                                    <h2>Lloyd Jerome Hombre</h2>
-                                    <h4>Designer and Programmer</h4>
+                                    <label class="textabout"><h2>Lloyd Jerome Hombre</h2></label>
+                                    <label class="textrole"><h4>Designer and Programmer</h4></label>
                                 </td>
                                 <td>
-                                    <h2>Ron Iverson Del Mundo</h2>
-                                    <h4>Front-End and Backend</h4>
+                                  <label class="textabout"><h2 class="textabout">Ron Iverson Del Mundo</h2></label>
+                                  <label class="textrole"><h4>Programmer</h4></label>
                                 </td>
                                 <td>
-                                    <h2>Rommel Guiterrez</h2>
-                                    <h4>Designer and Programmer</h4>
+                                  <label class="textabout"><h2 class="textabout">Rommel Guiterrez</h2></label>
+                                  <label class="textrole"><h4>Documentation</h4></label>
                                 </td>
                               </tr>
                           
