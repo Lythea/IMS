@@ -55,8 +55,14 @@
                       <label class="instock"><h1>Dashboard</h1></label>
                     </div>
                     <div class="thing2">
-                      <img class="refresh" (click)="refreshdashboard() "src="assets/refresh.png" >
+                      <form [formGroup]="dashboard" form>
+                        <select formControlName="label" style="width:20px;" (change)="onDashboardChange()">
+                          <option disabled selected value="">Select to add</option>
+                          <option *ngFor="let location of locationData" [ngValue]="location">{{ location.locationName }}</option>
+                        </select>
+                      </form>
                     </div>
+                    
                     <div class="thing3">   
                       <img class="buttons"  id="openFormButton" (click)="addDashboard()" src="assets/add.png">
                         <div id="popupFormContainer" class="popupFormContainer">
@@ -75,24 +81,20 @@
                                 </form>
                                  
                                   <div *ngIf="subcontainer2_content[1]" style="margin-top:5%;"> <!-- Defective Products Registration -->
-                                        
-                                    <form [formGroup]="defective" form >
-                                      <label class="textlabel">Item Code: </label> 
-                                      <input  class="textbox" formControlName="defective_itemcode" type ="text"> 
+                                    <form [formGroup]="defectiveForm">
+                                      <label class="textlabel">Item Code:</label>
+                                      <input class="textbox" formControlName="defectiveForm_itemcode" type="text">
                                       <br>
-                                      <label class="textlabel">Location</label> 
-                                      <select formControlName="defective_location">
+                                      <label class="textlabel">Location</label>
+                                      <select formControlName="defectiveForm_location">
                                         <option disabled selected value="">Select to add</option>
                                         <option *ngFor="let location of locationData" [value]="location">{{ location.locationName }}</option>
                                       </select>
                                       <br>
-                                      <label class="textlabel">Quantity</label> 
-                              
-                                      <!-- Example for accessing the 'defective_staff' form control using ngFor -->
-                                  
-                                     
+                                      <label class="textlabel">Quantity</label>
+                                      <input class="textbox" formControlName="defectiveForm_quantity" type="text">
                                       <br>
-                                      <button (click)="defectiveSubmit()">submit</button>
+                                      <button (click)="deletedefective()">submit</button>
                                     </form>
                                   </div>
                                   <div *ngIf="subcontainer2_content[2]" >
@@ -123,45 +125,90 @@
                             <div class="itemcenter1"> 
                               <form id="myForm5" [formGroup]="myForm" form >
                                 <label>Select what to Delete: </label>
-                                <select formControlName="myForm_information">
-                                  <option disabled selected value="">Select to Delete</option>
+                                <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
+                                  <option disabled selected value=""></option>
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
-                                <button (click)="go()">Go</button>
+                                
+                                <label><h3>{{ myForm.value.myForm_information}}</h3></label>
                               </form>
-                               
+                                
                                 <div *ngIf="subcontainer2_content[1]" style="margin-top:5%;"> <!-- Defective Products Registration -->
-                                      
-                                  <form [formGroup]="defective" form >
-                                    <label class="textlabel">Item Code: </label> 
-                                    <input  class="textbox" formControlName="defective_itemcode" type ="text"> 
-                                    <br>
+                                  <form [formGroup]="defectiveForm" form>
                                     <label class="textlabel">Location</label> 
-                                    <select formControlName="defective_location">
-                                      <option disabled selected value="">Select to add</option>
-                                      <option *ngFor="let location of locationData" [value]="location">{{ location.locationName }}</option>
+                                    <select formControlName="defectiveForm_location" (change)="onFormChange()">
+                                      <option disabled selected value=""></option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <label class="textlabel">Item Name:</label> 
+                                    <select formControlName="defectiveForm_itemcode">
+                                      <option disabled selected value=""></option>
+                                      <option *ngFor="let itemname of defectiveData" [value]="itemname.defectiveName">{{ itemname.defectiveName}}</option>
                                     </select>
                                     <br>
                                     <label class="textlabel">Quantity</label> 
-                                   
-                                    <!-- Example for accessing the 'defective_staff' form control using ngFor -->
-                                
-                                   
+                                    <input  class="textbox" formControlName="defectiveForm_quantity" type="text"> 
                                     <br>
-                                    <button (click)="defectiveSubmit()">submit</button>
+                                    <button (click)="defectiveDashboardSubmit()">Submit</button>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[2]" >
-                                  <label>ewqewweewq</label>
+                                  <form [formGroup]="personelForm" form >
+                                    <label class="textlabel">Personel's Name</label> 
+                                    <input  class="textbox" formControlName="personelForm_name" type ="text"> 
+                                    <br>
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="personelForm_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <button (click)="defectiveDashboardSubmit()">submit</button>
+                                  </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[3]" >
-                                  <label>ewqewweewq</label>
+                                  <form [formGroup]="categoryForm" form >
+                                    <label class="textlabel">Category</label> 
+                                    <select formControlName="categoryForm_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <input  class="textbox" formControlName="categoryForm_name" type ="text"> 
+                                    <br>
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="categoryForm_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <button (click)="defectiveDashboardSubmit()">submit</button>
+                                  </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[4]" >
-                                  <label>ewqewweewq</label>
+                                  <form [formGroup]="locationForm" form >
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="locationForm_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <button (click)="defectiveDashboardSubmit()">submit</button>
+                                  </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[5]" >
-                                  <label>ewqewweewq</label>
+                                  <form [formGroup]="projectForm" form >
+                                    <label class="textlabel">Project Name</label> 
+                                    <input  class="textbox" formControlName="projectForm_name" type ="text"> 
+                                    <br>
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="projectForm_location">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
+                                    <button (click)="defectiveDashboardSubmit()">submit</button>
+                                  </form>
                                 </div>
                  
                             </div>
@@ -182,7 +229,7 @@
                             <h2 class="first-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{products}}</span>
-                              <div class="popup-content">
+                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let product of productData">
                                   {{ product.productName }} <br>
@@ -195,7 +242,7 @@
                             <h2 class="third-txt"  style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{defective}}</span>
-                              <div class="popup-content">
+                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let defective of defectiveData">
                                   {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
@@ -208,7 +255,7 @@
                             <h2 class="fifth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{personel}}</span>
-                              <div class="popup-content">
+                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let personel of personelData">
                                   {{ personel.personelLocation + '  : '+ personel.personelPosition + ' - '+ personel.personelName  }}<br>
@@ -221,7 +268,7 @@
                             <h2 class="seventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label" >{{category}}</span>
-                              <div class="popup-content" >
+                              <div class="popup-content" [ngClass]="{ 'open': isOpen }" >
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let category of categoryData">
                                   {{ category.categoryName }}<br>
@@ -234,7 +281,7 @@
                             <h2 class="nineth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{location}}</span>
-                              <div class="popup-content">
+                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let location of locationData" >
                                   {{ location.floorName +' - ' + location.locationName +' : '+ location.locationfullName }}<br>
@@ -247,7 +294,7 @@
                             <h2 class="eleventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                                 <span class="hover-label">{{project}}</span>
-                                  <div class="popup-content">
+                                  <div class="popup-content" [ngClass]="{ 'open': isOpen }">
                                     <!-- Your popup content goes here -->
                                     <label *ngFor="let peroject of projectData">
                                       {{ project.projectName }}<br>

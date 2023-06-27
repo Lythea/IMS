@@ -97,7 +97,6 @@ $conn = new mysqli($servername, $username, $password,$db);
         $data['count'] = 0;
     }
     
-    
     $sql6 = "SELECT name AS total FROM project";
     $result6 = $conn->query($sql6);
     if ($result6->num_rows > 0) {
