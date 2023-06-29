@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db="ims";
+$db="cti_inventory_system";
 // Create connection
 $conn = new mysqli($servername, $username, $password,$db);
   if ($conn->connect_error) {

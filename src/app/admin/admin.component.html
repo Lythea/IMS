@@ -33,7 +33,6 @@
                 <div class="upper1">
                     <label><h3 >Inventory Management System</h3></label>
                     <label><h1 style="color:red">Center for Entrpreneurship and Innovation</h1></label><br>    
-                
                 </div>
                     <div class="upper2">
                         <div class="profile1">
@@ -54,7 +53,7 @@
                     <div class="thing1">
                       <label class="instock"><h1>Dashboard</h1></label>
                     </div>
-                    <div class="thing2">
+                    <div class="thing2">  
                       <form [formGroup]="dashboard" form>
                         <select formControlName="label" style="width:20px;" (change)="onDashboardChange()">
                           <option disabled selected value="">Select to add</option>
@@ -62,7 +61,6 @@
                         </select>
                       </form>
                     </div>
-                    
                     <div class="thing3">   
                       <img class="buttons"  id="openFormButton" (click)="addDashboard()" src="assets/add.png">
                         <div id="popupFormContainer" class="popupFormContainer">
@@ -118,23 +116,24 @@
                     <div class="thing4">
                       <img class="buttons" id="openFormButton2"(click)="deleteDashboard()" src="assets/delete.png">
                       <div id="popupFormContainer2" class="popupFormContainer">
-                        <div class="popupForm1">
+                        <div class="popupForm">
                           <span class="closeButton2">&times;</span>
                           <h5 class="qrtitle">Additional Information</h5>
                         
                             <div class="itemcenter1"> 
                               <form id="myForm5" [formGroup]="myForm" form >
-                                <label>Select what to Delete: </label>
+                                <label>Delete: </label>
                                 <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
-                                  <option disabled selected value=""></option>
+                              
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
                                 
-                                <label><h3>{{ myForm.value.myForm_information}}</h3></label>
+                                
                               </form>
                                 
-                                <div *ngIf="subcontainer2_content[1]" style="margin-top:5%;"> <!-- Defective Products Registration -->
+                                <div  style="margin-top:5%;" *ngIf="subcontainer2_content[1] && currentPopupContent === 'defectiveForm'"> <!-- Defective Products Registration -->
                                   <form [formGroup]="defectiveForm" form>
+                                    <label><h3>{{ selectedDetail}}</h3></label>
                                     <label class="textlabel">Location</label> 
                                     <select formControlName="defectiveForm_location" (change)="onFormChange()">
                                       <option disabled selected value=""></option>
@@ -153,22 +152,31 @@
                                     <button (click)="defectiveDashboardSubmit()">Submit</button>
                                   </form>
                                 </div>
-                                <div *ngIf="subcontainer2_content[2]" >
+                                <div *ngIf="subcontainer2_content[2] && currentPopupContent === 'personelForm'" >
                                   <form [formGroup]="personelForm" form >
+                                    <label><h3>{{ selectedDetail}}</h3></label>
+                                    <label class="textlabel">Location</label> 
+                                    <select formControlName="personelForm_location" (change)="onFormChange()">
+                                      <option disabled selected value=""></option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select>
+                                    <br>
                                     <label class="textlabel">Personel's Name</label> 
                                     <input  class="textbox" formControlName="personelForm_name" type ="text"> 
                                     <br>
+                                    
+                                    <button (click)="defectiveDashboardSubmit()">submit</button>
+                                  </form>
+                                </div>
+                                <div *ngIf="subcontainer2_content[3] && currentPopupContent === 'categoryForm'">
+                                  <form [formGroup]="categoryForm" form >
+                                    <label><h3>{{ selectedDetail}}</h3></label>
                                     <label class="textlabel">Location</label> 
-                                    <select formControlName="personelForm_location">
+                                    <select formControlName="categoryForm_location" (change)="onFormChange()">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <button (click)="defectiveDashboardSubmit()">submit</button>
-                                  </form>
-                                </div>
-                                <div *ngIf="subcontainer2_content[3]" >
-                                  <form [formGroup]="categoryForm" form >
                                     <label class="textlabel">Category</label> 
                                     <select formControlName="categoryForm_location">
                                       <option disabled selected value="">Select to add</option>
@@ -176,17 +184,13 @@
                                     </select>
                                     <input  class="textbox" formControlName="categoryForm_name" type ="text"> 
                                     <br>
-                                    <label class="textlabel">Location</label> 
-                                    <select formControlName="categoryForm_location">
-                                      <option disabled selected value="">Select to add</option>
-                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
-                                    </select>
-                                    <br>
+                                    
                                     <button (click)="defectiveDashboardSubmit()">submit</button>
                                   </form>
                                 </div>
-                                <div *ngIf="subcontainer2_content[4]" >
+                                <div *ngIf="subcontainer2_content[4] && currentPopupContent === 'locationForm'" >
                                   <form [formGroup]="locationForm" form >
+                                    <label><h3>{{ selectedDetail}}</h3></label>
                                     <label class="textlabel">Location</label> 
                                     <select formControlName="locationForm_location">
                                       <option disabled selected value="">Select to add</option>
@@ -196,17 +200,19 @@
                                     <button (click)="defectiveDashboardSubmit()">submit</button>
                                   </form>
                                 </div>
-                                <div *ngIf="subcontainer2_content[5]" >
+                                <div *ngIf="subcontainer2_content[5] && currentPopupContent === 'projectForm'">
                                   <form [formGroup]="projectForm" form >
-                                    <label class="textlabel">Project Name</label> 
-                                    <input  class="textbox" formControlName="projectForm_name" type ="text"> 
-                                    <br>
+                                    <label><h3>{{ selectedDetail}}</h3></label>
                                     <label class="textlabel">Location</label> 
-                                    <select formControlName="projectForm_location">
+                                    <select formControlName="projectForm_location" (change)="onFormChange()">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
+                                    <label class="textlabel">Project Name</label> 
+                                    <input  class="textbox" formControlName="projectForm_name" type ="text"> 
+                                    <br>
+                                   
                                     <button (click)="defectiveDashboardSubmit()">submit</button>
                                   </form>
                                 </div>
@@ -340,7 +346,7 @@
                                   <div class="upper4">
                                     <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
                                   </div>
-                                  <div class="upper5">
+                                  <div class="upper5" style="  margin-top:10px;font-weight: bolder;margin-left:10px; width:100%;">
                                     <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
                                     <label  style="font-size: 12px;">Inventory Management System</label>
                                   </div>

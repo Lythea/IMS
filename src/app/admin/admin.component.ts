@@ -63,7 +63,7 @@ personelForm: any = FormGroup;
 categoryForm: any = FormGroup;
 locationForm: any = FormGroup;
 projectForm: any = FormGroup;
-
+currentPopupContent: any;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
 
   ngOnInit(): void{
@@ -628,26 +628,56 @@ projectForm: any = FormGroup;
   }
   onFormChange(): void {
     const selectedLocation = this.defectiveForm.value.defectiveForm_location;
-    // Perform any necessary logic based on the selectedLocation
-    // For example, you can fetch the corresponding item names and update the defectiveData array
     this.fetchDefectiveData(selectedLocation);
   }
   
   // Method to fetch defective data based on the selected location
   fetchDefectiveData(location: string): void {
-    const formData = new FormData();
-    formData.append('location',this.defectiveForm.value.defectiveForm_location)
-    formData.append('value',this.selectedValue)
-    fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.json())
-      .then(value => {
-        console.log(value.result2);
-  
-        this.updateDefectiveData(value.result2, value.result11);
-      });
+    const value = localStorage.getItem('value');
+    console.log(value);
+ 
+   
+      if(value=='Defective Products'){
+        this.subcontainer2_content[1]=true;
+        const formData = new FormData();
+      formData.append('location',this.defectiveForm.value.defectiveForm_location)
+      formData.append('value',this.selectedValue)
+      fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(value => {
+          console.log(value.result2);
+          this.updateDefectiveData(value.result2, value.result11);
+        });
+      }
+      else if(value=='Personel'){
+        this.subcontainer2_content[2]=true;
+        this.subcontainer2_content[1]=false;
+ 
+      }
+      else if(value=='Category'){
+        this.subcontainer2_content[2]=false;
+        this.subcontainer2_content[1]=false;
+        this.subcontainer2_content[3]=true;
+      
+      }
+      else if(value=='Location'){
+        this.subcontainer2_content[2]=false;
+        this.subcontainer2_content[1]=false; 
+        this.subcontainer2_content[3]=false;
+        this.subcontainer2_content[4]=true;
+      }
+      else if(value=='Project'){
+        this.subcontainer2_content[2]=false;
+        this.subcontainer2_content[1]=false; 
+        this.subcontainer2_content[3]=false;
+        this.subcontainer2_content[5]=true; 
+        this.subcontainer2_content[4]=false; 
+       
+      }
+    
   }
   
   // Method to update the defectiveData array
@@ -660,7 +690,13 @@ projectForm: any = FormGroup;
       });
     }
   }
+
   onformChange(){
+    
+    this.selectedValue = this.myForm.value.myForm_information;
+    this.selectedDetail = this.myForm.get('myForm_information')?.value;
+    console.log(this.selectedDetail)
+  if(this.selectedDetail=='Defective Products'){
     const formData = new FormData();
     console.log(this.selectedValue)
     console.log(this.defectiveForm.value.defectiveForm_location)
@@ -673,7 +709,6 @@ projectForm: any = FormGroup;
    .then(response => response.json())
    .then(value => {
     console.log(value.result2)
-    
     for (let i = 0; i < value.result2.length; i++) {
       this.defectiveName = value.result2[i];
       this.defectiveValue = value.result11[i];
@@ -685,33 +720,60 @@ projectForm: any = FormGroup;
   
     }
     );
+
+    }
+    else if(this.selectedDetail=='Personel'){
+   
+    }
+    else if(this.selectedDetail=='Category'){
+   
+    
+    }
+    else if(this.selectedDetail=='Location'){
+    
+    }
+    else if(this.selectedDetail=='Project'){
+      
+     
+    }
   }
   onSelectionChange(){
+    this.currentPopupContent = this.myForm.value.myForm_information === 'Defective Products' ? 'defectiveForm' :
+    this.myForm.value.myForm_information === 'Personel' ? 'personelForm' :   
+    this.myForm.value.myForm_information === 'Category' ? 'categoryForm' :
+    this.myForm.value.myForm_information === 'Location' ? 'locationForm' :
+    this.myForm.value.myForm_information === 'Project' ? 'projectForm' :
+    null;
     this.selectedValue = this.myForm.value.myForm_information;
     this.selectedDetail = this.myForm.get('myForm_information')?.value;
+
+    localStorage.setItem('value',this.selectedValue)
+    console.log(this.selectedDetail)
     if(this.myForm.value.myForm_information=='Itemlist'){
       this.toggleContent2()
     }else if(this.myForm.value.myForm_information=='Defective Products'){
       this.subcontainer2_content[1]=true;
       this.ngOnInit()
-
+   
     }
     else if(this.myForm.value.myForm_information=='Personel'){
       this.subcontainer2_content[2]=true;
       this.subcontainer2_content[1]=false;
       this.ngOnInit()
+    
     }
     else if(this.myForm.value.myForm_information=='Category'){
       this.subcontainer2_content[2]=false;
       this.subcontainer2_content[1]=false;
       this.subcontainer2_content[3]=true;
-    
+   
     }
     else if(this.myForm.value.myForm_information=='Location'){
       this.subcontainer2_content[2]=false;
       this.subcontainer2_content[1]=false; 
       this.subcontainer2_content[3]=false;
       this.subcontainer2_content[4]=true;
+ 
     }
     else if(this.myForm.value.myForm_information=='Project'){
       this.subcontainer2_content[2]=false;
@@ -719,7 +781,6 @@ projectForm: any = FormGroup;
       this.subcontainer2_content[3]=false;
       this.subcontainer2_content[5]=true; 
       this.subcontainer2_content[4]=false; 
-     
     }
   
     this.isHidden = false;
