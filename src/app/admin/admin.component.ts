@@ -117,7 +117,7 @@ currentPopupContent: any;
       
    const formData = new FormData();
   
-   fetch('/cti/inventory/backend/quantitydashboard.php', {
+   fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
      method: 'POST',
      body: formData
    })
@@ -131,7 +131,7 @@ currentPopupContent: any;
      this.project = value.result6
     });
    
-   fetch('/cti/inventory/backend/infodashboard.php', {
+   fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
      method: 'POST',
      body: formData
    })
@@ -197,7 +197,7 @@ currentPopupContent: any;
     const formData = new FormData();
     formData.append('companyownership', selectedValue.locationName);
   
-    fetch('/cti/inventory/backend/changingquantityDashboard.php', {
+    fetch('http://localhost:8080/IMS/src/backend/changingquantityDashboard.php', {
       method: 'POST',
       body: formData
     })
@@ -217,7 +217,7 @@ currentPopupContent: any;
         this.projectData = [];
   
         // Fetch and update the popup information
-        fetch('/cti/inventory/backend/changinginfoDashboard.php', {
+        fetch('http://localhost:8080/IMS/src/backend/changinginfoDashboard.php', {
           method: 'POST',
           body: formData
         })
@@ -293,7 +293,7 @@ currentPopupContent: any;
     this.showContent2 = true;
     this.showContent3 = false;
     const formData = new FormData();
-    fetch('/cti/inventory/backend/itemlist.php', {
+    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
       method: 'POST',
       body: formData
     })
@@ -335,7 +335,7 @@ currentPopupContent: any;
       this.toggleContent2();
       const formData = new FormData();
    
-      fetch('/cti/inventory/backend/itemlist.php', {
+      fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
       method: 'POST',
       body: formData
     })
@@ -523,7 +523,7 @@ currentPopupContent: any;
       formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
       formData.append('defectiveForm_location',this.defectiveForm.value.defectiveFprm_location)
       formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
-      fetch('/cti/inventory/backend/deleteDashboard.php', {
+      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -541,7 +541,7 @@ currentPopupContent: any;
       formData.append('personelForm_name',this.personelForm.value.personelForm_name)
       formData.append('personelForm_location',this.personelForm.value.personelForm_location)
     
-      fetch('/cti/inventory/backend/deleteDashboard.php', {
+      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -559,7 +559,7 @@ currentPopupContent: any;
       formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
       formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
     
-      fetch('/cti/inventory/backend/deleteDashboard.php', {
+      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -576,7 +576,7 @@ currentPopupContent: any;
       formData.append('property',this.selectedValue)
       formData.append('locationForm_location',this.locationForm.value.locationForm_location)
     
-      fetch('/cti/inventory/backend/deleteDashboard.php', {
+      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -594,7 +594,7 @@ currentPopupContent: any;
       formData.append('projectForm_name',this.projectForm.value.projectForm_name)
       formData.append('projectForm_location',this.projectForm.value.projectForm_location)
     
-      fetch('/cti/inventory/backend/deleteDashboard.php', {
+      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -642,7 +642,7 @@ currentPopupContent: any;
         const formData = new FormData();
       formData.append('location',this.defectiveForm.value.defectiveForm_location)
       formData.append('value',this.selectedValue)
-      fetch('/cti/inventory/backend/formViewlist.php', {
+      fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
         method: 'POST',
         body: formData
       })
@@ -702,7 +702,7 @@ currentPopupContent: any;
     console.log(this.defectiveForm.value.defectiveForm_location)
     formData.append('location',this.defectiveForm.value.defectiveForm_location)
     formData.append('value',this.selectedValue)
-    fetch('/cti/inventory/backend/formViewlist.php', {
+    fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
      method: 'POST',
      body: formData
    })
@@ -813,7 +813,7 @@ currentPopupContent: any;
    
     const formData = new FormData();
     formData.append('code',this.qrForm.value.qrForm_itemcode)
-    fetch('/cti/inventory/backend/qrgenerator.php', {
+    fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
       method: 'POST',
       body: formData
     })
@@ -848,7 +848,7 @@ currentPopupContent: any;
   refreshdashboard(){
     // After the page reloads, navigate to specific content based on the provided contentId
     const formData = new FormData();
-    fetch('/cti/inventory/backend/quantitydashboard.php', {
+    fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
       method: 'POST',
       body: formData
     })
@@ -867,7 +867,7 @@ currentPopupContent: any;
   refreshinstock(){
     // After the page reloads, navigate to specific content based on the provided contentId
     const formData = new FormData();
-    fetch('/cti/inventory/backend/itemlist.php', {
+    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
       method: 'POST',
       body: formData
     })
