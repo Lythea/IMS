@@ -55,6 +55,7 @@ personelLocation : any;
 personelPosition : any;
 categoryValue : any;
 locationfullValue : any;
+projectLocation : any;
 floorValue : any;
 locationValue : any;
 projectValue : any;
@@ -181,9 +182,10 @@ currentPopupContent: any;
   
     for (let i = 0; i < value.result8.length; i++) {
       this.projectValue = value.result8[i];
+      this.projectLocation = value.result12[i];
       this.projectData[i] = {
         projectName: this.projectValue ,
-
+        projectLocation: this.projectLocation,
       };
     }
     }
@@ -256,8 +258,10 @@ currentPopupContent: any;
   
             for (let i = 0; i < value.result8.length; i++) {
               this.projectValue = value.result8[i];
+              this.projectLocation = value.result12[i];
               this.projectData.push({
                 projectName: this.projectValue,
+                projectLocation: this.projectLocation
               });
             }
   
@@ -626,48 +630,128 @@ currentPopupContent: any;
   
     this.isHidden = false;
   }
-  onFormChange(): void {
-    const selectedLocation = this.defectiveForm.value.defectiveForm_location;
-    this.fetchDefectiveData(selectedLocation);
-  }
+ 
   
   // Method to fetch defective data based on the selected location
-  fetchDefectiveData(location: string): void {
+  onFormChange(): void {
     const value = localStorage.getItem('value');
-    console.log(value);
- 
-   
+
+    const location = localStorage.getItem('location');
+
       if(value=='Defective Products'){
         this.subcontainer2_content[1]=true;
+
         const formData = new FormData();
-      formData.append('location',this.defectiveForm.value.defectiveForm_location)
-      formData.append('value',this.selectedValue)
-      fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => response.json())
-        .then(value => {
-          console.log(value.result2);
-          this.updateDefectiveData(value.result2, value.result11);
-        });
-      }
-      else if(value=='Personel'){
+        const value: any = localStorage.getItem('value');
+        const location : any = this.defectiveForm.value.defectiveForm_location
+        formData.append('location',location)
+        formData.append('value',value)
+        console.log(value)  
+        console.log(location)
+        fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(value => {
+            console.log(value.result1);
+
+            this.defectiveData = [];
+            for (let i = 0; i < value.result1.length; i++) {
+              this.defectiveData.push({
+                defectiveName: value.result1[i],
+              });
+            }
+          });
+      }else if(value=='Personel'){
         this.subcontainer2_content[2]=true;
         this.subcontainer2_content[1]=false;
- 
+
+        const formData = new FormData();
+        const value: any = localStorage.getItem('value');
+        const location : any = this.personelForm.value.personelForm_location
+        formData.append('location',location)
+        formData.append('value',value)
+        console.log(value)
+        console.log(location)
+        fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(value => {
+            console.log(value.result2);
+            console.log(value.result3);
+            this.personelData = []
+            for (let i = 0; i < value.result2.length; i++) {
+              this.personelValue = value.result2[i];
+              this.personelPosition = value.result3[i];
+              this.personelData.push({
+                personelName: this.personelValue,
+                personelPosition: this.personelPosition
+              });
+            }
+          });
       }
       else if(value=='Category'){
         this.subcontainer2_content[2]=false;
         this.subcontainer2_content[1]=false;
         this.subcontainer2_content[3]=true;
       
+        const formData = new FormData();
+        const value: any = localStorage.getItem('value');
+        const location : any = this.categoryForm.value.categoryForm_location
+        formData.append('location',location)
+        formData.append('value',value)
+        console.log(value)
+        console.log(location)
+        fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(value => {
+            console.log(value.result4);
+
+            this.categoryData = []
+            for (let i = 0; i < value.result4.length; i++) {
+              this.categoryValue = value.result4[i];
+              this. categoryData[i] = {
+                categoryName:   this.categoryValue ,
+        
+              };
+            }
+          });
       }
       else if(value=='Location'){
         this.subcontainer2_content[2]=false;
         this.subcontainer2_content[1]=false; 
         this.subcontainer2_content[3]=false;
         this.subcontainer2_content[4]=true;
+
+        const formData = new FormData();
+        const value: any = localStorage.getItem('value');
+ 
+        formData.append('value',value)
+        fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(value => {
+            console.log(value.result4);
+
+            this.locationData = []
+            for (let i = 0; i < value.count; i++) {
+       
+              this.locationValue = value.result4[i];
+              this.locationData[i] = {
+                locationName:  this.locationValue
+              };
+            }
+          });
+   
+
       }
       else if(value=='Project'){
         this.subcontainer2_content[2]=false;
@@ -676,67 +760,36 @@ currentPopupContent: any;
         this.subcontainer2_content[5]=true; 
         this.subcontainer2_content[4]=false; 
        
+        const formData = new FormData();
+        const value: any = localStorage.getItem('value');
+        const location : any = this.projectForm.value.projectForm_location
+        formData.append('location',location)
+        formData.append('value',value)
+        console.log(value)
+        console.log(location)
+        fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(value => {
+
+            this.projectData = []
+            for (let i = 0; i < value.result5.length; i++) {
+              this.projectValue = value.result5[i];
+              this.projectLocation = value.result6[i];
+              this.projectData[i] = {
+                projectName: this.projectValue ,
+                projectLocation: this.projectLocation,
+              };
+            }
+          });
       }
     
   }
   
-  // Method to update the defectiveData array
-  updateDefectiveData(names: any[], values: any[]): void {
-    this.defectiveData = [];
-    for (let i = 0; i < names.length; i++) {
-      this.defectiveData.push({
-        defectiveName: names[i],
-        defectiveValue: values[i]
-      });
-    }
-  }
 
-  onformChange(){
-    
-    this.selectedValue = this.myForm.value.myForm_information;
-    this.selectedDetail = this.myForm.get('myForm_information')?.value;
-    console.log(this.selectedDetail)
-  if(this.selectedDetail=='Defective Products'){
-    const formData = new FormData();
-    console.log(this.selectedValue)
-    console.log(this.defectiveForm.value.defectiveForm_location)
-    formData.append('location',this.defectiveForm.value.defectiveForm_location)
-    formData.append('value',this.selectedValue)
-    fetch('http://localhost:8080/IMS/src/backend/formViewlist.php', {
-     method: 'POST',
-     body: formData
-   })
-   .then(response => response.json())
-   .then(value => {
-    console.log(value.result2)
-    for (let i = 0; i < value.result2.length; i++) {
-      this.defectiveName = value.result2[i];
-      this.defectiveValue = value.result11[i];
-      this.defectiveData[i] = {
-        defectiveName:  this.defectiveName ,defectiveValue : this.defectiveValue
 
-      };
-    }
-  
-    }
-    );
-
-    }
-    else if(this.selectedDetail=='Personel'){
-   
-    }
-    else if(this.selectedDetail=='Category'){
-   
-    
-    }
-    else if(this.selectedDetail=='Location'){
-    
-    }
-    else if(this.selectedDetail=='Project'){
-      
-     
-    }
-  }
   onSelectionChange(){
     this.currentPopupContent = this.myForm.value.myForm_information === 'Defective Products' ? 'defectiveForm' :
     this.myForm.value.myForm_information === 'Personel' ? 'personelForm' :   
@@ -744,10 +797,10 @@ currentPopupContent: any;
     this.myForm.value.myForm_information === 'Location' ? 'locationForm' :
     this.myForm.value.myForm_information === 'Project' ? 'projectForm' :
     null;
-    this.selectedValue = this.myForm.value.myForm_information;
+ 
     this.selectedDetail = this.myForm.get('myForm_information')?.value;
+    localStorage.setItem('value',this.selectedDetail)
 
-    localStorage.setItem('value',this.selectedValue)
     console.log(this.selectedDetail)
     if(this.myForm.value.myForm_information=='Itemlist'){
       this.toggleContent2()

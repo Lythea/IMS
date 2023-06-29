@@ -97,16 +97,19 @@ $conn = new mysqli($servername, $username, $password,$db);
         $data['count'] = 0;
     }
     
-    $sql6 = "SELECT name AS total FROM project";
+    $sql6 = "SELECT sponsors AS total,company as company FROM sponsors";
     $result6 = $conn->query($sql6);
     if ($result6->num_rows > 0) {
         $data['result8'] = array(); // Initialize an empty array
+        $data['result12'] = array(); // Initialize an empty array
     
         while ($row = $result6->fetch_assoc()) {
             $data['result8'][] = $row['total'];
+            $data['result12'][] = $row['company'];
         }
     } else {
         $data['result8'] = [];
+        $data['result12'] = [];
     }
     echo json_encode($data);
 
