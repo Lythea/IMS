@@ -39,65 +39,136 @@ body{
   .hover-label {
     cursor: pointer;
   }
+  .value1-txt {
+    position: absolute;
+    bottom: -10px;
+    left: 410px;
+    color: #a02f2f;
+    font-size: 180%;
+    font-family: "Poppins";
+  }
+  .value2-txt {
+    position: absolute;
+    bottom: -10px;
+    left: 940px;
+    color: #a02f2f;
+    font-size: 190%;
+    font-family: "Poppins";
+  }
+  .value3-txt {
+    position: absolute;
+    bottom: -10px;
+    left: 1513px;
+    color: #a02f2f;
+    font-size: 190%;
+    font-family: "Poppins";
+  }
+  .value4-txt {
+    position: absolute;
+    left: 410px;
+    bottom: -320px;
+    color: #a02f2f;
+    font-size: 190%;
+    font-family: "Poppins";
+  }
+  .value5-txt {
+    position: absolute;
+    left: 940px;
+    bottom: -320px;
+    color: #aaa font-size 190%;
+    font-family: "Poppins";
+  }
+  .value6-txt {
+    position: absolute;
+    left: 1513px;
+    bottom: -320px;
+    color: #a02f2f;
+    font-size: 190%;
+    font-family: "Poppins";
+  }
   .first-txt {
     position: absolute;
-    bottom: -25px;
-    left: 368px;
+    bottom: -20px;
+    left: 410px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .second-txt {
     position: absolute;
-    bottom: -50px;
-    left: 368px;
+    bottom: -35px;
+    left: 410px;
+    font-family: "Poppins";
+    font-size: 100%;
   }
   .third-txt {
     position: absolute;
-    bottom: -25px;
-    left: 920px;
+    bottom: -20px;
+    left: 940px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .fourth-txt {
     position: absolute;
-    bottom: -50px;
-    left: 920px;
+    bottom: -35px;
+    left: 940px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .fifth-txt {
     position: absolute;
-    bottom: -25px;
-    left: 1470px;
+    bottom: -20px;
+    left: 1513px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .sixth-txt {
     position: absolute;
     bottom: -50px;
     left: 1470px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .seventh-txt {
     position: absolute;
-    bottom: -395px;
-    left: 368px;
+    bottom: -330px;
+    left: 410px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .eight-txt {
     position: absolute;
-    bottom: -425px;
-    left: 368px;
+    bottom: -350px;
+    left: 410px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .nineth-txt {
     position: absolute;
-    bottom: -395px;
-    left: 920px;
+    bottom: -330px;
+    left: 940px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .tenth-txt {
     position: absolute;
     bottom: -425px;
-    left: 920px;
+    left: 940px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .eleventh-txt {
     position: absolute;
-    bottom: -395px;
-    left: 1467px;
+    bottom: -330px;
+    left: 1513px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .twelve-txt {
     position: absolute;
     bottom: -425px;
-    left: 1467px;
+    left: 1513px;
+    font-size: 100%;
+    font-family: "Poppins";
   }
   .TotalProduct {
     margin-left: -80px;
@@ -107,40 +178,52 @@ body{
   
   .whitebg1 {
     position: relative;
-    margin-left: 200px;
-    margin-top: 115px;
-    height: 250px;
+    margin-left: 290px;
+    margin-top: 140px;
+    margin-bottom: 20px;
+    height: 173px;
   }
   .whitebg2 {
     position: relative;
-    margin-left: 200px;
-    margin-top: 115px;
-    height: 250px;
+    margin-left: 290px;
+    margin-top: 140px;
+    margin-bottom: 20px;
+    height: 173px;
   }
   .whitebg3 {
     position: relative;
-    margin-left: 200px;
-    margin-top: 115px;
-    height: 250px;
+    margin-left: 330px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    height: 173px;
   }
+  .hidden {
+    display: none;
+  }
+  
   .whitebg4 {
     position: relative;
-    margin-left: 198px;
+    margin-left: 290px;
     margin-top: 115px;
-    height: 250px;
+    margin-bottom: 20px;
+    height: 173px;
   }
   .whitebg5 {
     position: relative;
-    margin-left: 200px;
+    margin-left: 290px;
     margin-top: 115px;
-    height: 250px;
+    margin-bottom: 20px;
+    height: 173px;
   }
   .whitebg6 {
     position: relative;
-    margin-left: 200px;
+    margin-left: 330px;
     margin-top: 115px;
-    height: 250px;
+    height: 173px;
+    margin-bottom: 20px;
   }
+  
+ 
 .logo{
     height:120px;
     width:120px;
@@ -159,12 +242,14 @@ body{
     height:50px;
 }
 
-.dashboardbg{
-    position: absolute;
-    margin-top:5%;
-    margin-bottom:2%;
-    margin-right:15%;
-    width:95%;
+.dashboardbg {
+  position: absolute;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  margin-left: 6%;
+  margin-right: 2%;
+  width: 90%;
+  height: 85%;
 }
 .container {
     padding:0;
@@ -296,6 +381,16 @@ body{
     width:60px;
     height:60px;
     margin-left:10%;
+}
+.subcontainer2 {
+  position: fixed;
+  height: 830px;
+  display: block;
+  background-image: linear-gradient(
+    180deg,
+    rgb(255, 255, 231),
+    rgb(255, 255, 255)
+  );
 }
 .thing0{
     
