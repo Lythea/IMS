@@ -58,7 +58,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         echo "No results found.";
     }
     
-    $sql5 = "SELECT COUNT(id) AS total FROM location";
+    $sql5 = "SELECT COUNT(id) AS total FROM company";
     $result5 = $conn->query($sql5);
     if ($result5->num_rows > 0) {
         $row = mysqli_fetch_assoc($result5);

@@ -24,7 +24,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         $quantity = $_POST['defectiveForm_quantity'];
         
         // Select the current quantity for the given item and location
-        $sql = "SELECT quantity FROM defective WHERE item_id ='$itemcode' AND companyownership = '$location'";
+        $sql = "SELECT quantity FROM defective WHERE item_name ='$itemcode' AND companyownership = '$location'";
         $result = $conn->query($sql);
         
         if ($result->num_rows > 0) {
@@ -35,13 +35,13 @@ $conn = new mysqli($servername, $username, $password,$db);
         if ($currentQuantity > 1) {
             // Update the data
             $newQuantity = $currentQuantity - $quantity;
-            $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE item_id ='$itemcode' AND companyownership = '$location'";
+            $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE item_name ='$itemcode' AND companyownership = '$location'";
             $conn->query($updateSql);
         
             echo json_encode(['data' => 'Data updated successfully']);
         } else if ($currentQuantity == 1) {
             // Remove the entire row
-            $deleteSql = "DELETE FROM defective WHERE item_id ='$itemcode' AND companyownership = '$location'";
+            $deleteSql = "DELETE FROM defective WHERE item_name ='$itemcode' AND companyownership = '$location'";
             $conn->query($deleteSql);
         
             echo json_encode(['data' => 'Row removed successfully']);
@@ -80,7 +80,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         $location = $_POST['locationForm_location'];
 
         // Delete the row from the database based on the provided conditions
-        $sql = "DELETE FROM location WHERE location = '$location'";
+        $sql = "DELETE FROM company WHERE location = '$location'";
 
         if ($conn->query($sql) === TRUE) {
             echo json_encode(['data' => 'Row removed successfully']);
@@ -92,7 +92,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         $location = $_POST['projectForm_location'];
 
         // Delete the row from the database based on the provided conditions
-        $sql = "DELETE FROM sponsors WHERE sponsors = '$name' AND location = '$location'";
+        $sql = "DELETE FROM sponsors WHERE sponsors = '$name' AND company = '$location'";
 
         if ($conn->query($sql) === TRUE) {
             echo json_encode(['data' => 'Row removed successfully']);

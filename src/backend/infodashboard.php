@@ -77,7 +77,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     }
     
     
-    $sql5 = "SELECT location AS location ,floor AS floor,fullname AS fullname FROM location";
+    $sql5 = "SELECT location AS location ,floor AS floor,fullname AS fullname FROM company";
     $result5 = $conn->query($sql5);
     if ($result5->num_rows > 0) {
         $data['result5'] = array(); // Initialize an empty array

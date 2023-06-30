@@ -57,11 +57,11 @@ $conn = new mysqli($servername, $username, $password,$db);
             $data['result4'] = [];
         }
     }else if($value=='Project'){
-        $sql4 = "SELECT name AS total,company as company FROM sponsors WHERE company ='$location'";
+        $sql4 = "SELECT sponsors AS total,company as company FROM sponsors WHERE company ='$location'";
         $result4 = $conn->query($sql4);
         if ($result4->num_rows > 0) {
             $data['result5'] = array(); // Initialize an empty array
-        
+            $data['result6'] = array(); 
             while ($row = $result4->fetch_assoc()) {
                 $data['result5'][] = $row['total'];
                 $data['result6'][] = $row['company'];
