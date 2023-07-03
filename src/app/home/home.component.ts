@@ -14,15 +14,42 @@ export class HomeComponent {
   title = 'IMS';
   accounts: any = FormGroup;
   selectedOption: string = '';
+  locationData: any = [];
+  locationfullValue : any;
+projectLocation : any;
+floorValue : any;
+  locationValue: any;
   constructor(private router: Router, private fb: FormBuilder) {}
   ngOnInit(): void{
     this.accounts = this.fb.group({
       name:['',Validators.required],
       email:['',Validators.compose([Validators.required,Validators.email])],
       password:['',Validators.required],
-      position:['',Validators.required]
+      position:['',Validators.required],
+      location:['',Validators.required],
+      company:['',Validators.required],
+      code:['',Validators.required],
     });
-
+    const formData = new FormData();
+    fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+    
+     for (let i = 0; i < value.count; i++) {
+       this.locationfullValue = value.result7[i];
+       this.floorValue = value.result6[i];
+       this.locationValue = value.result5[i];
+       this.locationData[i] = {
+         floorName:this.floorValue,locationName:  this.locationValue , locationfullName:  this.locationfullValue 
+       };
+     }
+   
+ 
+     }
+     );
   }
   toggleContent(contentId: string): void {
     if (contentId === 'content1') {
@@ -43,15 +70,21 @@ export class HomeComponent {
   })
   .then(response => response.json())
   .then(value => {
-    if(value.data[0].position=='admin'){
-      this.router.navigate(['admin']);
-    }else if(value.data[0].position=='user'){
-      this.router.navigate(['user']);
-    }else{
-      alert(value);
-    }
+    const company = value.data[0].company;
+    const position = value.data[0].position;
+    console.log(company)
+    console.log(position)
     localStorage.setItem('name',value.data[0].name)
-    localStorage.setItem('position',value.data[0].position)
+    localStorage.setItem('position',position)
+    localStorage.setItem('company',company)
+    if(position=='admin' || position=='moderator'){
+      localStorage.setItem('position',position)
+      localStorage.setItem('company',company)
+      this.router.navigate(['admin']);
+    }else if(position=='user'){
+      localStorage.setItem('position',position)
+      this.router.navigate(['admin']);
+    }
   });}
 
   signup(){
@@ -59,29 +92,32 @@ export class HomeComponent {
     formData.append('name',this.accounts.value.name)
     formData.append('email',this.accounts.value.email)
     formData.append('password',this.accounts.value.password)
-    formData.append('position',this.accounts.value.position)
+    formData.append('position',this.accounts.value.position.toLowerCase())
+    formData.append('company',this.accounts.value.company)
+    formData.append('code',this.accounts.value.code)
+
     fetch('http://localhost:8080/IMS/src/backend/verifyaccount.php', {
       method: 'POST',
       body: formData
     })
     .then(response => response.json())
     .then(value => {
-     if(value.data=='Not Found!'){
+    if (value.data == 'No Data'){
+      alert('Code is incorrect')
+    }else if(value.data=='Not Found!'){
       fetch('http://localhost:8080/IMS/src/backend/signup.php', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
       .then(value => {
-        if(value.data=='admin'){
-          this.router.navigate(['admin']);
-        }else if(value.data=='user'){
-          this.router.navigate(['admin']);
-        }
+        value.data.toLowerCase()
+     
         this.showContent1 = true;
         this.showContent2 = false;
       });
      }else if(value.data[0].name!='' || value.data[0].email!=''){
+      console.log(value.data)
       alert(value.data[0].name + ' already in used and ' + value.data[0].email + ' already registered')
      }
       

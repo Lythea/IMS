@@ -16,15 +16,34 @@ $conn = new mysqli($servername, $username, $password,$db);
 
       $email = $_POST['email'];
       $name = $_POST['name'];
+      $code = $_POST['code'];
+      $position = $_POST['position'];
+      $company = $_POST['company'];
 
-      $sql = "SELECT name,email FROM accounts WHERE email = '$email' AND name ='$name'";
+      $sql = "SELECT $position FROM code WHERE BINARY $position = '$code' and company = '$company'";
       $result = $conn->query($sql);
+
       if ($result->num_rows > 0) {
         $data = $result->fetch_all(MYSQLI_ASSOC);
-        echo json_encode(['data' => $data]);
-      } else {
-        echo json_encode(['data'=> 'Not Found!']);
+   
+      $sql = "SELECT name,email FROM accounts WHERE email = '$email' AND name ='$name'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+          $data = $result->fetch_all(MYSQLI_ASSOC);
+          echo json_encode(['data' => $data]);
+        } else {
+          echo json_encode(['data'=> 'Not Found!']);
+      }
+        }
+
+
+      else {
+        echo json_encode(['data' => 'No Data' ]);
     }
+
+
+  
+
     $conn->close();
     exit();
 

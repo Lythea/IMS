@@ -31,8 +31,83 @@
         <div class="column2">
             <div class="upper">
                 <div class="upper1">
-                    <label><h3 >Inventory Management System</h3></label>
+                  <div class="upper1_1">
+                    <label><h3 >Inventory Management System</h3></label> 
+                    <img class="minilogo" id="openFormButton3"src="assets/lock.png" style="margin-left:5px;margin-top:7px;" (click)="popupactivation3()">
+                  </div>
                     <label><h1 style="color:red">Center for Technopreneurship and Innovation</h1></label><br>    
+                </div>
+                <div id="popupFormContainer3" class="popupFormContainer">
+                  <div class="popupForm">
+                    <span class="closeButton3">&times;</span>
+                   
+                    <div class="itemcenter1"> 
+                      <div class="logo1">
+                        <img class="minilogo" id="label1" src="assets/dashboard.png" alt="BsuLogo">
+                        <label class="label" id="label1" (click)="toggleCodeContent('content1')">Add</label><br>
+                    </div>
+                    <div class="logo1">
+                        <img class="minilogo" id="label1" src="assets/stock.png" alt="BsuLogo">
+                        <label class="label" id="label1"(click)="toggleCodeContent('content2')">Update</label><br>
+                    </div>
+                    <div class="logo1">
+                        <img class="minilogo" id="label1"src="assets/aboutus.png" alt="BsuLogo">
+                        <label class="label" id="label1"(click)="toggleCodeContent('content3')">Delete</label><br>
+                    </div>
+                    <div class="codecontainer1" *ngIf="showCodeContent1">
+                      <h5 >Add</h5>
+                      <form [formGroup]="codeForm" form>
+                        <label><h3>{{ selectedDetail}}</h3></label>
+                        <label class="textlabel">Location: </label> 
+                        <select formControlName="codeForm_location" >
+                          <option disabled selected value=""></option>
+                          <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                        </select>
+                        <br>
+                        <label class="textlabel">Admin Code: </label> 
+                        <input  class="textbox" formControlName="codeForm_admincode" type="text"> 
+                        <br>
+                        <label class="textlabel">User Code: </label> 
+                        <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
+                        <br>
+                        <button id = "add"(click)="code()">Submit</button>
+                      </form>
+                    </div>
+                    <div class="codecontainer2" *ngIf="showCodeContent2">
+                      <h5 >Update</h5>
+                      <form [formGroup]="codeForm" form>
+                        <label><h3>{{ selectedDetail}}</h3></label>
+                        <label class="textlabel">Location: </label> 
+                        <select formControlName="codeForm_location" >
+                          <option disabled selected value=""></option>
+                          <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                        </select>
+                        <br>
+                        <label class="textlabel">Admin Code: </label> 
+                        <input  class="textbox" formControlName="codeForm_admincode" type="text"> 
+                        <br>
+                        <label class="textlabel">User Code: </label> 
+                        <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
+                        <br>
+                        <button id = "update"(click)="code()">Submit</button>
+                      </form>
+                    </div>
+                    <div class="codecontainer3" *ngIf="showCodeContent3">
+                      <h5 >Delete</h5>
+                      <form [formGroup]="codeForm" form>
+                        <label><h3>{{ selectedDetail}}</h3></label>
+                        <label class="textlabel">Location: </label> 
+                        <select formControlName="codeForm_location" >
+                          <option disabled selected value=""></option>
+                          <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                        </select>
+                        <br>
+                        <button id = "delete"(click)="code()">Submit</button>
+                      </form>
+                    </div>
+  
+                    </div>
+                  </div>
                 </div>
                     <div class="upper2">
                         <div class="profile1">
@@ -55,7 +130,7 @@
                     </div>
                     <div class="thing2">  
                       <form [formGroup]="dashboard" form>
-                        <select formControlName="label" style="width:20px;" (change)="onDashboardChange()">
+                        <select formControlName="label" style="width:20px;" (change)="onDashboardChange()" >
                           <option disabled selected value="">Select to add</option>
                           <option *ngFor="let location of locationData" [ngValue]="location">{{ location.locationName }}</option>
                         </select>
@@ -429,86 +504,81 @@
                         </div>
                       </form>
                      
-                      <form id="myForm" [formGroup]="itemlistForm">
-                        <img class="buttons" id="openFormButton" (click)="popupactivation()" src="assets/add.png">
-                        <div id="popupFormContainer" class="popupFormContainer">
+                      <form id="myForm" [formGroup]="addInstockForm">
+                        <img class="buttons" id="openFormButton1" (click)="popupactivation1()" src="assets/add.png">
+                        <div id="popupFormContainer1" class="popupFormContainer">
                           <div class="popupForm">
-                            <span class="closeButton">&times;</span>
+                            <span class="closeButton1">&times;</span>
                             <h2 class="qrtitle">Item Registration</h2>
-                            <div>
-                              <label>PRODUCT NAME:</label>
-                              <input type="text" formControlName="itemlistForm_itemcode" required><br>
+                            
+                            <label class="textlabel">Location</label> 
+                            <select formControlName="addInstockForm_location" (change)="addInstockchange()">
+                              <option disabled selected value="">Select to add</option>
+                              <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                            </select>
+                            <br>
+                            <label>Sponsored by:</label>
+                            <select formControlName="addInstockForm_category" style="width:100px;">
+                              <option selected value="">None of the above</option>
+                              <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
+                            </select>
+                            <br>
+                            <label class="textlabel">Category</label> 
+                            <select formControlName="addInstockForm_category">
+                              <option disabled selected value=""></option>
+                              <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
+                            </select>
+                            <br>
+                              
+                            <label class="textlabel">Item name: </label> 
+                            <input  class="textbox" formControlName="addInstockForm_name" type="text"> 
+                            <br>
+                              
+                            <label class="textlabel">Quantity: </label> 
+                            <input  class="textbox" formControlName="addInstockForm_quantity" type="text"> 
+                            <br>
+                            <label class="textlabel"># of borrowed:</label>
+                            <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange()">
+                            <br>
+                            <div *ngFor="let input of generatedInputs">
+                              <label>{{ 'Borrower #' + input }}:</label>
+                              <input class="textbox" [formControlName]="input + 'quantity'" type="text" style="width:30px;">
+                              <select [formControlName]="input">
+                                <option selected value="">None of the above</option>
+                                <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
+                              </select>
+                           
+                              <br>
+                              <p>Quantity: {{ addInstockForm.get(input + 'quantity').value }}</p>
+                              <p>Value: {{ getInputValue(input) }}</p>
                             </div>
-                            <div>
-                              <label>CATEGORY:</label>
-                              <select formControlName="itemlistForm_category">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>LOCATION:</label>
-                              <select formControlName="itemlistForm_location">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>SPECIFIC LOCATION:</label>
-                              <select formControlName="itemlistForm_specificlocation">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>PROJECT:</label>
-                              <input type="text" formControlName="itemlistForm_project" required><br>
-                            </div>
+                            <p>Total Quantity: {{ getTotalQuantity() }}</p>
+                            <label class="textlabel">Image Url:</label>
+                            <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange()">
+                            <br>
                           </div>
                         </div>
                       </form>
-                      <form id="myForm" [formGroup]="itemlistForm">
-                        <img class="buttons" id="openFormButton4" (click)="popupactivation()" src="assets/delete.png">
+                      <form id="myForm" [formGroup]="deleteInstockForm">
+                        <img class="buttons" id="openFormButton2" (click)="popupactivation2()" src="assets/delete.png">
   
-                        <div id="popupFormContainer4" class="popupFormContainer">
+                        <div id="popupFormContainer2" class="popupFormContainer">
                           <div class="popupForm">
-                            <span class="closeButton4">&times;</span>
+                            <span class="closeButton2">&times;</span>
                             <h2 class="qrtitle">Item Registration</h2>
-                            <div>
-                              <label>PRODUCT NAME:</label>
-                              <input type="text" formControlName="itemlistForm_itemcode" required><br>
-                            </div>
-                            <div>
-                              <label>CATEGORY:</label>
-                              <select formControlName="itemlistForm_category">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>LOCATION:</label>
-                              <select formControlName="itemlistForm_location">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>SPECIFIC LOCATION:</label>
-                              <select formControlName="itemlistForm_specificlocation">
-                                <option disabled selected value="">Choose your position:</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                              </select><br>
-                            </div>
-                            <div>
-                              <label>PROJECT:</label>
-                              <input type="text" formControlName="itemlistForm_project" required><br>
-                            </div>
+                            <label class="textlabel">Location</label> 
+                            <select formControlName="deleteInstockForm_location" (change)="deleteInstockchange()">
+                              <option disabled selected value="">Select to add</option>
+                              <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                            </select>
+                            <br>
+                            <label class="textlabel">Item name: </label> 
+                            <select formControlName="deleteInstockForm_itemname" style="width:100px;"> 
+                              <option disabled selected value="">Select to add</option>
+                              <option *ngFor="let product of productData"[value]="product.productName">  {{ product.productName }}</option>
+                            </select>
+                            <br>
+                            <button (click)="deleteInstock()"> DELETE</button>
                           </div>
                         </div>
                       </form>

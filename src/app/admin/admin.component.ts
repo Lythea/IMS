@@ -1,7 +1,7 @@
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder,Validators,FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder,Validators,FormGroup,FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
@@ -9,10 +9,14 @@ import { FormBuilder,Validators,FormGroup } from '@angular/forms';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit{
+  @ViewChild('dropdown', { static: true }) dropdown: ElementRef = new ElementRef(null);
   myAngularxQrCode: any='Empty';
   showContent1 = true;
   showContent2 = false;
   showContent3 = false;
+  showCodeContent1 = true;
+  showCodeContent2 = false;
+  showCodeContent3 = false;
   subcontainer2_content: any =[];
   defectiveHidden = false;
  hidden: any = ['Defective Products','Personel','Category','Location','Project'];
@@ -44,7 +48,8 @@ export class AdminComponent implements OnInit{
   info : any = ['Defective Products','Personel','Category','Location','Project']
   myForm: any = FormGroup;
   qrForm: any = FormGroup;
-  itemlistForm: any = FormGroup;
+  addInstockForm: any = FormGroup;
+  deleteInstockForm: any = FormGroup;
   dashboard: any = FormGroup;
   isOpen:boolean = false;
   selectedValue: any;
@@ -61,23 +66,28 @@ floorValue : any;
 locationValue : any;
 projectValue : any;
 defectiveForm: any = FormGroup;
+codeForm: any = FormGroup;
 personelForm: any = FormGroup;
 categoryForm: any = FormGroup;
 locationForm: any = FormGroup;
 projectForm: any = FormGroup;
 currentPopupContent: any;
+generatedInputs: string[] = [];
+disabled :boolean =true;
+addInstockData : any = [];
+totalQuantity: number = 0;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
-
+  disableSelect() {
+    this.dropdown.nativeElement.disabled = true;
+  }
   ngOnInit(): void{
-    for(let i =1; i<7;i++){
-      this.subcontainer2_content[i] == false;
-    }
+ 
     this.myForm = this.fb.group({
       myForm_information:['',Validators.required],
       
     });
     this.dashboard = this.fb.group({
-      label: ['', Validators.required],
+      label: new FormControl({ value: '', disabled: true }, Validators.required),
     });
     this.defectiveForm = this.fb.group({
       defectiveForm_itemcode: ['', Validators.required],
@@ -85,6 +95,7 @@ currentPopupContent: any;
       defectiveForm_quantity: ['', Validators.required],
       defectiveForm_name:['', Validators.required],
     });
+ 
     this.personelForm = this.fb.group({
       personelForm_name: ['', Validators.required],
       personelForm_location: ['', Validators.required],
@@ -106,24 +117,51 @@ currentPopupContent: any;
       projectForm_location: ['', Validators.required],
       projectForm_sponsor: ['', Validators.required],
     });
-    
+    this.codeForm = this.fb.group({
+      codeForm_location:['',Validators.required],
+      codeForm_admincode:['',Validators.required],
+      codeForm_usercode:['',Validators.required],
+    });
     this.qrForm = this.fb.group({
       qrForm_itemcode:['',Validators.required],
     });
-    this.itemlistForm = this.fb.group({
-      itemlistForm_itemcode:['',Validators.required],
-      itemlistForm_category:['',Validators.required],
-      itemlistForm_specificlocation:['',Validators.required],
-      itemlistForm_project:['',Validators.required],
-      itemlistForm_location:['',Validators.required],
+    this.addInstockForm = this.fb.group({
+      ownership: ['', Validators.required],
+      quantity: ['', Validators.required],
+      addInstockForm_sponsors:['',Validators.required],
+      addInstockForm_quantity:['',Validators.required],
+      addInstockForm_project:['',Validators.required],
+      addInstockForm_name :['',Validators.required],
+      addInstockForm_category:['',Validators.required],
+      addInstockForm_location:['',Validators.required],
+    });
+    this.deleteInstockForm = this.fb.group({
+      deleteInstockForm_itemname:['',Validators.required],
+      deleteInstockForm_location:['',Validators.required],
     });
     this.name = localStorage.getItem('name')
     this.profile = localStorage.getItem('position')?.toUpperCase();
-   
- 
-      
+    
+    const position = localStorage.getItem('position');
+    const company = localStorage.getItem('company');
+    console.log(company)
+    console.log(position)
+    if(position == 'moderator' ){
+      this.toggleFormControl(false);
+    }else if (position =='user' || position == 'admin'){
+      this.toggleFormControl(true);
+    }
+    for(let i =1; i<7;i++){
+      this.subcontainer2_content[i] == false;
+    }
    const formData = new FormData();
-  
+   
+   if (position!== null && company!==null) {
+    // Append the position field to the formData object
+    formData.append('position', position);
+    formData.append('company', company);
+  }
+
    fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
      method: 'POST',
      body: formData
@@ -196,14 +234,220 @@ currentPopupContent: any;
     }
     }
     );
+   
+  }
+  code(){
+    const add = document.getElementById('add') as HTMLButtonElement;
+    const upd = document.getElementById('update') as HTMLButtonElement;
+    const del = document.getElementById('delete') as HTMLButtonElement;
+    if(add){
+      const value= 'add';
+      const val1 : any = this.codeForm.value.codeForm_admincode
+      const val2 : any = this.codeForm.value.codeForm_usercode
+      const val3 : any = this.codeForm.value.codeForm_location
+
+      const formData = new FormData();
+      formData.append('val',value)
+      formData.append('val1',val1)
+      formData.append('val2',val2)
+      formData.append('val3',val3)
+      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(value => {
+          console.log(value);
+  
+      
+        
+        });
+
+    }else if(upd){
+      const value= 'update';
+      const val1 : any = this.codeForm.value.codeForm_admincode
+      const val2 : any = this.codeForm.value.codeForm_usercode
+      const val3 : any = this.codeForm.value.codeForm_location
+
+      const formData = new FormData();
+      formData.append('val',value)
+      formData.append('val1',val1)
+      formData.append('val2',val2)
+      formData.append('val3',val3)
+      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(value => {
+          console.log(value);
+        });
+      console.log('false')
+    }else if (del){
+      const value= 'delete';
+    
+      const val3 : any = this.codeForm.value.codeForm_location
+
+      const formData = new FormData();
+      formData.append('val',value)
+
+      formData.append('val3',val3)
+      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(value => {
+          console.log(value);
+        });
+    }
+
   }
   togglePopup() {
     this.isOpen = !this.isOpen;
   }
- 
-  deletedefective(){
-    
+  toggleFormControl(disabled: boolean) {
+    const control = this.dashboard.get('label');
+    if (disabled) {
+      control.disable();
+    } else {
+      control.enable();
+    }
   }
+  deleteInstock(){
+    const location : any = this.deleteInstockForm.value.deleteInstockForm_location
+    const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
+    console.log(location)
+    console.log(name)
+
+   
+    const formData = new FormData();
+    formData.append('name',name)
+    formData.append('location',location)
+    
+    fetch('http://localhost:8080/IMS/src/backend/deleteInstock.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        console.log(value.result1);
+
+        this.categoryData = []
+        for (let i = 0; i < value.result1.length; i++) {
+          this.categoryValue = value.result1[i];
+          this. categoryData[i] = {
+            categoryName:   this.categoryValue ,
+    
+          };
+        }
+        this.projectData = []
+        for (let i = 0; i < value.result2.length; i++) {
+          this.projectValue = value.result2[i];
+          this.projectData[i] = {
+            projectName: this.projectValue ,
+          };
+        }
+      
+      });
+  }
+  onQuantityChange() {
+    const quantity = this.addInstockForm.get('quantity').value;
+    // Clear previously generated form controls
+    this.generatedInputs.forEach((input) => {
+      this.addInstockForm.removeControl(input);
+      this.addInstockForm.removeControl(input + 'quantity');
+    });
+    this.generatedInputs = [];
+  
+    // Generate and add new form controls
+    for (let i = 1; i <= quantity; i++) {
+      const inputName = `${i}`;
+      this.addInstockForm.addControl(inputName, new FormControl(''));
+      this.addInstockForm.addControl(inputName + 'quantity', new FormControl(''));
+      this.generatedInputs.push(inputName);
+    }
+    console.log(this.totalQuantity)
+  }
+  getInputValue(inputName: string): string {
+    return this.addInstockForm.get(inputName).value;
+
+  }
+
+  getTotalQuantity(): number {
+    let total = 0;
+    
+    for (const input of this.generatedInputs) {
+      const quantity = this.addInstockForm.get(input + 'quantity')?.value;
+      if (quantity) {
+        total += parseInt(quantity, 10);
+      }
+    }
+    this.totalQuantity = total;
+    return total;
+
+  }
+  getAllInputValues(): string[] {
+    return this.generatedInputs.map(input => this.getInputValue(input));
+  }
+ addInstockchange(){
+    this.subcontainer2_content[1]=true;
+    const formData = new FormData();
+    const location : any = this.addInstockForm.value.addInstockForm_location
+    formData.append('location',location)
+    console.log(location)
+    fetch('http://localhost:8080/IMS/src/backend/changingAddDashboard.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        console.log(value.result1);
+
+        this.categoryData = []
+        for (let i = 0; i < value.result1.length; i++) {
+          this.categoryValue = value.result1[i];
+          this. categoryData[i] = {
+            categoryName:   this.categoryValue ,
+    
+          };
+        }
+        this.projectData = []
+        for (let i = 0; i < value.result2.length; i++) {
+          this.projectValue = value.result2[i];
+          this.projectData[i] = {
+            projectName: this.projectValue ,
+          };
+        }
+      
+      });
+ }
+ deleteInstockchange(){
+  this.subcontainer2_content[1]=true;
+  const formData = new FormData();
+  const location : any = this.deleteInstockForm.value.deleteInstockForm_location
+  formData.append('location',location)
+  console.log(location)
+  fetch('http://localhost:8080/IMS/src/backend/changingDeleteDashboard.php', {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => response.json())
+    .then(value => {
+      console.log(value.result1);
+
+      this.productData = []
+      for (let i = 0; i < value.result1.length; i++) {
+        this.productValue = value.result1[i];
+        this.productData[i] = {
+          productName:  this.productValue ,
+  
+        };
+      }
+    
+    });
+    
+}
   showPopup() {
     var popup = document.getElementById("popup") as HTMLInputElement;
     popup.classList.add("show");
@@ -217,94 +461,7 @@ currentPopupContent: any;
     // Do further processing with the selected file
   }
 
-  toggleContent1(): void {
-    this.showContent1 = true;
-    this.showContent2 = false;
-    this.showContent3 = false;
-  }
-
-  toggleContent2(): void {
-    this.showContent1 = false;
-    this.showContent2 = true;
-    this.showContent3 = false;
-    const formData = new FormData();
-    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-
-      for (let i = 0; i < value.data.length; i++) {
-        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
-        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
-        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
-        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
-        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
   
-        this.tableData[i] = {
-          code:  codeValue ,
-          productname: productValue,
-          category: categoryValue,
-          location: locationValue,
-          project: projectValue,
-          condition: conditionValue
-        };
-   // Access and log the "code" property
-      }
-    
-     });
-  }
-
-  toggleContent3(): void {
-    this.showContent1 = false;
-    this.showContent2 = false;
-    this.showContent3 = true;
-  }
-
-  toggleContent(contentId: string): void {
-    if (contentId === 'content1') {
-      this.toggleContent1();
-    } else if (contentId === 'content2') {
-      this.toggleContent2();
-      const formData = new FormData();
-   
-      fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      for (let i = 0; i < value.data.length; i++) {
-        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
-        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
-        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
-  
-        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
-  
-        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-  
-        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-
-        this.tableData[i] = {
-          code:  codeValue ,
-          productname: productValue,
-          category: categoryValue,
-          location: locationValue,
-          project: projectValue,
-          condition: conditionValue
-        };
-   // Access and log the "code" property
-      }
- 
-     });
-    }
-    else if (contentId === 'content3') {
-      this.toggleContent3();
-    }
-  }
-
   neededinfoAddDashboard(){
     const value = localStorage.getItem('value');
     const location = localStorage.getItem('location');
@@ -360,6 +517,53 @@ currentPopupContent: any;
       this.project = value.result6
      });
     
+  }
+  toggleCodeContent1(): void {
+    this.showCodeContent1 = true;
+    this.showCodeContent2 = false;
+    this.showCodeContent3 = false;
+  }
+
+  toggleCodeContent2(): void {
+    this.showCodeContent1 = false;
+    this.showCodeContent2 = true;
+    this.showCodeContent3 = false;
+ 
+  }
+
+  toggleCodeContent3(): void {
+    this.showCodeContent1 = false;
+    this.showCodeContent2 = false;
+    this.showCodeContent3 = true;
+  }
+
+  toggleCodeContent(contentId: string): void {
+    const formData = new FormData();
+   fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(value => {
+            this.locationData = []
+            for (let i = 0; i < value.count; i++) {
+       
+              this.locationValue = value.result5[i];
+              this.locationData[i] = {
+                locationName:  this.locationValue
+              };
+            }
+ 
+  });
+  const position = localStorage.getItem('position')
+    if (contentId === 'content1') {
+      this.toggleCodeContent1();
+    } else if (contentId === 'content2') {
+      this.toggleCodeContent2();
+    }
+    else if (contentId === 'content3') {
+      this.toggleCodeContent3();
+    }
   }
 
   refreshinstock(){
@@ -580,7 +784,7 @@ currentPopupContent: any;
       var condition = value.data[0].state !== '' ? value.data[0].state : 'N/A';
       
       this.myAngularxQrCode = 'Product: ' + this.productname + '\n Category: ' + category + '\n Location: '+ location + '\n Specific Location: ' + specificlocation + '\n Project by: ' + project + '\n Condition: ' + condition
-      + '\n Image URL: '+ image + '\n PAR URL: ' + par;
+      + '\n Image URL: '+ image + '\n PAR URL: ' + par + '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company';
       const data = 'ewqewqeqw';
       const blob = new Blob([data], { type: 'application/octet-stream' });
       
@@ -1105,6 +1309,7 @@ currentPopupContent: any;
   
   });
   }
+
   //USED FOR ANY POP UP FEATURES
 
   popupactivation1(){
@@ -1140,6 +1345,172 @@ currentPopupContent: any;
   
   });
   }
+  
+   //USED FOR ANY POP UP FEATURES
+
+   popupactivation2(){
+    const openFormButton = document.getElementById('openFormButton2') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer2') as HTMLInputElement;
+    const closeButton = document.querySelector('.closeButton2') as HTMLInputElement;
+    
+     let isFormVisible = false; // Flag to track form visibility
+    
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
+      }
+      const myForm = document.getElementById('myForm') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
+  
+  });
+  }
+  
+   //USED FOR ANY POP UP FEATURES
+
+   popupactivation3(){
+    
+    const openFormButton = document.getElementById('openFormButton3') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
+    const closeButton = document.querySelector('.closeButton3') as HTMLInputElement;
+    const position = localStorage.getItem('position')
+    if (position == 'moderator'){
+      let isFormVisible = false; // Flag to track form visibility
+    
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
+      }
+      const myForm = document.getElementById('myForm') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
+  
+  });
+    }else if(position == 'user' || position == 'admin'){
+      alert('ACCESS DENIED!')
+    }
+     
+  }
+  toggleContent1(): void {
+    this.showContent1 = true;
+    this.showContent2 = false;
+    this.showContent3 = false;
+  }
+
+  toggleContent2(): void {
+    this.showContent1 = false;
+    this.showContent2 = true;
+    this.showContent3 = false;
+    const formData = new FormData();
+    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+
+      for (let i = 0; i < value.data.length; i++) {
+        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
+        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
+        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
+        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+  
+        this.tableData[i] = {
+          code:  codeValue ,
+          productname: productValue,
+          category: categoryValue,
+          location: locationValue,
+          project: projectValue,
+          condition: conditionValue
+        };
+   // Access and log the "code" property
+      }
+    
+     });
+  }
+
+  toggleContent3(): void {
+    this.showContent1 = false;
+    this.showContent2 = false;
+    this.showContent3 = true;
+  }
+
+  toggleContent(contentId: string): void {
+    if (contentId === 'content1') {
+      this.toggleContent1();
+    } else if (contentId === 'content2') {
+      this.toggleContent2();
+      const formData = new FormData();
+   
+      fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+      for (let i = 0; i < value.data.length; i++) {
+        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
+  
+        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
+  
+        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
+  
+        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+
+        this.tableData[i] = {
+          code:  codeValue ,
+          productname: productValue,
+          category: categoryValue,
+          location: locationValue,
+          project: projectValue,
+          condition: conditionValue
+        };
+   // Access and log the "code" property
+      }
+ 
+     });
+    }
+    else if (contentId === 'content3') {
+      this.toggleContent3();
+    }
+  }
+
 }
 
 

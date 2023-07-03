@@ -51,7 +51,7 @@
       </div>
     </div>
     
-    <div class="column1" *ngIf="showContent2">
+    <div class="column1" *ngIf="showContent2"style="margin-top:2%;">
       <div class="body1">
 
         <div class="container1">
@@ -67,12 +67,12 @@
         <div class="container3">
           <div class="text-with-lines">
             <span class="line"></span>
-            <span class="text">or Sign in with Email</span>
+            <span class="text">Sign in with Email</span>
             <span class="line"></span>
           </div>
         </div>
 
-        <div class="container4">
+        <div class="container4" >
           <form method="post" form [formGroup]="accounts">
             <label class="textlabel">Name*</label> <br>
             <input class="textbox"placeholder="Enter your name" id="name"name="name" formControlName="name">
@@ -93,9 +93,19 @@
               <option value="user">User</option>
             </select>
             <br>
+            <br>
+            <label class="textlabel">Company : </label> 
+            <select formControlName="company" style="margin-left:25%;">
+              <option disabled selected value="">Select to add</option>
+              <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+            </select>
+            <br>
+            <label class="textlabel">Code : </label> 
+            <input  class="textbox"  formControlName="code">
+            <br>
+            <br>
             <input type="checkbox" id="myCheckbox">
             <label for="myCheckbox" required>I agree on <label  style="color:blue;">Terms & Conditions</label></label>
-
             <br>
 
             <button class="login" name ="button1" (click)="signup()" >Sign Up</button>

@@ -17,8 +17,9 @@ $conn = new mysqli($servername, $username, $password,$db);
         $email = $_POST['email'];
         $password = $_POST['password'];
         $position= $_POST['position']; 
+        $company= $_POST['company']; 
         // Construct the INSERT query
-        $sql = "INSERT INTO accounts (name,email, password,position) VALUES ('$name','$email', '$password','$position')";
+        $sql = "INSERT INTO accounts (name,email, password,position,company) VALUES ('$name','$email', '$password','$position','$company')";
 
         if ($conn->query($sql) === TRUE) {
           

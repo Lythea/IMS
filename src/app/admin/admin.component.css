@@ -281,6 +281,9 @@ body {
     margin-right:5%;
     text-align: justify;
 }
+.textlabel{
+  font-size:12px;
+}
 .content .p{
     font-size:22px;
     text-align: justify;
@@ -400,6 +403,9 @@ body {
     display:flex;
     margin-top:15px;
   
+}
+.upper1_1{
+  display:flex;
 }
 .upper4{
 
