@@ -77,9 +77,10 @@ disabled :boolean =true;
 addInstockData : any = [];
 totalQuantity: number = 0;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
-  disableSelect() {
-    this.dropdown.nativeElement.disabled = true;
-  }
+    disableSelect() {
+      this.dropdown.nativeElement.disabled = true;
+
+    }
   ngOnInit(): void{
  
     this.myForm = this.fb.group({
@@ -134,6 +135,8 @@ totalQuantity: number = 0;
       addInstockForm_name :['',Validators.required],
       addInstockForm_category:['',Validators.required],
       addInstockForm_location:['',Validators.required],
+      addInstockForm_imgurl:['',Validators.required],
+      addInstockForm_parurl:['',Validators.required],
     });
     this.deleteInstockForm = this.fb.group({
       deleteInstockForm_itemname:['',Validators.required],
@@ -144,13 +147,16 @@ totalQuantity: number = 0;
     
     const position = localStorage.getItem('position');
     const company = localStorage.getItem('company');
-    console.log(company)
-    console.log(position)
+  
     if(position == 'moderator' ){
       this.toggleFormControl(false);
-    }else if (position =='user' || position == 'admin'){
+    }else if ( position == 'admin'){
+      this.toggleFormControl(true);
+    }else if (position =='user' ){
       this.toggleFormControl(true);
     }
+
+
     for(let i =1; i<7;i++){
       this.subcontainer2_content[i] == false;
     }
@@ -159,7 +165,7 @@ totalQuantity: number = 0;
    if (position!== null && company!==null) {
     // Append the position field to the formData object
     formData.append('position', position);
-    formData.append('company', company);
+    formData.append('company', company.toUpperCase());
   }
 
    fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
@@ -182,7 +188,6 @@ totalQuantity: number = 0;
    })
    .then(response => response.json())
    .then(value => {
-    
     for (let i = 0; i < value.result1.length; i++) {
       this.productValue = value.result1[i];
       this.productData[i] = {
@@ -214,7 +219,6 @@ totalQuantity: number = 0;
 
       };
     }
-
     for (let i = 0; i < value.count; i++) {
       this.locationfullValue = value.result7[i];
       this.floorValue = value.result6[i];
@@ -223,7 +227,6 @@ totalQuantity: number = 0;
         floorName:this.floorValue,locationName:  this.locationValue , locationfullName:  this.locationfullValue 
       };
     }
-  
     for (let i = 0; i < value.result8.length; i++) {
       this.projectValue = value.result8[i];
       this.projectLocation = value.result12[i];
@@ -234,7 +237,60 @@ totalQuantity: number = 0;
     }
     }
     );
-   
+  }
+  toggleFormControl(disabled: boolean) {
+    const control = this.dashboard.get('label');
+    if (disabled) {
+      control.disable();
+    } else {
+      control.enable();
+    }
+    const position = localStorage.getItem('position');
+    if(position == 'admin'){
+      const control1 = this.defectiveForm.get('defectiveForm_location')
+
+      if (disabled) {
+        control1.disable();
+      } else {
+        control1.enable();
+      }
+      const control2 = this.personelForm.get('personelForm_location')
+
+      if (disabled) {
+        control2.disable();
+      } else {
+        control2.enable();
+      }
+      const control3 = this.categoryForm.get('categoryForm_location')
+
+      if (disabled) {
+        control3.disable();
+      } else {
+        control3.enable();
+      }
+      const control4 = this.projectForm.get('projectForm_location')
+
+      if (disabled) {
+        control4.disable();
+      } else {
+        control4.enable();
+      }
+      const control5= this.addInstockForm.get('addInstockForm_location')
+
+      if (disabled) {
+        control5.disable();
+      } else {
+        control5.enable();
+      }
+      const control6= this.deleteInstockForm.get('deleteInstockForm_location')
+
+      if (disabled) {
+        control6.disable();
+      } else {
+        control6.enable();
+      }
+    }
+ 
   }
   code(){
     const add = document.getElementById('add') as HTMLButtonElement;
@@ -306,22 +362,64 @@ totalQuantity: number = 0;
   togglePopup() {
     this.isOpen = !this.isOpen;
   }
-  toggleFormControl(disabled: boolean) {
-    const control = this.dashboard.get('label');
-    if (disabled) {
-      control.disable();
-    } else {
-      control.enable();
+addInstock(){
+  const position : any = localStorage.getItem('position')
+  const formData = new FormData();
+  const sponsors : any = this.addInstockForm.value.addInstockForm_sponsors
+  const category : any = this.addInstockForm.value.addInstockForm_category
+  const itemname : any = this.addInstockForm.value.addInstockForm_name
+  const quantity : any = this.addInstockForm.value.addInstockForm_quantity
+  const imgurl : any = this.addInstockForm.value.addInstockForm_imgurl
+  const parurl : any = this.addInstockForm.value.addInstockForm_parurl
+  const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
+
+  this.generatedInputs.forEach((input) => {
+    const inputValue = this.addInstockForm.get(input).value;
+    const quantityValue = this.addInstockForm.get(input + 'quantity').value;
+    inputValues[input] = inputValue;
+    inputValues[input + 'quantity'] = quantityValue;
+  });
+  const inputValuesJSON = JSON.stringify(inputValues);
+  const blob = new Blob([inputValuesJSON], { type: 'application/json' });
+
+  if (position =='moderator'){
+    formData.append('company',this.projectForm.value.projectForm_location.toUpperCase())
+  } else if (position =='admin'){
+    console.log(this.addInstockForm.value.quantity)
+    const company: any = localStorage.getItem('company')  
+    formData.append('company',company.toUpperCase())
     }
-  }
+    formData.append('inputValues', blob);
+    formData.append('sponsors',sponsors)
+    formData.append('category',category)
+    formData.append('itemname',itemname)
+    formData.append('quantity',quantity)
+    formData.append('imgurl',imgurl)
+    formData.append('parurl',parurl)
+    fetch('http://localhost:8080/IMS/src/backend/addInstock.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        console.log(value.data)
+      });
+    }
   deleteInstock(){
     const location : any = this.deleteInstockForm.value.deleteInstockForm_location
     const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
-    console.log(location)
-    console.log(name)
-
-   
+    const position : any = localStorage.getItem('position')
     const formData = new FormData();
+    if (position =='moderator'){
+      formData.append('name',name)
+      formData.append('location',location)
+    } else if (position =='admin'){
+      const company: any = localStorage.getItem('company')  
+      formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
+      formData.append('categoryForm_location',company.toUpperCase())
+    }
+ 
+
     formData.append('name',name)
     formData.append('location',location)
     
@@ -367,7 +465,7 @@ totalQuantity: number = 0;
       this.addInstockForm.addControl(inputName + 'quantity', new FormControl(''));
       this.generatedInputs.push(inputName);
     }
-    console.log(this.totalQuantity)
+   
   }
   getInputValue(inputName: string): string {
     return this.addInstockForm.get(inputName).value;
@@ -393,17 +491,26 @@ totalQuantity: number = 0;
  addInstockchange(){
     this.subcontainer2_content[1]=true;
     const formData = new FormData();
-    const location : any = this.addInstockForm.value.addInstockForm_location
-    formData.append('location',location)
-    console.log(location)
+    const position = localStorage.getItem('position')
+    const company: any = localStorage.getItem('company')
+
+    if(position =='moderator'){
+      const location : any = this.addInstockForm.value.addInstockForm_location
+      formData.append('location',location)
+      formData.append('position',position)
+
+    }else if (position =='admin'){
+      formData.append('position',position)
+      formData.append('location',company)
+    }
+   
     fetch('http://localhost:8080/IMS/src/backend/changingAddDashboard.php', {
       method: 'POST',
       body: formData
     })
       .then(response => response.json())
       .then(value => {
-        console.log(value.result1);
-
+    
         this.categoryData = []
         for (let i = 0; i < value.result1.length; i++) {
           this.categoryValue = value.result1[i];
@@ -494,12 +601,8 @@ totalQuantity: number = 0;
 
   }
  
- 
-
-  
   // Method to fetch defective data based on the selected location
   
- 
   refreshdashboard(){
     // After the page reloads, navigate to specific content based on the provided contentId
     const formData = new FormData();
@@ -606,17 +709,21 @@ totalQuantity: number = 0;
 
   onFormChangeAddDashboard(): void {
     const value = localStorage.getItem('value');
-    const location = localStorage.getItem('location');
-
+    const position = localStorage.getItem('position');
       if(value=='Defective Products'){
         this.subcontainer2_content[1]=true;
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        const location : any = this.defectiveForm.value.defectiveForm_location
-        formData.append('location',location)
-        formData.append('value',value)
-        console.log(value)  
-        console.log(location)
+        if (position =='moderator'){
+          const location : any = this.defectiveForm.value.defectiveForm_location
+          formData.append('location',location)
+          formData.append('value',value)
+        } else if (position =='admin'){
+          const company: any = localStorage.getItem('company');
+          formData.append('location',company)
+          formData.append('value',value)
+          console.log(company)
+        }
         fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
@@ -635,14 +742,19 @@ totalQuantity: number = 0;
       }else if(value=='Personel'){
         this.subcontainer2_content[2]=true;
         this.subcontainer2_content[1]=false;
-
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        const location : any = this.personelForm.value.personelForm_location
-        formData.append('location',location)
-        formData.append('value',value)
-        console.log(value)
-        console.log(location)
+
+        if (position =='moderator'){
+          const location : any = this.personelForm.value.personelForm_location
+          formData.append('location',location)
+          formData.append('value',value)
+        } else if (position =='admin'){
+          const company: any = localStorage.getItem('company');
+          formData.append('location',company)
+          formData.append('value',value)
+          console.log(company)
+        }
         fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
@@ -669,11 +781,18 @@ totalQuantity: number = 0;
       
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        const location : any = this.categoryForm.value.categoryForm_location
-        formData.append('location',location)
-        formData.append('value',value)
-        console.log(value)
-        console.log(location)
+
+        if (position =='moderator'){
+          const location : any = this.categoryForm.value.categoryForm_location
+          formData.append('location',location)
+          formData.append('value',value)
+        } else if (position =='admin'){
+          const company: any = localStorage.getItem('company');
+          formData.append('location',company)
+          formData.append('value',value)
+        }
+     
+        
         fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
@@ -731,11 +850,16 @@ totalQuantity: number = 0;
       
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        const location : any = this.projectForm.value.projectForm_location
-        formData.append('location',location)
-        formData.append('value',value)
-        console.log(value)
-        console.log(location)
+        if (position =='moderator'){
+          const location : any = this.projectForm.value.projectForm_location
+          formData.append('location',location)
+          formData.append('value',value)
+        } else if (position =='admin'){
+          const company: any = localStorage.getItem('company');
+          formData.append('location',company)
+          formData.append('value',value)
+        }
+     
         fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
@@ -784,7 +908,7 @@ totalQuantity: number = 0;
       var condition = value.data[0].state !== '' ? value.data[0].state : 'N/A';
       
       this.myAngularxQrCode = 'Product: ' + this.productname + '\n Category: ' + category + '\n Location: '+ location + '\n Specific Location: ' + specificlocation + '\n Project by: ' + project + '\n Condition: ' + condition
-      + '\n Image URL: '+ image + '\n PAR URL: ' + par + '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company'+ '\n # ' + 'ewqewqwewq' + 'Date' + 'company';
+      + '\n Image URL: '+ image + '\n PAR URL: ' + par ;
       const data = 'ewqewqeqw';
       const blob = new Blob([data], { type: 'application/octet-stream' });
       
@@ -964,30 +1088,35 @@ totalQuantity: number = 0;
  
     this.selectedDetail = this.myForm.get('myForm_information')?.value;
     localStorage.setItem('value',this.selectedDetail)
-
-    console.log(this.selectedDetail)
    if(this.myForm.value.myForm_information=='Defective Products'){
       this.subcontainer2_content[1]=true;
       this.ngOnInit()
-   
+
     }
     else if(this.myForm.value.myForm_information=='Personel'){
       this.subcontainer2_content[2]=true;
       this.subcontainer2_content[1]=false;
       this.ngOnInit()
-    
+   
     }
     else if(this.myForm.value.myForm_information=='Category'){
       this.subcontainer2_content[2]=false;
       this.subcontainer2_content[1]=false;
       this.subcontainer2_content[3]=true;
-   
+
     }
     else if(this.myForm.value.myForm_information=='Location'){
-      this.subcontainer2_content[2]=false;
-      this.subcontainer2_content[1]=false; 
-      this.subcontainer2_content[3]=false;
-      this.subcontainer2_content[4]=true;
+      const position = localStorage.getItem('position');
+      if(position == 'admin'){
+        alert('ACCESS DENIED')
+      }else{
+        this.subcontainer2_content[2]=false;
+        this.subcontainer2_content[1]=false; 
+        this.subcontainer2_content[3]=false;
+        this.subcontainer2_content[4]=true;
+   
+      }
+  
  
     }
     else if(this.myForm.value.myForm_information=='Project'){
@@ -996,6 +1125,7 @@ totalQuantity: number = 0;
       this.subcontainer2_content[3]=false;
       this.subcontainer2_content[5]=true; 
       this.subcontainer2_content[4]=false; 
+
     }
   
     this.isHidden = false;
@@ -1005,10 +1135,23 @@ totalQuantity: number = 0;
   
   AddDashboardSubmit(){
     const value = localStorage.getItem('value')
-    console.log(value)
-  
+
+    const position = localStorage.getItem('position')  
     if(value=='Defective Products'){
       const formData = new FormData();
+
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
+        formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
+        formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('defectiveForm_location',company.toUpperCase())
+        formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
+        formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
+      }
       console.log(this.defectiveForm.value.defectiveForm_name);
       formData.append('property',value)
       formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
@@ -1020,35 +1163,51 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
-  
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Personel'){
       const formData = new FormData();
 
-      formData.append('property',value)
-      formData.append('personelForm_name',this.personelForm.value.personelForm_name)
-      formData.append('personelForm_location',this.personelForm.value.personelForm_location)
-      formData.append('personelForm_position',this.personelForm.value.personelForm_position)
-    
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('personelForm_name',this.personelForm.value.personelForm_name)
+        formData.append('personelForm_location',this.personelForm.value.personelForm_location)
+        formData.append('personelForm_position',this.personelForm.value.personelForm_position)
+      
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('personelForm_name',this.personelForm.value.personelForm_name)
+        formData.append('personelForm_location',company.toUpperCase())
+        formData.append('personelForm_position',this.personelForm.value.personelForm_position)
+      }
+   
       fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Category'){
       const formData = new FormData();
-      console.log(this.categoryForm.value.categoryForm_name)
-      console.log(this.categoryForm.value.categoryForm_location)
-      console.log(value);
-      formData.append('property',value)
-      formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
-      formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
+        formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
+      
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
+        formData.append('categoryForm_location',company.toUpperCase())
+      }
+
     
       fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
         method: 'POST',
@@ -1056,11 +1215,13 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Location'){
       const formData = new FormData();
+      
       formData.append('property',value)
       formData.append('locationForm_acronym',this.locationForm.value.locationForm_acronym)
       formData.append('locationForm_name',this.locationForm.value.locationForm_name)
@@ -1072,26 +1233,30 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Project'){
       const formData = new FormData();
-      console.log(value);
-      formData.append('property',value)
-      console.log(this.projectForm.value.projectForm_name)
-      console.log(this.projectForm.value.projectForm_location)
-     
-      formData.append('projectForm_name',this.projectForm.value.projectForm_name)
-      formData.append('projectForm_location',this.projectForm.value.projectForm_location)
-    
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('projectForm_name',this.projectForm.value.projectForm_name)
+        formData.append('projectForm_location',this.projectForm.value.projectForm_location)
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('projectForm_name',this.projectForm.value.projectForm_name)
+        formData.append('projectForm_location',company.toUpperCase())
+      }
       fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
       .then(value => {
-       console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
   
@@ -1100,32 +1265,37 @@ totalQuantity: number = 0;
   
   DeleteDashboardSubmit(){
     const value = localStorage.getItem('value')
-    console.log(value)
-  
+    const position = localStorage.getItem('position')
     if(value=='Defective Products'){
       const formData = new FormData();
-      console.log(value);
-      formData.append('property',value)
-      console.log(this.defectiveForm.value.defectiveForm_itemcode)
-      console.log(this.defectiveForm.value.defectiveForm_location)
-      console.log(this.defectiveForm.value.defectiveForm_quantity)
-      formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
-      formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
-      formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
+        formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
+        formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
+      
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
+        formData.append('defectiveForm_location',company.toUpperCase())
+        formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
+      }
+
       fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
       .then(value => {
-     console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Personel'){
       const formData = new FormData();
       console.log(this.personelForm.value.personelForm_name)
       console.log(this.personelForm.value.personelForm_location)
-      console.log(value);
       formData.append('property',value)
       formData.append('personelForm_name',this.personelForm.value.personelForm_name)
       formData.append('personelForm_location',this.personelForm.value.personelForm_location)
@@ -1136,17 +1306,25 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
+
        });
     }
     else if(value=='Category'){
       const formData = new FormData();
-      console.log(this.categoryForm.value.categoryForm_name)
-      console.log(this.categoryForm.value.categoryForm_location)
-      console.log(value);
-      formData.append('property',value)
-      formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
-      formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
+        formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
+      
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
+        formData.append('categoryForm_location',company.toUpperCase())
+      }
+   
     
       fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
@@ -1154,7 +1332,8 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Location'){
@@ -1171,17 +1350,24 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
     else if(value=='Project'){
       const formData = new FormData();
-      console.log(this.projectForm.value.projectForm_name)
-      console.log(this.projectForm.value.projectForm_location)
-      console.log(value);
-      formData.append('property',value)
-      formData.append('projectForm_name',this.projectForm.value.projectForm_name)
-      formData.append('projectForm_location',this.projectForm.value.projectForm_location)
+      if (position =='moderator'){
+        formData.append('property',value)
+        formData.append('projectForm_name',this.projectForm.value.projectForm_name)
+        formData.append('projectForm_location',this.projectForm.value.projectForm_location)
+      
+      } else if (position =='admin'){
+        const company: any = localStorage.getItem('company')  
+        formData.append('property',value)
+        formData.append('projectForm_name',this.projectForm.value.projectForm_name)
+        formData.append('projectForm_location',company.toUpperCase())
+      }
+   
     
       fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
         method: 'POST',
@@ -1189,7 +1375,9 @@ totalQuantity: number = 0;
       })
       .then(response => response.json())
       .then(value => {
-        console.log(value)
+
+        alert(value.data)
+        this.updateFormDisplay()
        });
     }
   
@@ -1270,10 +1458,24 @@ totalQuantity: number = 0;
   
             // Call togglePopup() to update the popup information
             this.togglePopup();
+            this.updateFormDisplay()
           });
       });
   }
-
+  updateFormDisplay() {
+    const popupFormContainers = document.getElementsByClassName('popupFormContainer') as HTMLCollectionOf<HTMLElement>;
+    let isFormVisible = false;
+    if (isFormVisible) {
+      for (let i = 0; i < popupFormContainers.length; i++) {
+        popupFormContainers[i].style.display = 'block'; // Show the form
+      }
+    } else {
+      for (let i = 0; i < popupFormContainers.length; i++) {
+        popupFormContainers[i].style.display = 'none'; // Hide the form
+      }
+    }
+    location.reload();
+  }
   //USED FOR ANY POP UP FEATURES
 
   popupactivation(){
@@ -1281,6 +1483,8 @@ totalQuantity: number = 0;
     const popupFormContainer = document.getElementById('popupFormContainer') as HTMLInputElement;
     const closeButton1 = document.querySelector('.closeButton') as HTMLInputElement;
     
+    const position = localStorage.getItem('position')
+    if (position == 'moderator' || position == 'admin'){
      let isFormVisible = false; // Flag to track form visibility
     
       openFormButton.addEventListener('click', () => {
@@ -1306,8 +1510,11 @@ totalQuantity: number = 0;
       myForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent default form submission
         // Here, you can perform further actions like sending the form data to a server
-  
+      
   });
+}else if(position == 'user' || position == 'admin'){
+  alert('ACCESS DENIED!')
+}
   }
 
   //USED FOR ANY POP UP FEATURES
@@ -1316,7 +1523,8 @@ totalQuantity: number = 0;
     const openFormButton = document.getElementById('openFormButton1') as HTMLInputElement;
     const popupFormContainer = document.getElementById('popupFormContainer1') as HTMLInputElement;
     const closeButton1 = document.querySelector('.closeButton1') as HTMLInputElement;
-    
+    const position = localStorage.getItem('position')
+    if (position == 'moderator' || position == 'admin'){
      let isFormVisible = false; // Flag to track form visibility
     
       openFormButton.addEventListener('click', () => {
@@ -1344,6 +1552,9 @@ totalQuantity: number = 0;
         // Here, you can perform further actions like sending the form data to a server
   
   });
+}else if(position == 'user' ){
+  alert('ACCESS DENIED!')
+}
   }
   
    //USED FOR ANY POP UP FEATURES
@@ -1352,7 +1563,8 @@ totalQuantity: number = 0;
     const openFormButton = document.getElementById('openFormButton2') as HTMLInputElement;
     const popupFormContainer = document.getElementById('popupFormContainer2') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton2') as HTMLInputElement;
-    
+    const position = localStorage.getItem('position')
+    if (position == 'moderator' || position == 'admin'){
      let isFormVisible = false; // Flag to track form visibility
     
       openFormButton.addEventListener('click', () => {
@@ -1380,6 +1592,9 @@ totalQuantity: number = 0;
         // Here, you can perform further actions like sending the form data to a server
   
   });
+}else if(position == 'user' ){
+  alert('ACCESS DENIED!')
+}
   }
   
    //USED FOR ANY POP UP FEATURES
@@ -1390,7 +1605,7 @@ totalQuantity: number = 0;
     const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton3') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'moderator'){
+    if (position == 'moderator' ){
       let isFormVisible = false; // Flag to track form visibility
     
       openFormButton.addEventListener('click', () => {
@@ -1434,6 +1649,10 @@ totalQuantity: number = 0;
     this.showContent2 = true;
     this.showContent3 = false;
     const formData = new FormData();
+    const position : any = localStorage.getItem('position')
+    const company : any = localStorage.getItem('company')
+    formData.append('company',company.toUpperCase())
+    formData.append('position',position)
     fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
       method: 'POST',
       body: formData
@@ -1475,7 +1694,10 @@ totalQuantity: number = 0;
     } else if (contentId === 'content2') {
       this.toggleContent2();
       const formData = new FormData();
-   
+      const position : any = localStorage.getItem('position')
+      const company : any = localStorage.getItem('company')
+      formData.append('company',company.toUpperCase())
+      formData.append('position',position)
       fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
       method: 'POST',
       body: formData

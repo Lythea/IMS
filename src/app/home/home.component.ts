@@ -30,26 +30,7 @@ floorValue : any;
       company:['',Validators.required],
       code:['',Validators.required],
     });
-    const formData = new FormData();
-    fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-    
-     for (let i = 0; i < value.count; i++) {
-       this.locationfullValue = value.result7[i];
-       this.floorValue = value.result6[i];
-       this.locationValue = value.result5[i];
-       this.locationData[i] = {
-         floorName:this.floorValue,locationName:  this.locationValue , locationfullName:  this.locationfullValue 
-       };
-     }
-   
- 
-     }
-     );
+
   }
   toggleContent(contentId: string): void {
     if (contentId === 'content1') {
@@ -70,13 +51,14 @@ floorValue : any;
   })
   .then(response => response.json())
   .then(value => {
-    const company = value.data[0].company;
-    const position = value.data[0].position;
-    console.log(company)
-    console.log(position)
+    const company = value.data[0].company.toLowerCase();
+    const position = value.data[0].position.toLowerCase();
+   
+   
     localStorage.setItem('name',value.data[0].name)
     localStorage.setItem('position',position)
     localStorage.setItem('company',company)
+   
     if(position=='admin' || position=='moderator'){
       localStorage.setItem('position',position)
       localStorage.setItem('company',company)

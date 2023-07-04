@@ -149,8 +149,6 @@
                                 <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
-                                
-                                
                               </form>
                                 
                                 <div  style="margin-top:5%;" *ngIf="subcontainer2_content[1] && currentPopupContent === 'defectiveForm'"> <!-- Defective Products Registration -->
@@ -518,8 +516,8 @@
                             </select>
                             <br>
                             <label>Sponsored by:</label>
-                            <select formControlName="addInstockForm_category" style="width:100px;">
-                              <option selected value="">None of the above</option>
+                            <select formControlName="addInstockForm_sponsors" style="width:100px;">
+                              <option selected value="None of the above">None of the above</option>
                               <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
                             </select>
                             <br>
@@ -554,8 +552,13 @@
                             </div>
                             <p>Total Quantity: {{ getTotalQuantity() }}</p>
                             <label class="textlabel">Image Url:</label>
-                            <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange()">
+                            <input class="textbox" formControlName="addInstockForm_imgurl" type="text" >
                             <br>
+                            <label class="textlabel">PAR Url:</label>
+                            <input class="textbox" formControlName="addInstockForm_parurl" type="text" >
+                            <br>
+                            <br>
+                            <button (click)="addInstock()"> DELETE</button>
                           </div>
                         </div>
                       </form>
@@ -578,7 +581,7 @@
                               <option *ngFor="let product of productData"[value]="product.productName">  {{ product.productName }}</option>
                             </select>
                             <br>
-                            <button (click)="deleteInstock()"> DELETE</button>
+                            <button (click)="deleteInstock()"> SUBMIT</button>
                           </div>
                         </div>
                       </form>
@@ -613,7 +616,7 @@
                           <tr *ngFor="let item of tableData">
                             <td>{{ item.code }}</td>
                             <td>{{ item.productname }}</td>
-                            <td>                <img class="minilogo" id="label1" src="assets/dashboard.png" alt="BsuLogo"></td>
+                            <td>            </td>
                             <td>{{ item.category }}</td>
                             <td>{{ item.location }}</td>
                             <td>{{ item.project }}</td>
