@@ -51,13 +51,13 @@ floorValue : any;
   })
   .then(response => response.json())
   .then(value => {
-    const company = value.data[0].company.toLowerCase();
-    const position = value.data[0].position.toLowerCase();
+    const company = value.data[0].company;
+    const position = value.data[0].position;
    
    
     localStorage.setItem('name',value.data[0].name)
-    localStorage.setItem('position',position)
-    localStorage.setItem('company',company)
+    localStorage.setItem('position',position.toLowerCase())
+    localStorage.setItem('company',company.toLowerCase())
    
     if(position=='admin' || position=='moderator'){
       localStorage.setItem('position',position)

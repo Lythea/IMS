@@ -885,6 +885,12 @@ addInstock(){
 
   submit(){ 
     const formData = new FormData();
+    const position: any = localStorage.getItem('position')
+    const company:any = localStorage.getItem('company')
+    console.log(position)
+    console.log(company)
+    formData.append('position',position)
+    formData.append('company',company)
     formData.append('code',this.qrForm.value.qrForm_itemcode)
     fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
       method: 'POST',

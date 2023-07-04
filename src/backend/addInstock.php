@@ -39,7 +39,6 @@ foreach ($inputValuesData as $key => $value) {
     $inputArray[$key]['value'] = $value;
   }
 }
-
 // Access the values from the inputArray
 foreach ($inputArray as $inputName => $inputData) {
   $inputValue = $inputData['value'];
