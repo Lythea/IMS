@@ -167,7 +167,7 @@ totalQuantity: number = 0;
     formData.append('position', position);
     formData.append('company', company.toUpperCase());
   }
-
+  
    fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
      method: 'POST',
      body: formData
@@ -188,6 +188,7 @@ totalQuantity: number = 0;
    })
    .then(response => response.json())
    .then(value => {
+ 
     for (let i = 0; i < value.result1.length; i++) {
       this.productValue = value.result1[i];
       this.productData[i] = {
@@ -313,10 +314,7 @@ totalQuantity: number = 0;
       })
         .then(response => response.json())
         .then(value => {
-          console.log(value);
-  
-      
-        
+          alert(value.data)
         });
 
     }else if(upd){
@@ -336,7 +334,7 @@ totalQuantity: number = 0;
       })
         .then(response => response.json())
         .then(value => {
-          console.log(value);
+          alert(value.data)
         });
       console.log('false')
     }else if (del){
@@ -354,7 +352,7 @@ totalQuantity: number = 0;
       })
         .then(response => response.json())
         .then(value => {
-          console.log(value);
+          alert(value.data)
         });
     }
 
@@ -642,7 +640,7 @@ addInstock(){
 
   toggleCodeContent(contentId: string): void {
     const formData = new FormData();
-   fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
+   fetch('http://localhost:8080/IMS/src/backend/location.php', {
     method: 'POST',
     body: formData
   })
@@ -1657,6 +1655,7 @@ addInstock(){
     const formData = new FormData();
     const position : any = localStorage.getItem('position')
     const company : any = localStorage.getItem('company')
+   
     formData.append('company',company.toUpperCase())
     formData.append('position',position)
     fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
@@ -1665,19 +1664,20 @@ addInstock(){
     })
     .then(response => response.json())
     .then(value => {
-
       for (let i = 0; i < value.data.length; i++) {
         const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
         const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-  
+        
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,
           category: categoryValue,
+          quantity: quantityValue,
           location: locationValue,
           project: projectValue,
           condition: conditionValue
@@ -1686,6 +1686,7 @@ addInstock(){
       }
     
      });
+
   }
 
   toggleContent3(): void {
@@ -1713,26 +1714,37 @@ addInstock(){
       for (let i = 0; i < value.data.length; i++) {
         const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
         const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
-  
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
-  
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-  
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-
+        
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,
           category: categoryValue,
+          quantity: quantityValue,
           location: locationValue,
           project: projectValue,
           condition: conditionValue
         };
    // Access and log the "code" property
-      }
- 
+      } 
      });
+
+     fetch('http://localhost:8080/IMS/src/backend/quantity.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+      console.log(value.result1)
+      console.log(value.result2)
+     });
+     console.log(position)
+
+
     }
     else if (contentId === 'content3') {
       this.toggleContent3();

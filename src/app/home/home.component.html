@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/angular/angular.js"></script>
   <title>Document</title>
+  <script src="https://unpkg.com/angular/angular.js"></script>
+  <script src="https://unpkg.com/@angular/core@12.0.0/bundles/core.umd.js"></script>
+  <script src="https://unpkg.com/@angular/common@12.0.0/bundles/common.umd.js"></script>
+  <script src="https://unpkg.com/@angular/compiler@12.0.0/bundles/compiler.umd.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser@12.0.0/bundles/platform-browser.umd.js"></script>
+  <script src="https://unpkg.com/@angular/platform-browser-dynamic@12.0.0/bundles/platform-browser-dynamic.umd.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="96642581716-lcclv76orlmslu9kt1151r91eldmm7sk.apps.googleusercontent.com.apps.googleusercontent.com">
 </head>
 <body ng-app="myApp" ng-controller="myController" >
   <div class="container">
@@ -31,6 +39,7 @@
         </div>
 
         <div class="container4">
+        
           <form method="post" form [formGroup]="accounts">
             <label class="textlabel">Email*</label> <br>
             <input class="textbox"placeholder="Enter your E-mail" id="email"name="email" formControlName="email">
@@ -73,7 +82,9 @@
         </div>
 
         <div class="container4" >
+
           <form method="post" form [formGroup]="accounts">
+
             <label class="textlabel">Name*</label> <br>
             <input class="textbox"placeholder="Enter your name" id="name"name="name" formControlName="name">
             <br>

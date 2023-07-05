@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder,Validators,FormGroup } from '@angular/forms';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,9 +15,10 @@ export class HomeComponent {
   selectedOption: string = '';
   locationData: any = [];
   locationfullValue : any;
-projectLocation : any;
-floorValue : any;
+  projectLocation : any;
+  floorValue : any;
   locationValue: any;
+  number : any;
   constructor(private router: Router, private fb: FormBuilder) {}
   ngOnInit(): void{
     this.accounts = this.fb.group({
@@ -31,7 +31,9 @@ floorValue : any;
       code:['',Validators.required],
     });
 
+
   }
+
   toggleContent(contentId: string): void {
     if (contentId === 'content1') {
       this.showContent1 = true;
@@ -39,6 +41,26 @@ floorValue : any;
     } else if (contentId === 'content2') {
       this.showContent1 = false;
       this.showContent2 = true;
+
+      const formData = new FormData();
+   
+    
+      fetch('http://localhost:8080/IMS/src/backend/location.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(value => {
+      
+        // Accessing the data and populating this.accounts array
+        this.locationData = [];
+        for (let i = 0; i < value.count; i++) {
+          const locationValue = value.result5[i];
+          this.locationData[i] = {
+            locationName: locationValue
+          };
+        }
+      });
     }
   }
   login(){
@@ -59,8 +81,8 @@ floorValue : any;
     localStorage.setItem('position',position.toLowerCase())
     localStorage.setItem('company',company.toLowerCase())
    
-    if(position=='admin' || position=='moderator'){
-      localStorage.setItem('position',position)
+    if(position=='admin' || position=='MODERATOR'){
+      localStorage.setItem('position',position.toLowerCase())
       localStorage.setItem('company',company)
       this.router.navigate(['admin']);
     }else if(position=='user'){
