@@ -9,7 +9,9 @@ import { FormBuilder,Validators,FormGroup,FormControl} from '@angular/forms';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit{
+  
   @ViewChild('dropdown', { static: true }) dropdown: ElementRef = new ElementRef(null);
+  activeLabel: string = '';
   myAngularxQrCode: any='Empty';
   showContent1 = true;
   showContent2 = false;
@@ -37,6 +39,7 @@ export class AdminComponent implements OnInit{
   projectData: any = [];
   floorData: any =[];
   fullnameData: any = [];
+  specificData : any = [];
   products: any;
   defective: any;
   personel: any;
@@ -46,6 +49,7 @@ export class AdminComponent implements OnInit{
   deleteDashboardReply: any =[];
   defectiveQuantity: any;
   info : any = ['Defective Products','Personel','Category','Location','Project']
+  searchinfo : any = ['All','Sort ASC','Sort DESC','Item Code','Item Name','Quantity','Category','Location','Project','Specific']
   myForm: any = FormGroup;
   qrForm: any = FormGroup;
   addInstockForm: any = FormGroup;
@@ -76,16 +80,27 @@ generatedInputs: string[] = [];
 disabled :boolean =true;
 addInstockData : any = [];
 totalQuantity: number = 0;
+selectedValue1: any;
+search: any = FormGroup;
+searchdropdown: any = FormGroup;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
     disableSelect() {
       this.dropdown.nativeElement.disabled = true;
 
-    }
+    } 
+  
   ngOnInit(): void{
  
     this.myForm = this.fb.group({
       myForm_information:['',Validators.required],
       
+    });
+    this.searchdropdown = this.fb.group({
+      value: ['', Validators.required],
+    });
+    this.search = this.fb.group({
+      name: new FormControl({ value: '', disabled: true }, Validators.required),
+ 
     });
     this.dashboard = this.fb.group({
       label: new FormControl({ value: '', disabled: true }, Validators.required),
@@ -239,12 +254,81 @@ totalQuantity: number = 0;
     }
     );
   }
+  handleSelectChange() {
+    this.selectedValue1 = this.searchdropdown.value.value
+    if(this.selectedValue1 !==''){
+      this.toggleFormControl(true);
+    }else{
+      this.toggleFormControl(false);
+    }
+
+    if(this.selectedValue1 == 'All'){
+      this.handleSearch()
+    }else if(this.selectedValue1 == 'Sort ASC'){
+      this.handleSearch()
+    }else if(this.selectedValue1 == 'Sort DESC'){
+      this.handleSearch()
+    }
+  }
+  handleSearch() {
+    const formData = new FormData();
+    const position: any | null = localStorage.getItem('position');
+    const company: any | null = localStorage.getItem('company');
+    
+    formData.append('property', this.selectedValue1);
+    formData.append('value', this.search.value.name);
+    
+    if (position) {
+      formData.append('position', position);
+    }
+    
+    if (company) {
+      formData.append('company', company);
+    }
+     fetch('http://localhost:8080/IMS/src/backend/searchbar.php', {
+     method: 'POST',
+     body: formData
+   })
+   .then(response => response.json())
+   .then(value => {
+    this.tableData= [];
+    for (let i = 0; i < value.data.length; i++) {
+      const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+      const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+      const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
+      const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
+      const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
+      const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+      const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
+      this.tableData[i] = {
+        code:  codeValue ,
+        productname: productValue,
+        quantity:quantityValue,
+        category: categoryValue,
+        location: locationValue,
+        project: projectValue,
+        condition: conditionValue
+      };
+ // Access and log the "code" property
+    }
+  
+
+    }
+    );
+  }
   toggleFormControl(disabled: boolean) {
     const control = this.dashboard.get('label');
     if (disabled) {
       control.disable();
     } else {
       control.enable();
+    }
+    const control1 = this.search.get('name');
+    if (disabled) {
+      control1.enable();
+     
+    } else {
+      control1.disable();
     }
     const position = localStorage.getItem('position');
     if(position == 'admin'){
@@ -427,8 +511,7 @@ addInstock(){
     })
       .then(response => response.json())
       .then(value => {
-        console.log(value.result1);
-
+       
         this.categoryData = []
         for (let i = 0; i < value.result1.length; i++) {
           this.categoryValue = value.result1[i];
@@ -1392,6 +1475,7 @@ addInstock(){
   onDashboardChange() {
     const selectedValue = this.dashboard.get('label').value;
     const formData = new FormData();
+    console.log(selectedValue.locationName)
     formData.append('companyownership', selectedValue.locationName);
   
     fetch('http://localhost:8080/IMS/src/backend/changingquantityDashboard.php', {
@@ -1478,7 +1562,6 @@ addInstock(){
         popupFormContainers[i].style.display = 'none'; // Hide the form
       }
     }
-    location.reload();
   }
   //USED FOR ANY POP UP FEATURES
 
@@ -1699,6 +1782,7 @@ addInstock(){
     if (contentId === 'content1') {
       this.toggleContent1();
     } else if (contentId === 'content2') {
+      
       this.toggleContent2();
       const formData = new FormData();
       const position : any = localStorage.getItem('position')
@@ -1734,15 +1818,38 @@ addInstock(){
      });
 
      fetch('http://localhost:8080/IMS/src/backend/quantity.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      console.log(value.result1)
-      console.log(value.result2)
-     });
-     console.log(position)
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(value => {
+  interface SpecificData {
+    itemId: string;
+    specific: string;
+    totalQuantity: number;
+  }
+
+  const specificData: { [key: string]: SpecificData[] } = {}; // Updated type declaration
+
+  const result3 = value.result3;
+  Object.keys(result3).forEach(itemId => {
+    const quantitySpecificValues = result3[itemId].quantity_specific_values ;
+    const totalQuantity = result3[itemId].total_quantity;
+
+    const specificItemData: SpecificData = {
+      itemId: itemId,
+      specific: quantitySpecificValues,
+      totalQuantity: totalQuantity
+    };
+
+    if (!specificData[itemId]) {
+      specificData[itemId] = []; // Initialize array for specificData if it doesn't exist
+    }
+    specificData[itemId].push(specificItemData);
+  });
+  this.specificData = specificData;
+});
+          
 
 
     }
