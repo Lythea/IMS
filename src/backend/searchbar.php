@@ -133,7 +133,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort ASC'){
-            $sql = "SELECT item_id, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name ASC WHERE location = '$company'";
+            $sql = "SELECT itemid_company, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name ASC WHERE location = '$company'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -142,7 +142,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort DESC'){
-            $sql = "SELECT item_id, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name DESC WHERE location = '$company'";
+            $sql = "SELECT itemid_company, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name DESC WHERE location = '$company'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -151,7 +151,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Item Code'){
-            $sql = "SELECT * FROM `items` WHERE item_id ='$value' WHERE location = '$company'";
+            $sql = "SELECT * FROM `items` WHERE itemid_company ='$value' WHERE location = '$company'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);

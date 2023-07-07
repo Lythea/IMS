@@ -18,7 +18,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     $position = $_POST['position'];
     $company = $_POST['company'];
     if($position=='moderator'){
-      $sql = "SELECT * FROM items WHERE item_id ='$code'";
+      $sql = "SELECT * FROM items WHERE itemid_company ='$code'";
       $result = $conn->query($sql);
       if ($result->num_rows > 0) {
         $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -27,7 +27,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         echo json_encode(['data'=> 'Not Found!']);
     }
     }else if ($position=='admin'){
-      $sql = "SELECT * FROM items WHERE item_id ='$code' and location='$company'";
+      $sql = "SELECT * FROM items WHERE itemid_company ='$code' and location='$company'";
       $result = $conn->query($sql);
       if ($result->num_rows > 0) {
         $data = $result->fetch_all(MYSQLI_ASSOC);

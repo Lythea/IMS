@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/angular/angular.js"></script>
@@ -32,10 +33,11 @@
             <div class="upper">
                 <div class="upper1">
                   <div class="upper1_1">
-                    <label><h3>Inventory Management System</h3></label> 
-                    <img class="minilogo" id="openFormButton3"src="assets/lock.png" style="margin-left:5px;margin-top:7px;" (click)="popupactivation3()">
+                    <img class="minilogo" id="openFormButton3"src="assets/lock.png" style="margin-left:5px;margin-top:10px;margin-right:5px;" (click)="popupactivation3()">
+                    <label><h3 >Inventory Management System</h3></label> 
+                   
                   </div>
-                    <label><h2 class="Techno" style="color:#c00000" >Center for Technopreneurship and Innovation</h2></label><br>    
+                    <label><h2 class="Techno" style="color:#c00000;" >Center for Technopreneurship and Innovation</h2></label>
                 </div>
                 <div id="popupFormContainer3" class="popupFormContainer">
                   <div class="popupForm">
@@ -468,7 +470,7 @@
                         </select>
                       </form>
                     </div>
-                    <div class="thing2" style="margin-top:18px;">
+                    <div class="thing2">
                       <form id="myForm" [formGroup]="search" >
                         <input type="text" formControlName="name"  placeholder="{{selectedValue1}}" (input)="handleSearch() ">
                       </form>
@@ -553,12 +555,9 @@
                                 <option selected value="">None of the above</option>
                                 <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
                               </select>
-                           
                               <br>
-                              <p>Quantity: {{ addInstockForm.get(input + 'quantity').value }}</p>
-                              <p>Value: {{ getInputValue(input) }}</p>
                             </div>
-                            <p>Total Quantity: {{ getTotalQuantity() }}</p>
+                        
                             <label class="textlabel">Image Url:</label>
                             <input class="textbox" formControlName="addInstockForm_imgurl" type="text" >
                             <br>
@@ -566,17 +565,78 @@
                             <input class="textbox" formControlName="addInstockForm_parurl" type="text" >
                             <br>
                             <br>
-                            <button (click)="addInstock()"> DELETE</button>
+                            <button (click)="addInstock()">ADD</button>
+                          </div>
+                        </div>
+                      </form>
+                      <form id="myForm" [formGroup]="updateInstockForm">
+                        <img class="ButtonsB" id="openFormButton2" (click)="popupactivation2()" src="assets/Add_B.png"/>
+                       
+                        <div id="popupFormContainer2" class="popupFormContainer">
+                          <div class="popupForm">
+                            <span class="closeButton2">&times;</span>
+                            <h2 class="qrtitle">Item Registration</h2>
+                            
+                            <label class="textlabel">Location</label> 
+                            <select formControlName="updateInstockForm_location" (change)="updateInstockchange()">
+                              <option disabled selected value="">Select to add</option>
+                              <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                            </select>
+                            <br>
+                            <label>Sponsored by:</label>
+                            <select formControlName="updateInstockForm_sponsors" style="width:100px;">
+                              <option selected value="None of the above">None of the above</option>
+                              <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
+                            </select>
+                            <br>
+                            <label class="textlabel">Category</label> 
+                            <select formControlName="updateInstockForm_category" style="width:100px;">
+                              <option disabled selected value=""></option>
+                              <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
+                            </select>
+                            <br>
+                              
+                            <label class="textlabel">Item name: </label> 
+                            <select formControlName="updateInstockForm_name"  style="width:100px;">
+                              <option disabled selected value=""></option>
+                              <option *ngFor="let name of productData" [value]="name.productName">{{ name.productName }}</option>
+                            </select>
+                            <br>
+                              
+                            <label class="textlabel">Quantity: </label> 
+                            <input  class="textbox" formControlName="updateInstockForm_quantity" type="text"> 
+                            <br>
+                            <label class="textlabel"># of borrowed:</label>
+                            <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange1()">
+                            <br>
+                            <div *ngFor="let input of generatedInputs">
+                              <label>{{ 'Borrower #' + input }}:</label>
+                              <input class="textbox" [formControlName]="input + 'quantity'" type="text" style="width:30px;">
+                              <select [formControlName]="input">
+                                <option selected value="">None of the above</option>
+                                <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
+                              </select>
+                              <br>
+                            </div>
+                            <p>Total Quantity: {{ getTotalQuantity() }}</p>
+                            <label class="textlabel">Image Url:</label>
+                            <input class="textbox" formControlName="updateInstockForm_imgurl" type="text" >
+                            <br>
+                            <label class="textlabel">PAR Url:</label>
+                            <input class="textbox" formControlName="updateInstockForm_parurl" type="text" >
+                            <br>
+                            <br>
+                            <button (click)="updateInstock()">ADD</button>
                           </div>
                         </div>
                       </form>
                       <form id="myForm" [formGroup]="deleteInstockForm">
-                        <img class="ButtonsD"id="openFormButton2" (click)="popupactivation2()"src="assets/Delete_B.png">
+                        <img class="ButtonsC"id="openFormButton4" (click)="popupactivation4()" src="assets/Delete_B.png">
 
   
-                        <div id="popupFormContainer2" class="popupFormContainer">
+                        <div id="popupFormContainer4" class="popupFormContainer">
                           <div class="popupForm">
-                            <span class="closeButton2">&times;</span>
+                            <span class="closeButton4">&times;</span>
                             <h2 class="qrtitle">Item Registration</h2>
                             <label class="textlabel">Location</label> 
                             <select formControlName="deleteInstockForm_location" (change)="deleteInstockchange()">
@@ -608,10 +668,10 @@
                             <col style="width: 80px;"><!-- Product Name -->
                             <col style="width: 20px;"><!-- Category -->
                             <col style="width: 20px;"><!-- Category -->
-                            <col style="width: 50px;"><!-- Location -->
-                            <col style="width: 50px;"><!-- Project -->
-                            <col style="width: 20px;"><!-- Condition -->
-                            
+                            <col style="width: 20px;"><!-- Location -->
+                            <col style="width: 80px;"><!-- Project -->  
+                            <col style="width: 15px;"><!-- Location -->
+                            <col style="width: 15px;"><!-- Project -->  
                           </colgroup>
                         <tr>
                             <th>Code</th>
@@ -620,7 +680,8 @@
                             <th>Category</th>
                             <th>Location</th>
                             <th>Project</th>
-                            <th>Condition</th>
+                            <th>IMAGE</th>
+                            <th>PAR</th>
                           </tr>
                           <tr *ngFor="let item of tableData">
                             <td>{{ item.code }}</td>
@@ -636,11 +697,11 @@
                                 </div>
                               </div>
                             </td>
-                      
                             <td>{{ item.category }}</td>
                             <td>{{ item.location }}</td>
                             <td>{{ item.project }}</td>
-                            <td>{{ item.condition }}</td>
+                            <td><a href="{{item.image}}"><img class="minilogo" src="../assets/img.png"></a></td>
+                            <td><a href="{{item.par}}"><img class="minilogo" src="../assets/par.png"></a></td>
                           </tr>
                         
                       </table>
@@ -650,7 +711,7 @@
               <img class="card" src="assets/Container.png" />
                <label class="instock"><h2 class="w3">About Us</h2></label>
                 <div class="content">
-                    <label class="head1"><h1>Inventory Management System</h1></label>
+                    <label class="head1"><h2>Inventory Management System</h2></label>
                     <p class="p">
                         Inventory management helps companies identify which and how much stock to order at what time. It tracks inventory from purchase to the sale of goods. The practice identifies and responds to trends to ensure there’s always enough stock to fulfill employee orders and proper warning of a shortage.
                     </p>
@@ -661,7 +722,7 @@
                     <p class="p">
                         One measurement of good inventory management is inventory turnover. An accounting measurement, inventory turnover reflects how often stock is sold in a period. A business does not want more stock than sales. Poor inventory turnover can lead to deadstock, or unsold stock.
                     </p>
-                    <h1 class="dev">Developer Team</h1> 
+                    <h2 class="dev">Developer Team</h2> 
                     <div class="profile">
                         <table class="resizable-table1">
 

@@ -75,6 +75,7 @@ personelForm: any = FormGroup;
 categoryForm: any = FormGroup;
 locationForm: any = FormGroup;
 projectForm: any = FormGroup;
+updateInstockForm : any = FormGroup;
 currentPopupContent: any;
 generatedInputs: string[] = [];
 disabled :boolean =true;
@@ -93,7 +94,19 @@ searchdropdown: any = FormGroup;
  
     this.myForm = this.fb.group({
       myForm_information:['',Validators.required],
-      
+    });
+    this.updateInstockForm = this.fb.group({
+      ownership: ['', Validators.required],
+      quantity: ['', Validators.required],
+      input: ['', Validators.required],
+      updateInstockForm_sponsors:['',Validators.required],
+      updateInstockForm_quantity:['',Validators.required],
+      updateInstockForm_project:['',Validators.required],
+      updateInstockForm_name :['',Validators.required],
+      updateInstockForm_category:['',Validators.required],
+      updateInstockForm_location:['',Validators.required],
+      updateInstockForm_imgurl:['',Validators.required],
+      updateInstockForm_parurl:['',Validators.required],
     });
     this.searchdropdown = this.fb.group({
       value: ['', Validators.required],
@@ -254,6 +267,56 @@ searchdropdown: any = FormGroup;
     }
     );
   }
+  updateInstock(){
+    const position : any = localStorage.getItem('position')
+    const formData = new FormData();
+    const sponsors : any = this.updateInstockForm.value.updateInstockForm_sponsors
+    const category : any = this.updateInstockForm.value.updateInstockForm_category
+    const itemname : any = this.updateInstockForm.value.updateInstockForm_name
+    const quantity : any = this.updateInstockForm.value.updateInstockForm_quantity
+    const imgurl : any = this.updateInstockForm.value.updateInstockForm_imgurl
+    const parurl : any = this.updateInstockForm.value.updateInstockForm_parurl
+    const location : any = this.updateInstockForm.value.updateInstockForm_location
+    const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
+  
+    this.generatedInputs.forEach((input) => {
+      const inputValue = this.updateInstockForm.get(input).value;
+      const quantityValue = this.updateInstockForm.get(input + 'quantity').value;
+      inputValues[input] = inputValue;
+      inputValues[input + 'quantity'] = quantityValue;
+    });
+    const inputValuesJSON = JSON.stringify(inputValues);
+    const blob = new Blob([inputValuesJSON], { type: 'application/json' });
+    
+    if (position =='moderator'){
+      formData.append('company',location)
+      formData.append('position',position)
+    } else if (position =='admin'){
+      const company: any = localStorage.getItem('company')  
+      formData.append('company',company.toUpperCase())
+      formData.append('position',position)
+      }
+      let b_quantity = this.addInstockForm.get('quantity').value;
+      if(b_quantity ==''||!b_quantity||b_quantity =='0'){
+        b_quantity = 0;
+        formData.append('b_quantity',b_quantity)
+      }
+      formData.append('inputValues', blob);
+      formData.append('sponsors',sponsors)
+      formData.append('category',category)
+      formData.append('itemname',itemname)
+      formData.append('quantity',quantity)
+      formData.append('imgurl',imgurl)
+      formData.append('parurl',parurl)
+      fetch('http://localhost:8080/IMS/src/backend/updateInstock.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(value => {
+          alert(value.response)
+        }); 
+  }
   handleSelectChange() {
     this.selectedValue1 = this.searchdropdown.value.value
     if(this.selectedValue1 !==''){
@@ -367,12 +430,19 @@ searchdropdown: any = FormGroup;
       } else {
         control5.enable();
       }
-      const control6= this.deleteInstockForm.get('deleteInstockForm_location')
+      const control6= this.updateInstockForm.get('updateInstockForm_location')
 
       if (disabled) {
         control6.disable();
       } else {
         control6.enable();
+      }
+      const control7= this.deleteInstockForm.get('deleteInstockForm_location')
+
+      if (disabled) {
+        control7.disable();
+      } else {
+        control7.enable();
       }
     }
  
@@ -444,92 +514,6 @@ searchdropdown: any = FormGroup;
   togglePopup() {
     this.isOpen = !this.isOpen;
   }
-addInstock(){
-  const position : any = localStorage.getItem('position')
-  const formData = new FormData();
-  const sponsors : any = this.addInstockForm.value.addInstockForm_sponsors
-  const category : any = this.addInstockForm.value.addInstockForm_category
-  const itemname : any = this.addInstockForm.value.addInstockForm_name
-  const quantity : any = this.addInstockForm.value.addInstockForm_quantity
-  const imgurl : any = this.addInstockForm.value.addInstockForm_imgurl
-  const parurl : any = this.addInstockForm.value.addInstockForm_parurl
-  const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
-
-  this.generatedInputs.forEach((input) => {
-    const inputValue = this.addInstockForm.get(input).value;
-    const quantityValue = this.addInstockForm.get(input + 'quantity').value;
-    inputValues[input] = inputValue;
-    inputValues[input + 'quantity'] = quantityValue;
-  });
-  const inputValuesJSON = JSON.stringify(inputValues);
-  const blob = new Blob([inputValuesJSON], { type: 'application/json' });
-
-  if (position =='moderator'){
-    formData.append('company',this.projectForm.value.projectForm_location.toUpperCase())
-  } else if (position =='admin'){
-    console.log(this.addInstockForm.value.quantity)
-    const company: any = localStorage.getItem('company')  
-    formData.append('company',company.toUpperCase())
-    }
-    formData.append('inputValues', blob);
-    formData.append('sponsors',sponsors)
-    formData.append('category',category)
-    formData.append('itemname',itemname)
-    formData.append('quantity',quantity)
-    formData.append('imgurl',imgurl)
-    formData.append('parurl',parurl)
-    fetch('http://localhost:8080/IMS/src/backend/addInstock.php', {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.json())
-      .then(value => {
-        console.log(value.data)
-      });
-    }
-  deleteInstock(){
-    const location : any = this.deleteInstockForm.value.deleteInstockForm_location
-    const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
-    const position : any = localStorage.getItem('position')
-    const formData = new FormData();
-    if (position =='moderator'){
-      formData.append('name',name)
-      formData.append('location',location)
-    } else if (position =='admin'){
-      const company: any = localStorage.getItem('company')  
-      formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
-      formData.append('categoryForm_location',company.toUpperCase())
-    }
- 
-
-    formData.append('name',name)
-    formData.append('location',location)
-    
-    fetch('http://localhost:8080/IMS/src/backend/deleteInstock.php', {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.json())
-      .then(value => {
-       
-        this.categoryData = []
-        for (let i = 0; i < value.result1.length; i++) {
-          this.categoryValue = value.result1[i];
-          this. categoryData[i] = {
-            categoryName:   this.categoryValue ,
-    
-          };
-        }
-        this.projectData = []
-        for (let i = 0; i < value.result2.length; i++) {
-          this.projectValue = value.result2[i];
-          this.projectData[i] = {
-            projectName: this.projectValue ,
-          };
-        }
-      
-      });
-  }
   onQuantityChange() {
     const quantity = this.addInstockForm.get('quantity').value;
     // Clear previously generated form controls
@@ -569,6 +553,179 @@ addInstock(){
   getAllInputValues(): string[] {
     return this.generatedInputs.map(input => this.getInputValue(input));
   }
+addInstock(){
+  const position : any = localStorage.getItem('position')
+  const formData = new FormData();
+  const sponsors : any = this.addInstockForm.value.addInstockForm_sponsors
+  const category : any = this.addInstockForm.value.addInstockForm_category
+  const itemname : any = this.addInstockForm.value.addInstockForm_name
+  const quantity : any = this.addInstockForm.value.addInstockForm_quantity
+  const location : any = this.addInstockForm.value.addInstockForm_location
+  const imgurl : any = this.addInstockForm.value.addInstockForm_imgurl
+  const parurl : any = this.addInstockForm.value.addInstockForm_parurl
+  const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
+
+  this.generatedInputs.forEach((input) => {
+    const inputValue = this.addInstockForm.get(input).value;
+    const quantityValue = this.addInstockForm.get(input + 'quantity').value;
+    inputValues[input] = inputValue;
+    inputValues[input + 'quantity'] = quantityValue;
+  });
+  const inputValuesJSON = JSON.stringify(inputValues);
+  const blob = new Blob([inputValuesJSON], { type: 'application/json' });
+  
+  if (position =='moderator'){
+    formData.append('company',location)
+    formData.append('position',position)
+  } else if (position =='admin'){
+
+    const company: any = localStorage.getItem('company')  
+    formData.append('company',company.toUpperCase())
+    formData.append('position',position)
+    }
+    let b_quantity = this.addInstockForm.get('quantity').value;
+    if(b_quantity ==''||!b_quantity||b_quantity =='0'){
+      b_quantity = 0;
+      formData.append('b_quantity',b_quantity)
+    }
+  
+    formData.append('inputValues', blob);
+    formData.append('sponsors',sponsors)
+    formData.append('category',category)
+    formData.append('itemname',itemname)
+    formData.append('quantity',quantity)
+    formData.append('imgurl',imgurl)
+    formData.append('parurl',parurl)
+    
+    fetch('http://localhost:8080/IMS/src/backend/addInstock.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        alert(value.data)
+      });
+    }
+  deleteInstock(){
+    const location : any = this.deleteInstockForm.value.deleteInstockForm_location
+    const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
+    const position : any = localStorage.getItem('position')
+    const formData = new FormData();
+    if (position =='moderator'){
+      formData.append('name',name)
+      formData.append('location',location)
+      formData.append('position',position)
+    } else if (position =='admin'){
+      const company: any = localStorage.getItem('company')  
+      formData.append('name',name)
+      formData.append('location',location)
+      formData.append('position',position)
+    }
+    fetch('http://localhost:8080/IMS/src/backend/deleteInstock.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        alert(value.data)
+        this.categoryData = []
+        for (let i = 0; i < value.result1.length; i++) {
+          this.categoryValue = value.result1[i];
+          this. categoryData[i] = {
+            categoryName:   this.categoryValue ,
+    
+          };
+        }
+        this.projectData = []
+        for (let i = 0; i < value.result2.length; i++) {
+          this.projectValue = value.result2[i];
+          this.projectData[i] = {
+            projectName: this.projectValue ,
+          };
+        }
+      
+      });
+  }
+
+  onQuantityChange1() {
+    const quantity = this.updateInstockForm.get('quantity').value;
+    // Clear previously generated form controls
+    this.generatedInputs.forEach((input) => {
+      this.updateInstockForm.removeControl(input);
+      this.updateInstockForm.removeControl(input + 'quantity');
+    });
+    this.generatedInputs = [];
+  
+    // Generate and update new form controls
+    for (let i = 1; i <= quantity; i++) {
+      const inputName = `${i}`;
+      this.updateInstockForm.addControl(inputName, new FormControl(''));
+      this.updateInstockForm.addControl(inputName + 'quantity', new FormControl(''));
+      this.generatedInputs.push(inputName);
+    }
+   
+  }
+  getInputValue1(inputName: string): string {
+    return this.updateInstockForm.get(inputName).value;
+
+  }
+
+  getTotalQuantity1(): number {
+    let total = 0;
+    
+    for (const input of this.generatedInputs) {
+      const quantity = this.updateInstockForm.get(input + 'quantity')?.value;
+      if (quantity) {
+        total += parseInt(quantity, 10);
+      }
+    }
+    this.totalQuantity = total;
+    return total;
+
+  }
+  getAllInputValues1(): string[] {
+    return this.generatedInputs.map(input => this.getInputValue(input));
+  }
+  updateInstockchange(){
+    this.subcontainer2_content[1]=true;
+    const formData = new FormData();
+    const position = localStorage.getItem('position')
+    const company: any = localStorage.getItem('company')
+
+    if(position =='moderator'){
+      const location : any = this.updateInstockForm.value.updateInstockForm_location
+      formData.append('location',location)
+      formData.append('position',position)
+
+    }else if (position =='admin'){
+      formData.append('position',position)
+      formData.append('location',company)
+    }
+    fetch('http://localhost:8080/IMS/src/backend/changingAddDashboard.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+    
+        this.categoryData = []
+        for (let i = 0; i < value.result1.length; i++) {
+          this.categoryValue = value.result1[i];
+          this. categoryData[i] = {
+            categoryName:   this.categoryValue ,
+    
+          };
+        }
+        this.projectData = []
+        for (let i = 0; i < value.result2.length; i++) {
+          this.projectValue = value.result2[i];
+          this.projectData[i] = {
+            projectName: this.projectValue ,
+          };
+        }
+      
+      });
+ }
  addInstockchange(){
     this.subcontainer2_content[1]=true;
     const formData = new FormData();
@@ -759,26 +916,30 @@ addInstock(){
     })
     .then(response => response.json())
     .then(value => {
-      console.log(value.data[0]);
       for (let i = 0; i < value.data.length; i++) {
         const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+        const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
         const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-  
+        const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
+        const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,
           category: categoryValue,
+          quantity: quantityValue,
           location: locationValue,
           project: projectValue,
-          condition: conditionValue
+          condition: conditionValue,
+          image: image,
+          par: par,
         };
    // Access and log the "code" property
       }
-      location.reload()
+    
      });
     
 
@@ -1222,28 +1383,26 @@ addInstock(){
   
   AddDashboardSubmit(){
     const value = localStorage.getItem('value')
-
-    const position = localStorage.getItem('position')  
+    const company: any = localStorage.getItem('company')
+    const position: any = localStorage.getItem('position')  
     if(value=='Defective Products'){
       const formData = new FormData();
 
       if (position =='moderator'){
         formData.append('property',value)
+        formData.append('position',position)
+        formData.append('company',company)
         formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
         formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
         formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
       } else if (position =='admin'){
         const company: any = localStorage.getItem('company')  
         formData.append('property',value)
-        formData.append('defectiveForm_location',company.toUpperCase())
+        formData.append('position',position)
+        formData.append('company',company.toUpperCase())
         formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
         formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
       }
-      console.log(this.defectiveForm.value.defectiveForm_name);
-      formData.append('property',value)
-      formData.append('defectiveForm_name',this.defectiveForm.value.defectiveForm_name)
-      formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
-      formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
       fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
         method: 'POST',
         body: formData
@@ -1294,8 +1453,6 @@ addInstock(){
         formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
         formData.append('categoryForm_location',company.toUpperCase())
       }
-
-    
       fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
         method: 'POST',
         body: formData
@@ -1683,7 +1840,45 @@ addInstock(){
   alert('ACCESS DENIED!')
 }
   }
+  popupactivation4(){
+    
+    const openFormButton = document.getElementById('openFormButton4') as HTMLInputElement;
+    const popupFormContainer = document.getElementById('popupFormContainer4') as HTMLInputElement;
+    const closeButton = document.querySelector('.closeButton4') as HTMLInputElement;
+    const position = localStorage.getItem('position')
+    if (position == 'moderator' ){
+      let isFormVisible = false; // Flag to track form visibility
+    
+      openFormButton.addEventListener('click', () => {
+        isFormVisible = true; // Set the flag to true when opening the form
+        updateFormDisplay();
+      });
+    
+      closeButton.addEventListener('click', () => {
+        isFormVisible = false; // Set the flag to false when closing the form
+        updateFormDisplay();
+    
+      });
+    
+      function updateFormDisplay() {
+        if (isFormVisible) {
+          popupFormContainer.style.display = 'block'; // Show the form
+          
+        } else {
+          popupFormContainer.style.display = 'none'; // Hide the form
+        }
+      }
+      const myForm = document.getElementById('myForm') as HTMLInputElement;
+      myForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        // Here, you can perform further actions like sending the form data to a server
   
+  });
+    }else if(position == 'user' || position == 'admin'){
+      alert('ACCESS DENIED!')
+    }
+     
+  }
    //USED FOR ANY POP UP FEATURES
 
    popupactivation3(){
@@ -1747,6 +1942,7 @@ addInstock(){
     })
     .then(response => response.json())
     .then(value => {
+      console.log(value.data[0].image)
       for (let i = 0; i < value.data.length; i++) {
         const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
@@ -1755,7 +1951,8 @@ addInstock(){
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-        
+        const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
+        const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,
@@ -1763,7 +1960,9 @@ addInstock(){
           quantity: quantityValue,
           location: locationValue,
           project: projectValue,
-          condition: conditionValue
+          condition: conditionValue,
+          image: image,
+          par: par,
         };
    // Access and log the "code" property
       }
@@ -1803,7 +2002,8 @@ addInstock(){
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-        
+        const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
+        const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,
@@ -1811,45 +2011,48 @@ addInstock(){
           quantity: quantityValue,
           location: locationValue,
           project: projectValue,
-          condition: conditionValue
+          condition: conditionValue,
+          image: image,
+          par: par,
         };
    // Access and log the "code" property
-      } 
+      }
+    
      });
 
      fetch('http://localhost:8080/IMS/src/backend/quantity.php', {
-  method: 'POST',
-  body: formData
-})
-.then(response => response.json())
-.then(value => {
-  interface SpecificData {
-    itemId: string;
-    specific: string;
-    totalQuantity: number;
-  }
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+      interface SpecificData {
+        itemId: string;
+        specific: string;
+        totalQuantity: number;
+      }
 
-  const specificData: { [key: string]: SpecificData[] } = {}; // Updated type declaration
+      const specificData: { [key: string]: SpecificData[] } = {}; // Updated type declaration
 
-  const result3 = value.result3;
-  Object.keys(result3).forEach(itemId => {
-    const quantitySpecificValues = result3[itemId].quantity_specific_values ;
-    const totalQuantity = result3[itemId].total_quantity;
+      const result3 = value.result3;
+      Object.keys(result3).forEach(itemId => {
+        const quantitySpecificValues = result3[itemId].quantity_specific_values ;
+        const totalQuantity = result3[itemId].total_quantity;
 
-    const specificItemData: SpecificData = {
-      itemId: itemId,
-      specific: quantitySpecificValues,
-      totalQuantity: totalQuantity
-    };
+        const specificItemData: SpecificData = {
+          itemId: itemId,
+          specific: quantitySpecificValues,
+          totalQuantity: totalQuantity
+        };
 
-    if (!specificData[itemId]) {
-      specificData[itemId] = []; // Initialize array for specificData if it doesn't exist
-    }
-    specificData[itemId].push(specificItemData);
-  });
-  this.specificData = specificData;
-});
-          
+        if (!specificData[itemId]) {
+          specificData[itemId] = []; // Initialize array for specificData if it doesn't exist
+        }
+        specificData[itemId].push(specificItemData);
+      });
+      this.specificData = specificData;
+    });
+              
 
 
     }

@@ -1,4 +1,5 @@
 <?php
+
 header ('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type: application/json, X-Auth-Token, Authorization, Origin');
 header ('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
@@ -39,6 +40,17 @@ $conn = new mysqli($servername, $username, $password,$db);
         } else {
             $data['result2'] = [];
         }
+        $sql3 = "SELECT *AS total FROM items WHERE company = '$location'";
+        $result3 = $conn->query($sql3);
+        if ($result3->num_rows > 0) {
+            $data['result3'] = array(); // Initialize an empty array
+        
+            while ($row = $result3->fetch_assoc()) {
+                $data['result3'][] = $row['total'];
+            }
+        } else {
+            $data['result3'] = [];
+        }
     }else if ($position == 'admin'){
         $sql1 = "SELECT name AS total FROM category WHERE location = '$location'";
         $result1 = $conn->query($sql1);
@@ -61,6 +73,17 @@ $conn = new mysqli($servername, $username, $password,$db);
             }
         } else {
             $data['result2'] = [];
+        }
+        $sql3 = "SELECT *AS total FROM items WHERE company = '$location'";
+        $result3 = $conn->query($sql3);
+        if ($result3->num_rows > 0) {
+            $data['result3'] = array(); // Initialize an empty array
+        
+            while ($row = $result3->fetch_assoc()) {
+                $data['result3'][] = $row['total'];
+            }
+        } else {
+            $data['result3'] = [];
         }
     }
  

@@ -79,7 +79,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         }    
     }else if ($position =='admin'||$position =='user'){
     $company = $_POST['company']; 
-    $sql1 = "SELECT COUNT(item_id) AS total FROM items WHERE location = '$company'";
+    $sql1 = "SELECT COUNT(itemid_company) AS total FROM items WHERE location = '$company'";
     $result1 = $conn->query($sql1);
     
     // Process the results as needed

@@ -1,821 +1,5 @@
-
-.popup1 {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.popup1:hover::after {
-  content: attr(data-content);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 5px 10px;body {
-    font-family: "Poppins", sans-serif;
-  }
-  .popup1 {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .popup1:hover::after {
-    content: attr(data-content);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 5px 10px;
-    background-color: #000;
-    color: #fff;
-    font-size: 12px;
-    white-space: nowrap;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease-in-out;
-  }
-  
-  .popup1:hover::after {
-    visibility: visible;
-    opacity: 1;
-  }
-  .popup {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .popup-content {
-    width: 300px;
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 1;
-    left: 100%; /* Adjust this value as needed */
-    top: 0;
-    margin-left: 10px;
-    font-size: 16px;
-    font-weight: 100;
-    max-height: 200px; /* Adjust the maximum height as needed */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
-  
-  .popup:hover .popup-content,
-  .popup.open .popup-content {
-    display: block;
-  }
-  
-  .hover-label {
-    cursor: pointer;
-  }
-  
-  .popup-content:hover {
-    overflow-y: auto;
-  }
-  
-  .hover-label {
-    cursor: pointer;
-    font-family: "Poppins";
-  }
-  .value1-txt {
-    position: absolute;
-    bottom: -10px;
-    left: 410px;
-    color: #a02f2f;
-    font-size: 180%;
-    font-family: "Poppins";
-  }
-  .value2-txt {
-    position: absolute;
-    bottom: -10px;
-    left: 940px;
-    color: #a02f2f;
-    font-size: 190%;
-    font-family: "Poppins";
-  }
-  .value3-txt {
-    position: absolute;
-    bottom: -10px;
-    left: 1513px;
-    color: #a02f2f;
-    font-size: 190%;
-    font-family: "Poppins";
-  }
-  .value4-txt {
-    position: absolute;
-    left: 410px;
-    bottom: -320px;
-    color: #a02f2f;
-    font-size: 190%;
-    font-family: "Poppins";
-  }
-  .value5-txt {
-    position: absolute;
-    left: 940px;
-    bottom: -320px;
-    color: #aaa font-size 190%;
-    font-family: "Poppins";
-  }
-  .value6-txt {
-    position: absolute;
-    left: 1513px;
-    bottom: -320px;
-    color: #a02f2f;
-    font-size: 190%;
-    font-family: "Poppins";
-  }
-  .first-txt {
-    position: absolute;
-    bottom: -20px;
-    left: 410px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .second-txt {
-    position: absolute;
-    bottom: -35px;
-    left: 410px;
-    font-family: "Poppins";
-    font-size: 100%;
-  }
-  .third-txt {
-    position: absolute;
-    bottom: -20px;
-    left: 940px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .fourth-txt {
-    position: absolute;
-    bottom: -35px;
-    left: 940px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .fifth-txt {
-    position: absolute;
-    bottom: -20px;
-    left: 1513px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .sixth-txt {
-    position: absolute;
-    bottom: -50px;
-    left: 1470px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .seventh-txt {
-    position: absolute;
-    bottom: -330px;
-    left: 410px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .eight-txt {
-    position: absolute;
-    bottom: -350px;
-    left: 410px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .nineth-txt {
-    position: absolute;
-    bottom: -330px;
-    left: 940px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .tenth-txt {
-    position: absolute;
-    bottom: -425px;
-    left: 940px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .eleventh-txt {
-    position: absolute;
-    bottom: -330px;
-    left: 1513px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .twelve-txt {
-    position: absolute;
-    bottom: -425px;
-    left: 1513px;
-    font-size: 100%;
-    font-family: "Poppins";
-  }
-  .TotalProduct {
-    margin-left: -80px;
-    position: relative;
-    height: 250px;
-  }
-  
-  .whitebg1 {
-    position: relative;
-    margin-left: 290px;
-    margin-top: 140px;
-    margin-bottom: 20px;
-    height: 173px;
-  }
-  .whitebg2 {
-    position: relative;
-    margin-left: 290px;
-    margin-top: 140px;
-    margin-bottom: 20px;
-    height: 173px;
-  }
-  .whitebg3 {
-    position: relative;
-    margin-left: 330px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    height: 173px;
-  }
-  .hidden {
-    display: none;
-  }
-  
-  .whitebg4 {
-    position: relative;
-    margin-left: 290px;
-    margin-top: 115px;
-    margin-bottom: 20px;
-    height: 173px;
-  }
-  .whitebg5 {
-    position: relative;
-    margin-left: 290px;
-    margin-top: 115px;
-    margin-bottom: 20px;
-    height: 173px;
-  }
-  .whitebg6 {
-    position: relative;
-    margin-left: 330px;
-    margin-top: 115px;
-    height: 173px;
-    margin-bottom: 20px;
-  }
-  
-  .logo {
-    margin-left: 23%;
-    height: 110px;
-    width: 110px;
-    margin-top: -13%;
-    margin-bottom: 10%;
-  }
-  .subcontainer2 .qrtitle {
-    font-size: 20px;
-    font-family: "Poppins";
-  }
-  .hidden {
-    display: none;
-  }
-  .subcontainer2 {
-    position: fixed;
-    height: 830px;
-  }
-  .column td {
-    height: 50px;
-  }
-  
-  .dashboardbg {
-    position: absolute;
-    margin-top: 5%;
-    margin-bottom: 2%;
-    margin-left: 6%;
-    margin-right: 2%;
-    width: 90%;
-    height: 88%;
-  
-    border: 1px solid rgb(185, 181, 181);
-    border-radius: 15px;
-  }
-  .container {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    border-color: gray;
-    padding: 0;
-    margin-top: 23px;
-    width: 120%;
-    height: 920px;
-  }
-  .column1 .label {
-    margin-bottom: 10%;
-  }
-  .column2 {
-    margin-left: 2%;
-    width: 100%;
-  }
-  .column2 h3 {
-    margin-top: 3%;
-    margin-bottom: 0;
-  }
-  .content {
-    position: relative;
-    margin-top: 120px;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: justify;
-  }
-  .content .p {
-    margin-left: 70px;
-    font-size: 20px;
-    text-align: justify;
-    font-family: "Poppin 250";
-    color: #686565;
-  }
-  .subcontainer3 .content .head1 {
-    text-align: center;
-    color: #c00000;
-    font-size: 23px;
-    font-family: "Poppins";
-  }
-  .my-table {
-    width: 150%;
-  }
-  .dev {
-    margin-top: 0px;
-    font-size: 20px;
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-  }
-  .profile .pic1 {
-    border-radius: 15px;
-    margin-top: -21px;
-    width: 290px;
-    height: 290px;
-  }
-  .resizable-table {
-    table-layout: fixed;
-    width: 100%;
-  }
-  
-  .resizable-table th,
-  .resizable-table td {
-    padding: 10px;
-  
-    resize: horizontal;
-  }
-  .resizable-table1 {
-    table-layout: fixed;
-    width: 100%;
-    text-align: center;
-  }
-  .resizable-table {
-    text-align: center;
-    height: 50px;
-  }
-  .resizable-table1 th,
-  .resizable-table1 td {
-    padding: 10px;
-    resize: horizontal;
-  }
-  
-  .scrollablecontent {
-    margin-left: 50px;
-    display: flex;
-    margin-top: 0px;
-    width: 20%;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    width: 1600px; /* Adjust the width as needed */
-    height: 770px;
-  }
-  .subcontainer {
-    position: relative;
-    height: 830px;
-    display: block;
-    box-shadow: 1px 2px 1px 1px rgb(255, 255, 255),
-      -1px -2px 1px 1px rgb(185, 182, 182);
-    background-image: linear-gradient(
-      180deg,
-      rgb(255, 255, 231),
-      rgb(255, 255, 255)
-    );
-  }
-  .itemcenter {
-    align-items: center;
-    text-align: center;
-  }
-  .itemcenter1 {
-    align-items: left;
-    text-align: left;
-  }
-  .qrtitle {
-    font-family: "Poppins";
-    font-size: 25px;
-    font-weight: bolder;
-    align-items: left;
-    text-align: center;
-  }
-  .generate {
-    font-size: 16px;
-    width: 150px;
-    height: 30px;
-    margin-top: 14px;
-  }
-  .compiler1 {
-    display: flex;
-    margin-top: 5px;
-  }
-  .thing2 {
-    margin-top: 30px;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .subcontainer2 .compiler1 .thing2 {
-    margin-top: 27px;
-    width: 100%;
-    margin-left: 10px;
-  }
-  .logo2 {
-    width: 60px;
-    height: 60px;
-    margin-left: 10%;
-  }
-  .subcontainer2 {
-    position: fixed;
-    height: 830px;
-    display: block;
-    box-shadow: 1px 2px 1px 1px rgb(255, 255, 255),
-      -1px -2px 1px 1px rgb(185, 182, 182);
-    background-image: linear-gradient(
-      180deg,
-      rgb(255, 255, 231),
-      rgb(255, 255, 255)
-    );
-  }
-  .thing0 {
-    height: 100%;
-  }
-  .upper3 {
-    display: flex;
-    margin-top: 15px;
-  }
-  .upper4 {
-    margin-left: 5%;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .popupForm {
-    background-color: #fefefe;
-    border: 1px solid rgb(255, 255, 255);
-    margin: 15% auto;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-  }
-  
-  .closeButton:hover,
-  .closeButton:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .popupFormContainer {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  
-  .popupForm {
-    background-color: #fefefe;
-    border-radius: 15px;
-    border: 3px solid rgb(105, 105, 105);
-    border-style: solid;
-    margin: 15% auto;
-    padding: 20px;
-    width: 50%;
-    max-width: 400px;
-    font-family: "Poppins", sans-serif;
-    background-image: linear-gradient(
-      180deg,
-      rgb(255, 220, 223),
-      rgb(255, 255, 255)
-    );
-  }
-  
-  .closeButton {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .closeButton:hover,
-  .closeButton:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .qrbutton {
-
-    margin-top: 25px;
-    border: 2px solid rgb(253, 251, 251);
-    background-color: rgb(226, 27, 27);
-    margin-right: 450px;
-    border-radius: 25px;
-    width: 300px;
-    height: 40px;
-    color: white;
-    font-weight: bolder;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .qrcodeformat {
-    margin-left: 7%;
-    margin-right: 7%;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border: 2px solid black;
-  }
-  .things {
-    display: flex;
-    margin-left: 25px;
-  }
-  .compiler1 .thing3 {
-    display: flex;
-    margin-left: 0%;
-  }
-  .thing3 {
-    display: flex;
-    margin-left: 30%;
-  }
-  .subcontainer3 {
-    position: fixed;
-    height: 830px;
-    display: block;
-    box-shadow: 1px 2px 1px 1px rgb(255, 255, 255),
-      -1px -2px 1px 1px rgb(185, 182, 182);
-    background-image: linear-gradient(
-      180deg,
-      rgb(255, 255, 231),
-      rgb(255, 255, 255)
-    );
-  }
-  .upper {
-    
-    display: flex;
-  }
-  .dropdown {
-    margin-top: 30px;
-  }
-  .upper2 {
-    margin-top: 15px;
-    margin-left: 45%;
-    display: flex;
-    font-weight: bold;
-  }
-  .subcontainer label {
-    font-size: 20px;
-    font-weight: bolder;
-    width: 50px;
-    margin-right: 50px;
-  }
-  
-  .buttons {
-    margin-top: 16px;
-    margin-right: 30px;
-    margin-left: -20px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-  .ButtonsA {
-    margin-top: 25px;
-    margin-left: -15px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-  .ButtonsD {
-    margin-top: 25px;
-    margin-left: 10px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-  .profilelogo {
-    width: 35px;
-    height: 35px;
-  }
-  .profile {
-    display: flex;
-  }
-  .profile label {
-    font-weight: bold;
-    font-size: 17px;
-  }
-  .profile1 {
-    margin-top: 7px;
-  }
-  .profilerole {
-    font-size: 12px;
-  }
-  .profilename {
-    color: #c00000;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  .profile2 {
-    margin-top: 6px;
-    font-weight: bolder;
-    margin-left: 10px;
-    width: 200px;
-    font-family: "Poppins", sans-serif;
-  }
-  .column2 h1 {
-    
-    margin-top: 0;
-    margin-bottom: 0;
-    width: 100%;
-    text-shadow: 1px 1px 1px black;
-  }
-  .instock {
-    font-size: 17px;
-    font-family: "Poppins";
-    color: #c00000;
-  }
-  .instock2 {
-    font-size: 17px;
-    font-family: "Poppins";
-    color: #c00000;
-  }
-  .minilogo {
-    margin-top: 13px;
-    width: 20px;
-    height: 20px;
-  }
-  .column1 .label {
-    display: inline-block;
-    font-family: "Poppins";
-    padding: 10px;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    text-align: center;
-    margin-bottom: 20%;
-  }
-  
-  .column1 .label.active {
-    color: red;
-  }
-  .upper5 {
-    margin-top: 10px;
-    font-weight: bolder;
-    margin-left: 10px;
-    width: 100%;
-  }
-  .column1 .label .inactive {
-    color: black;
-  }
-  .logo1 {
-    display: flex;
-  }
-  .DB {
-    display: block;
-    margin-right: auto;
-    position: relative;
-    width: 70px;
-  }
-  .w {
-    color: #c00000;
-    margin-left: 25px;
-  }
-  .w2 {
-    color: #c00000;
-    font-size: 27px;
-  }
-  .w3 {
-    position: absolute;
-  
-    color: #c00000;
-    margin-left: 27px;
-  }
-  .selection {
-    color: #8d8989;
-    border: 1px solid #eee5e5;
-    cursor: pointer;
-  }
-  .Techno {
-    
-    margin-top: -13px;
-  }
-  .Warning {
-    display: flex;
-    width: 75px;
-    height: auto;
-    margin-left: 170px;
-  }
-  .closeButton2 {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    background: #eecaca;
-    color: #141414;
-    text-align: center;
-    line-height: 13px;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .closeButton {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    background: #eecaca;
-    color: #141414;
-    text-align: center;
-    line-height: 13px;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .closeButton3 {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    background: #eecaca;
-    color: #141414;
-    text-align: center;
-    line-height: 13px;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .closeButton4 {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    background: #eecaca;
-    color: #141414;
-    text-align: center;
-    line-height: 13px;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .QR {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    margin-left: 290px;
-    margin-top: 10px;
-  }
-  .Qrtitle {
-    margin-right: 30px;
-    text-align: center;
-  }
-  .textabout {
-    font-family: "Poppins";
-    margin-top: -30px;
-    font-size: 19px;
-  }
-  .textrole {
-    margin-top: -26px;
-    font-size: 13px;
-    color: #c00000;
-    font-family: "Poppins";
-  }
-  .card {
-    position: absolute;
-    margin-left: 5%;
-    margin-top: 5%;
-    height: 88%;
-    width: 92%;
-  }
-  .profile3 {
-    margin-top: -13px;
-  }
-  background-color: #000;
-  color: #fff;
-  font-size: 12px;
-  white-space: nowrap;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.3s ease-in-out;
-}
-
-.popup1:hover::after {
-  visibility: visible;
-  opacity: 1;
+body {
+  font-family: "Poppins";
 }
 .popup {
   position: relative;
@@ -1057,6 +241,7 @@
 .subcontainer2 {
   position: fixed;
   height: 830px;
+  
 }
 .column td {
   height: 50px;
@@ -1065,25 +250,23 @@
 .dashboardbg {
   position: absolute;
   margin-top: 5%;
-  margin-bottom: 2%;
   margin-left: 6%;
   margin-right: 2%;
   width: 90%;
   height: 88%;
-
   border: 1px solid rgb(185, 181, 181);
   border-radius: 15px;
 }
 .container {
+  position: fixed;
   padding: 0;
   margin: 0;
   display: flex;
   border-color: gray;
   padding: 0;
-  margin-top: 23px;
+  margin-top: 29px;
   width: 120%;
   height: 920px;
-  position: fixed;
 }
 .column1 .label {
   margin-bottom: 10%;
@@ -1161,7 +344,7 @@
 .scrollablecontent {
   margin-left: 50px;
   display: flex;
-  margin-top: 0px;
+  margin-top: -30px;
   width: 20%;
   overflow-y: scroll;
   overflow-x: scroll;
@@ -1188,9 +371,6 @@
   align-items: left;
   text-align: left;
 }
-.label.active {
-  color: red; /* Change the color to your desired active color */
-}
 .qrtitle {
   font-family: "Poppins";
   font-size: 25px;
@@ -1213,7 +393,11 @@
   margin-left: 10px;
   cursor: pointer;
 }
+.thing6 {
+  margin-top: 15px;
+  margin-left: 10px;
 
+}
 .subcontainer2 .compiler1 .thing2 {
   margin-top: 27px;
   width: 100%;
@@ -1311,7 +495,6 @@
 }
 
 .qrbutton {
-
   margin-top: 25px;
   border: 2px solid rgb(253, 251, 251);
   background-color: rgb(226, 27, 27);
@@ -1337,10 +520,12 @@
 }
 .compiler1 .thing3 {
   display: flex;
+  margin-left: 0%;
 }
 .thing3 {
   display: flex;
-  margin-left: 25%;
+  margin-left:40%;
+  margin-right: 0;
 }
 .subcontainer3 {
   position: fixed;
@@ -1357,16 +542,12 @@
 .upper {
   display: flex;
 }
-.upper1_1 {
-  font-family: 'Poppins';
-  display: flex;
-}
 .dropdown {
   margin-top: 30px;
 }
 .upper2 {
   margin-top: 15px;
-  margin-left: 35%;
+  margin-left: 45%;
   display: flex;
   font-weight: bold;
 }
@@ -1387,17 +568,25 @@
 }
 .ButtonsA {
   margin-top: 25px;
-  margin-left: -15px;
+  margin-right:0;
+  margin-left:-420px;
   width: 40px;
   height: 40px;
-  cursor: pointer;
+
 }
-.ButtonsD {
+.ButtonsB {
   margin-top: 25px;
-  margin-left: 10px;
+  margin-left: -370px;
   width: 40px;
   height: 40px;
-  cursor: pointer;
+
+}
+.ButtonsC {
+  margin-top: 25px;
+  margin-left: -320px;
+  width: 40px;
+  height: 40px;
+
 }
 .profilelogo {
   width: 35px;
@@ -1573,7 +762,7 @@
   margin-top: -26px;
   font-size: 13px;
   color: #c00000;
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 .card {
   position: absolute;
@@ -1584,4 +773,7 @@
 }
 .profile3 {
   margin-top: -13px;
+}
+.upper1_1{
+  display:flex;
 }

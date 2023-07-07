@@ -18,7 +18,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     $data = array();
     $dashboard = array();
 
-    $sql1 = "SELECT COUNT(item_id) AS total FROM items WHERE location = '$changinginfoDashboard'";
+    $sql1 = "SELECT COUNT(itemid_company) AS total FROM items WHERE location = '$changinginfoDashboard'";
     $result1 = $conn->query($sql1);
     
     // Process the results as needed

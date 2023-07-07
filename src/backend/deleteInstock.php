@@ -15,12 +15,12 @@ $conn = new mysqli($servername, $username, $password,$db);
     die("Connection failed: " . $conn->connect_error);}
     $name = $_POST['name'];
     $location = $_POST['location'];
-    $sql1 = "SELECT item_id AS total FROM items WHERE item_name = '$name' and location = '$location'";
+    $sql1 = "SELECT itemid_company AS total FROM items WHERE item_name = '$name' and location = '$location'";
         $result1 = $conn->query($sql1);
         
         // Process the results as needed
         if ($result1->num_rows > 0) {
-            $item_id = $data[0]['total'];
+            $itemid_company = $data[0]['total'];
 
             $sql2 = "DELETE FROM items WHERE item_name = '$name' AND location = '$location'";
 
