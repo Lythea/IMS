@@ -35,8 +35,9 @@ $conn = new mysqli($servername, $username, $password,$db);
       }
       }
     
-    $conn->close();
-    exit();
+
+      $conn->close();
+      exit();
 
 ?>
 

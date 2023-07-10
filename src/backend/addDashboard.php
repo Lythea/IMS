@@ -1,236 +1,233 @@
 <?php
 
-header ('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Content-Type: application/json, X-Auth-Token, Authorization, Origin');
-header ('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Authorization, Origin');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 header('Content-Type: application/json');
 
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db="cti_inventory_system";
+$db = "cti_inventory_system";
+
 // Create connection
-$conn = new mysqli($servername, $username, $password,$db);
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);}
+$conn = new mysqli($servername, $username, $password, $db);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$property = $_POST['property'];
+$position = $_POST['position'];
 
 
-    $property = $_POST['property'];
-    $position = $_POST['position'];
-    $location = $_POST['company'];
-    if($position =='moderator'){
-        if($property =='Defective Products' ){
-            $itemname = $_POST['defectiveForm_name'];
-            $location = $_POST['defectiveForm_location'];
-            $quantity = $_POST['defectiveForm_quantity'];
-            $sql = "SELECT itemid_company FROM items WHERE item_name ='$itemname'";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-              $data = $result->fetch_all(MYSQLI_ASSOC);
-              
-              $itemid_company = $data[0]['itemid_company'];
-              
-              $sql1 = "SELECT item_name FROM defective WHERE item_name ='$itemname'";
-              $result1 = $conn->query($sql1);
-              if ($result1->num_rows > 0) {
-                $itemname = $_POST['defectiveForm_name'];
-                $location = $_POST['defectiveForm_location'];
-                $quantity = $_POST['defectiveForm_quantity'];
-    
-    
-                $sql = "SELECT quantity FROM defective WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
+if ($position == 'moderator') {
+    if ($property == 'Defective Products') {
+        $itemname = $_POST['defectiveForm_name'];
+        $location = $_POST['defectiveForm_location'];
+        $quantity = $_POST['defectiveForm_quantity'];
+        $specific = $_POST['defectiveForm_specific'];
+
+
+        $sql = "SELECT itemid_company FROM items WHERE item_name = '$itemname'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            $itemid_company = $data[0]['itemid_company'];
+
+            $sql1 = "SELECT item_name FROM defective WHERE item_name = '$itemname'";
+            $result1 = $conn->query($sql1);
+
+            if ($result1->num_rows > 0) {
+                $sql = "SELECT quantity FROM defective WHERE itemid_company = '$itemid_company' AND companyownership = '$location'";
                 $result = $conn->query($sql);
-                
+
                 if ($result->num_rows > 0) {
-                $data = $result->fetch_all(MYSQLI_ASSOC);
-                $currentQuantity = $data[0]['quantity'];
-                
-                // Check if the current quantity is greater than 1
-                if ($currentQuantity >= 1) {
-                    // Update the data
-                    $newQuantity = $currentQuantity + $quantity;
-                    $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
-                    $conn->query($updateSql);
-                
-                    echo json_encode(['data' => 'Data updated successfully']);
-                } 
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+                    $currentQuantity = $data[0]['quantity'];
+
+                    // Check if the current quantity is greater than 1
+                    if ($currentQuantity >= 1) {
+                        // Update the data
+                        $newQuantity = $currentQuantity + $quantity;
+                        $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE itemid_company = '$itemid_company' AND companyownership = '$location'";
+                        $conn->query($updateSql);
+
+                        echo json_encode(['data' => 'Data updated successfully']);
+                    } else {
+                        echo json_encode(['data' => 'Not Found!']);
+                    }
                 } else {
-                echo json_encode(['data' => 'Not Found!']);
+                    echo json_encode(['data' => 'Not Found!']);
                 }
-            // Select the current quantity for the given item and location
             } else {
-                $insertSql = "INSERT INTO defective (itemid_company, item_name, quantity, companyownership) VALUES ('$itemid_company', '$itemname', '$quantity', '$location')";
-                
-                        if ($conn->query($insertSql) === TRUE) {
-                            echo json_encode(['data' => 'Row inserted successfully']);
-                        } else {
-                            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-                        }
+                $insertSql = "INSERT INTO defective (item_id, item_name, quantity,location, companyownership) VALUES ('$itemid_company', '$itemname', '$quantity','$specific', '$location')";
+
+                if ($conn->query($insertSql) === TRUE) {
+                    echo json_encode(['data' => 'Row inserted successfully']);
+                } else {
+                    echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+                }
             }
-            } else {
-                echo json_encode(['data' => 'No item 3']);
-            }
-        } else if($property =='Personel' ){
-            $name = $_POST['personelForm_name'];
-            $position = $_POST['personelForm_position'];
-            $location = $_POST['personelForm_location'];
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO personels (name,position,location) VALUES ('$name','$position','$location')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Category' ){
-            $name = $_POST['categoryForm_name'];
-            $location = $_POST['categoryForm_location'];
-    
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO category (location, name) VALUES ('$location', '$name')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Location' ){
-            
-            $acronym = $_POST['locationForm_acronym'];
-            $name = $_POST['locationForm_name'];
-            $floor = $_POST['locationForm_floor'];
-    
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO company (location, fullname, floor) VALUES ('$acronym', '$name', '$floor')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Project' ){
-            $name = $_POST['projectForm_name'];
-            $company = $_POST['projectForm_location'];
-        
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO sponsors (company, sponsors) VALUES ('$company', '$name')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
+        } else {
+            echo json_encode(['data' => 'No item found']);
         }
-    }else if($position == 'admin'){
-        if($property =='Defective Products' ){
-            $itemname = $_POST['defectiveForm_name'];
-            $location = $_POST['company'];
-            $quantity = $_POST['defectiveForm_quantity'];
+    } else if ($property == 'Personel') {
+        $name = $_POST['personelForm_name'];
+        $position = $_POST['personelForm_position'];
+        $location = $_POST['personelForm_location'];
 
-            $sql = "SELECT itemid_company FROM items WHERE item_name ='$itemname' and location ='$location'";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-              $data = $result->fetch_all(MYSQLI_ASSOC);
-              
-              $itemid_company = $data[0]['itemid_company'];
-              
-              $sql1 = "SELECT item_name FROM defective WHERE item_name ='$itemname' and companyownership ='$location'";
-              $result1 = $conn->query($sql1);
-              if ($result1->num_rows > 0) {
-                $itemname = $_POST['defectiveForm_name'];
-                $location = $_POST['defectiveForm_location'];
-                $quantity = $_POST['defectiveForm_quantity'];
-    
-    
-                $sql = "SELECT quantity FROM defective WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
-                $result = $conn->query($sql);
-                
-                if ($result->num_rows > 0) {
-                $data = $result->fetch_all(MYSQLI_ASSOC);
-                $currentQuantity = $data[0]['quantity'];
-                
-                // Check if the current quantity is greater than 1
-                if ($currentQuantity >= 1) {
-                    // Update the data
-                    $newQuantity = $currentQuantity + $quantity;
-                    $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
-                    $conn->query($updateSql);
-                
-                    echo json_encode(['data' => 'Data updated successfully']);
-                } 
-                } else {
-                echo json_encode(['data' => 'Not Found!']);
-                }
-            // Select the current quantity for the given item and location
-            } else {
-                $insertSql = "INSERT INTO defective (itemid_company, item_name, quantity, companyownership) VALUES ('$itemid_company', '$itemname', '$quantity', '$location')";
-                
-                        if ($conn->query($insertSql) === TRUE) {
-                            echo json_encode(['data' => 'Row inserted successfully']);
-                        } else {
-                            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-                        }
-            }
-            } else {
-                echo json_encode(['data' => 'No item 3']);
-            }
-        } else if($property =='Personel' ){
-            $name = $_POST['personelForm_name'];
-            $position = $_POST['personelForm_position'];
-            $location = $_POST['company'];
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO personels (name,position,location) VALUES ('$name','$position','$location')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Category' ){
-            $name = $_POST['categoryForm_name'];
-            $location = $_POST['categoryForm_location'];
-    
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO category (location, name) VALUES ('$location', '$name')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Location' ){
-            
-            $acronym = $_POST['locationForm_acronym'];
-            $name = $_POST['locationForm_name'];
-            $floor = $_POST['locationForm_floor'];
-    
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO company (location, fullname, floor) VALUES ('$acronym', '$name', '$floor')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
-        }else if($property =='Project' ){
-            $name = $_POST['projectForm_name'];
-            $location = $_POST['company'];
-        
-            // Delete the row from the database based on the provided conditions
-            $sql = "INSERT INTO sponsors (company, sponsors) VALUES ('$company', '$name')";
-    
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
-            }
+        $sql = "INSERT INTO personels (name, position, location) VALUES ('$name', '$position', '$location')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Category') {
+        $name = $_POST['categoryForm_name'];
+        $location = $_POST['categoryForm_location'];
+
+        $sql = "INSERT INTO category (location, name) VALUES ('$location', '$name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Location') {
+        $acronym = $_POST['locationForm_acronym'];
+        $name = $_POST['locationForm_name'];
+        $floor = $_POST['locationForm_floor'];
+
+        $sql = "INSERT INTO company (location, fullname, floor) VALUES ('$acronym', '$name', '$floor')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' .$conn->error]);
+        }
+    } else if ($property == 'Project') {
+        $name = $_POST['projectForm_name'];
+        $company = $_POST['projectForm_location'];
+
+        $sql = "INSERT INTO sponsors (company, sponsors) VALUES ('$company', '$name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Others') {
+        $name = $_POST['otherForm_name'];
+
+        $sql = "INSERT INTO `location` (`location`) VALUES ('$name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
         }
     }
-    
-    
+} else if ($position == 'admin') {
+    if ($property == 'Defective Products') {
+        $itemname = $_POST['defectiveForm_name'];
+        $location = $_POST['company'];
+        $quantity = $_POST['defectiveForm_quantity'];
 
-    $conn->close();
-    exit();
+        $sql = "SELECT itemid_company FROM items WHERE item_name ='$itemname' and location ='$location'";
+        $result = $conn->query($sql);
 
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            $itemid_company = $data[0]['itemid_company'];
+
+            $sql1 = "SELECT item_name FROM defective WHERE item_name ='$itemname' and companyownership ='$location'";
+            $result1 = $conn->query($sql1);
+
+            if ($result1->num_rows > 0) {
+                $sql = "SELECT quantity FROM defective WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+                    $currentQuantity = $data[0]['quantity'];
+
+                    // Check if the current quantity is greater than 1
+                    if ($currentQuantity >= 1) {
+                        // Update the data
+                        $newQuantity = $currentQuantity + $quantity;
+                        $updateSql = "UPDATE defective SET quantity = '$newQuantity' WHERE itemid_company ='$itemid_company' AND companyownership = '$location'";
+                        $conn->query($updateSql);
+
+                        echo json_encode(['data' => 'Data updated successfully']);
+                    } else {
+                        echo json_encode(['data' => 'Not Found!']);
+                    }
+                } else {
+                    echo json_encode(['data' => 'Not Found!']);
+                }
+            } else {
+                $insertSql = "INSERT INTO defective (itemid_company, item_name, quantity, companyownership) VALUES ('$itemid_company', '$itemname', '$quantity', '$location')";
+
+                if ($conn->query($insertSql) === TRUE) {
+                    echo json_encode(['data' => 'Row inserted successfully']);
+                } else {
+                    echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+                }
+            }
+        } else {
+            echo json_encode(['data' => 'No item found']);
+        }
+    } else if ($property == 'Personel') {
+        $name = $_POST['personelForm_name'];
+        $position = $_POST['personelForm_position'];
+        $location = $_POST['company'];
+
+        $sql = "INSERT INTO personels (name, position, location) VALUES ('$name', '$position', '$location')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Category') {
+        $name = $_POST['categoryForm_name'];
+        $location = $_POST['categoryForm_location'];
+
+        $sql = "INSERT INTO category (location, name) VALUES ('$location', '$name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Location') {
+        $acronym = $_POST['locationForm_acronym'];
+        $name = $_POST['locationForm_name'];
+        $floor = $_POST['locationForm_floor'];
+
+        $sql = "INSERT INTO company (location, fullname, floor) VALUES ('$acronym', '$name', '$floor')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    } else if ($property == 'Project') {
+        $name = $_POST['projectForm_name'];
+        $location = $_POST['company'];
+
+        $sql = "INSERT INTO sponsors (company, sponsors) VALUES ('$company', '$name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['data' => 'Row inserted successfully']);
+        } else {
+            echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
+        }
+    }
+}
+
+$conn->close();
+exit();
 ?>
-

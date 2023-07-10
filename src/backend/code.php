@@ -54,6 +54,7 @@ $conn = new mysqli($servername, $username, $password,$db);
             echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
         }
     }
+
     $conn->close();
     exit();
 

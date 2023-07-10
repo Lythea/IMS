@@ -140,10 +140,8 @@ $conn = new mysqli($servername, $username, $password,$db);
     }
 
     }
-    
+  
     echo json_encode($data);
-
-
     $conn->close();
     exit();
 

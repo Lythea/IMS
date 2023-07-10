@@ -27,8 +27,9 @@ $conn = new mysqli($servername, $username, $password,$db);
         } else {
             echo json_encode(['data' => 'Error: ' . $sql . '<br>' . $conn->error]);
         }
-    $conn->close();
-    exit();
+
+        $conn->close();
+        exit();
 
 ?>
 

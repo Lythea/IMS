@@ -171,6 +171,12 @@
                                     <label class="textlabel">Quantity: </label> 
                                     <input  class="textbox" formControlName="defectiveForm_quantity" type="text"> 
                                     <br>
+                                    <label class="textlabel">Specific: </label> 
+                                    <select formControlName="defectiveForm_specific">
+                                      <option selected value="">None of the above</option>
+                                     <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
+                                    </select>
+                                    <br>
                                     <button (click)="AddDashboardSubmit()">Submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
@@ -237,6 +243,17 @@
                                     <br>
                                     <label class="textlabel">Sponsors: </label>
                                     <input  class="textbox" formControlName="projectForm_name" type="text"> 
+                                    <br>
+                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                  </form>
+                                </div>
+                                <div *ngIf="subcontainer2_content[6] && currentPopupContent === 'otherForm'">
+                                  <form [formGroup]="otherForm" form >
+                                    <label><h3>{{ selectedDetail}}</h3></label>
+                                    <br>
+                                    <label class="textlabel">Name: </label>
+                                    <input  class="textbox" formControlName="otherForm_name" type="text"> 
                                     <br>
                                     <button (click)="AddDashboardSubmit()">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
@@ -358,7 +375,19 @@
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
-                 
+                                <div *ngIf="subcontainer2_content[6] && currentPopupContent === 'otherForm'">
+                                  <form [formGroup]="otherForm" form >
+                                    <label><h3>{{ selectedDetail}}</h3></label>
+                                    <br>
+                                    <select formControlName="otherForm_name">
+                                      <option selected value="">None of the above</option>
+                                      <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
+                                    </select>
+                                    <br>
+                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                  </form>
+                                </div>
                             </div>
                           
                         </div>
@@ -485,9 +514,23 @@
                             <h2 class="qrtitle">QR Generator</h2>
                           
                               <div class="itemcenter">
+                                <label class="textlabel">Location</label> 
+                                <select formControlName="qrForm_location">
+                                  <option disabled selected value="">select</option>
+                                  <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                </select>
+                               
+          
+                                <br>
                                 <label>ITEM CODE: </label>
-                                <input type="text" formControlName="qrForm_itemcode" required><br>
+                                <input type="text" formControlName="qrForm_itemcode" (input)="qrchange()" required><br>
                                 <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
+                                <br>
+                                <label class="textlabel">Specific</label> 
+                                <select formControlName="qrForm_specific">
+                                  <option disabled selected value="">select</option>
+                                  <option *ngFor="let specific of qrspecificData" [value]="specific.specific">{{ specific.specific }}</option>
+                                </select>
                                 <br>
                                 <button class="generate" type="submit" (click)="submit()">{{ qrgenerate }}</button>
                               </div>
@@ -553,7 +596,7 @@
                               <input class="textbox" [formControlName]="input + 'quantity'" type="text" style="width:30px;">
                               <select [formControlName]="input">
                                 <option selected value="">None of the above</option>
-                                <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
+                                <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                               </select>
                               <br>
                             </div>
@@ -614,7 +657,7 @@
                               <input class="textbox" [formControlName]="input + 'quantity'" type="text" style="width:30px;">
                               <select [formControlName]="input">
                                 <option selected value="">None of the above</option>
-                                <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
+                               <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                               </select>
                               <br>
                             </div>

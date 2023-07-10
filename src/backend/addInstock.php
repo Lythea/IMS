@@ -104,4 +104,7 @@ if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name']))
 } else {
     echo json_encode(['data' => 'No inputValues file uploaded']);
 }
+
+$conn->close();
+exit();
 ?>

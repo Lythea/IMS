@@ -66,7 +66,6 @@ $conn = new mysqli($servername, $username, $password,$db);
         echo "No results found.";
     }
 
-    echo json_encode($data);
 
 
     $conn->close();

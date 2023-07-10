@@ -17,6 +17,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     $data = array();
     $company = $_POST['company']; 
     $position = $_POST['position'];
+    $resultarray=[];
     if($position == 'moderator'){
     $sql1 = "SELECT item_name AS total FROM items";
     $result1 = $conn->query($sql1);

@@ -92,8 +92,9 @@ if ($result1->num_rows > 0) {
                     $imgurl = $_POST['imgurl'];
                     $parurl = $_POST['parurl'];
                 
-                    $sql = "INSERT INTO items (item_name, quantity, category, project, location, image, par) VALUES ('$itemname', '$quantity', '$category', '$sponsors', '$company', '$imgurl', '$parurl')";
-                
+                    $sql = "INSERT INTO items (itemid_company, item_name, quantity, category, project, location, image, par) 
+                    SELECT COALESCE(MAX(itemid_company), 0) + 1, '$itemname', '$quantity', '$category', '$sponsors', '$company', '$imgurl', '$parurl' 
+                    FROM items WHERE location ='$company'";
                     if ($conn->query($sql) === TRUE) {
                         $lastInsertID = $conn->insert_id;
                 
@@ -139,4 +140,8 @@ if ($result1->num_rows > 0) {
 } } else {
     echo json_encode(['data' => 'Not Found!']);
 }
+
+
+$conn->close();
+exit();
 ?>
