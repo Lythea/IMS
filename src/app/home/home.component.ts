@@ -45,7 +45,7 @@ export class HomeComponent {
       const formData = new FormData();
    
     
-      fetch('http://cti/inventory/backend/location.php', {
+      fetch('http://localhost:8080/IMS/src/backend/location.php', {
         method: 'POST',
         body: formData
       })
@@ -67,7 +67,7 @@ export class HomeComponent {
     const formData = new FormData();
     formData.append('email',this.accounts.value.email)
     formData.append('password',this.accounts.value.password)
-    fetch('http://cti/inventory/backend/login.php', {
+    fetch('http://localhost:8080/IMS/src/backend/login.php', {
     method: 'POST',
     body: formData
   })
@@ -100,7 +100,7 @@ export class HomeComponent {
     formData.append('company',this.accounts.value.company)
     formData.append('code',this.accounts.value.code)
 
-    fetch('http://cti/inventory/backend/verifyaccount.php', {
+    fetch('http://localhost:8080/IMS/src/backend/verifyaccount.php', {
       method: 'POST',
       body: formData
     })
@@ -109,7 +109,7 @@ export class HomeComponent {
     if (value.data == 'No Data'){
       alert('Code is incorrect')
     }else if(value.data=='Not Found!'){
-      fetch('http://cti/inventory/backend/signup.php', {
+      fetch('http://localhost:8080/IMS/src/backend/signup.php', {
         method: 'POST',
         body: formData
       })
