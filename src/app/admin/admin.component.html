@@ -743,8 +743,16 @@
                             <td>{{ item.category }}</td>
                             <td>{{ item.location }}</td>
                             <td>{{ item.project }}</td>
-                            <td><a href="{{item.image}}"><img class="minilogo" src="../assets/img.png"></a></td>
-                            <td><a href="{{item.par}}"><img class="minilogo" src="../assets/par.png"></a></td>
+                            <td>
+                              <a href="javascript:void(0);" (click)="handleImageLinkClick(item.image)">
+                                <img class="minilogo" src="../assets/img.png">
+                              </a>
+                            </td>
+                            <td>
+                              <a href="javascript:void(0);" (click)="handleParLinkClick(item.par)">
+                                <img class="minilogo" src="../assets/par.png">
+                              </a>
+                            </td>
                           </tr>
                         
                       </table>

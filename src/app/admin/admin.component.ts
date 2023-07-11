@@ -303,10 +303,10 @@ otherForm : any = FormGroup;
     const imgurl : any = this.updateInstockForm.value.updateInstockForm_imgurl
     const parurl : any = this.updateInstockForm.value.updateInstockForm_parurl
     const location : any = this.updateInstockForm.value.updateInstockForm_location
+
+    console.log(position + sponsors + category + itemname + quantity + imgurl + parurl + location)
     const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
-    if(quantity != this.getTotalQuantity1()){
-      alert('Quantity is no equal to the total quantity being borrowed, Total: ' + this.totalQuantity1)
-    }
+  
     this.generatedInputs.forEach((input) => {
       const inputValue = this.updateInstockForm.get(input).value;
       const quantityValue = this.updateInstockForm.get(input + 'quantity').value;
@@ -324,9 +324,11 @@ otherForm : any = FormGroup;
       formData.append('company',company.toUpperCase())
       formData.append('position',position)
       }
-      let b_quantity = this.addInstockForm.get('quantity').value;
+      let b_quantity = this.updateInstockForm.get('quantity').value;
       if(b_quantity ==''||!b_quantity||b_quantity =='0'){
         b_quantity = 0;
+        formData.append('b_quantity',b_quantity)
+      }else{
         formData.append('b_quantity',b_quantity)
       }
       formData.append('inputValues', blob);
@@ -336,7 +338,10 @@ otherForm : any = FormGroup;
       formData.append('quantity',quantity)
       formData.append('imgurl',imgurl)
       formData.append('parurl',parurl)
-      fetch('http://localhost:8080/IMS/src/backend/updateInstock.php', {
+      if(quantity < this.getTotalQuantity1()){
+        alert('Quantity is not equal to the total quantity being borrowed, Total: ' + this.totalQuantity1)
+      }else {
+   fetch('http://localhost:8080/IMS/src/backend/updateInstock.php', {
         method: 'POST',
         body: formData
       })
@@ -344,8 +349,10 @@ otherForm : any = FormGroup;
         .then(value => {
           alert(value.data)
           this.updateFormDisplay()
-          location.reload();
+          window.location.reload();
         }); 
+      }
+   
   }
   handleSelectChange() {
     this.selectedValue1 = this.searchdropdown.value.value
@@ -629,7 +636,7 @@ addInstock(){
   const location : any = this.addInstockForm.value.addInstockForm_location
   const imgurl : any = this.addInstockForm.value.addInstockForm_imgurl
   const parurl : any = this.addInstockForm.value.addInstockForm_parurl
-  if(quantity != this.getTotalQuantity()){
+  if(quantity < this.getTotalQuantity()){
     alert('Quantity is no equal to the total quantity being borrowed, Total: ' + this.totalQuantity)
   }
   const inputValues: {[key: string]: any} = {}; // Initialize inputValues as an empty object
@@ -674,7 +681,7 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
+        window.location.reload();
       });
     }
   deleteInstock(){
@@ -715,7 +722,7 @@ addInstock(){
           };
         }
         this.updateFormDisplay()
-        location.reload();
+        window.location.reload();
       });
   }
 
@@ -2097,7 +2104,20 @@ addInstock(){
     this.showContent2 = false;
     this.showContent3 = false;
   }
-
+  handleImageLinkClick(imageUrl: string) {
+    if (imageUrl === 'N/A') {
+      alert('Image is not available');
+    } else {
+      window.open(imageUrl, '_blank');
+    }
+  }
+  handleParLinkClick(par: string) {
+    if (par === 'N/A') {
+      alert('Image is not available');
+    } else {
+      window.open(par, '_blank');
+    }
+  }
   toggleContent2(): void {
     this.showContent1 = false;
     this.showContent2 = true;
@@ -2125,6 +2145,7 @@ addInstock(){
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
         const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
         const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
+        
         this.tableData[i] = {
           code:  codeValue ,
           productname: productValue,

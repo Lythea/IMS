@@ -92,11 +92,6 @@ if ($result1->num_rows > 0) {
                     $imgurl = $_POST['imgurl'];
                     $parurl = $_POST['parurl'];
                 
-                    $sql = "INSERT INTO items (itemid_company, item_name, quantity, category, project, location, image, par) 
-                    SELECT COALESCE(MAX(itemid_company), 0) + 1, '$itemname', '$quantity', '$category', '$sponsors', '$company', '$imgurl', '$parurl' 
-                    FROM items WHERE location ='$company'";
-                    if ($conn->query($sql) === TRUE) {
-                        $lastInsertID = $conn->insert_id;
                 
                         $insertQuery = "INSERT INTO ownership (item_id, location, `specific`, quantity) VALUES ";
                 
@@ -107,7 +102,7 @@ if ($result1->num_rows > 0) {
                             $escapedInputValue = $conn->real_escape_string($inputValue);
                             $escapedInputQuantity = $conn->real_escape_string($inputQuantity);
                 
-                            $insertQuery .= "('$lastInsertID', '$company', '$escapedInputValue', '$escapedInputQuantity'), ";
+                            $insertQuery .= "('$itemid_company', '$company', '$escapedInputValue', '$escapedInputQuantity'), ";
                         }
                 
                         $insertQuery = rtrim($insertQuery, ', ');
@@ -118,29 +113,27 @@ if ($result1->num_rows > 0) {
                         } else {
                             echo json_encode(['data' => 'Error: ' . $sql . '<br>' . $conn->error]);
                         }
-                    } else {
-                        echo json_encode(['data' => 'Error: ' . $sql . '<br>' . $conn->error]);
-                    }
+                  
                 } else {
                     echo json_encode(['data' => 'No inputValues file uploaded']);
                 }
-        } else if ($b_quantity == 0){
-            $sql = "DELETE FROM ownership WHERE item_id = '$item_id'";
-            if ($conn->query($sql) === TRUE) {
-                echo json_encode(['data' => 'Row removed successfully']);
-            } else {
-                echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
+            } else if ($b_quantity == 0){
+                $sql = "DELETE FROM ownership WHERE item_id = '$itemid_company'";
+                if ($conn->query($sql) === TRUE) {
+                    echo json_encode(['data' => 'Row removed successfully']);
+                } else {
+                    echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
+                }
             }
+        } else {
+            echo json_encode(['data' => 'Not Found!']);
         }
     } else {
         echo json_encode(['data' => 'Not Found!']);
     }
 } else {
     echo json_encode(['data' => 'Not Found!']);
-} } else {
-    echo json_encode(['data' => 'Not Found!']);
 }
-
 
 $conn->close();
 exit();
