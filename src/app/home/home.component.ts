@@ -75,20 +75,24 @@ export class HomeComponent {
   .then(value => {
     const company = value.data[0].company;
     const position = value.data[0].position;
-   
-   
-    localStorage.setItem('name',value.data[0].name)
-    localStorage.setItem('position',position.toLowerCase())
-    localStorage.setItem('company',company.toLowerCase())
-   
-    if(position=='admin' || position=='MODERATOR'){
+
+    if(value.data=='Not Found!'){
+      alert(value.data)
+    }else {
+      localStorage.setItem('name',value.data[0].name)
       localStorage.setItem('position',position.toLowerCase())
-      localStorage.setItem('company',company)
-      this.router.navigate(['admin']);
-    }else if(position=='user'){
-      localStorage.setItem('position',position)
-      this.router.navigate(['admin']);
+      localStorage.setItem('company',company.toLowerCase())
+     
+      if(position=='admin' || position=='MODERATOR'){
+        localStorage.setItem('position',position.toLowerCase())
+        localStorage.setItem('company',company)
+        this.router.navigate(['admin']);
+      }else if(position=='user'){
+        localStorage.setItem('position',position)
+        this.router.navigate(['admin']);
+      }
     }
+
   });}
 
   signup(){

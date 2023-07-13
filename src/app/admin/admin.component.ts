@@ -2,7 +2,9 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder,Validators,FormGroup,FormControl} from '@angular/forms';
-
+import { HttpClient } from '@angular/common/http';
+import * as jsPDF from 'jspdf';
+import { QRCodeModule } from 'angularx-qrcode';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -11,6 +13,7 @@ import { FormBuilder,Validators,FormGroup,FormControl} from '@angular/forms';
 export class AdminComponent implements OnInit{
   
   @ViewChild('dropdown', { static: true }) dropdown: ElementRef = new ElementRef(null);
+  activeContent: any;
   activeLabel: string = '';
   myAngularxQrCode: any='Empty';
   showContent1 = true;
@@ -28,6 +31,7 @@ export class AdminComponent implements OnInit{
   isHidden1: boolean = true;
   tableData:any = [];
   productname: any | undefined;
+  serial: any | undefined;
   fileUrl: any;
   selectedDetail: any; 
   qrgenerate = 'GENERATE';
@@ -37,7 +41,7 @@ export class AdminComponent implements OnInit{
   categoryData: any = [];
   locationData: any = [];
   projectData: any = [];
-
+  fetchApiResponse: any[] = [];
   floorData: any =[];
  qrspecificData: any =[];
   fullnameData: any = [];
@@ -90,12 +94,38 @@ searchdropdown: any = FormGroup;
 othersData: any = [];
 othersValue : any;
 otherForm : any = FormGroup;
-  constructor(private sanitizer: DomSanitizer,private fb: FormBuilder) {  }
+inventoryItems: any[] = [];
+  constructor(private sanitizer: DomSanitizer,private fb: FormBuilder,private http: HttpClient) {  }
     disableSelect() {
       this.dropdown.nativeElement.disabled = true;
 
     } 
-  
+    exportData() {
+      const position: any = localStorage.getItem('position');
+      const company : any =localStorage.getItem('company');
+      const exportUrl = 'http://localhost:8080/IMS/src/backend/exportdata.php';
+      
+      // Create a new FormData object
+      const formData = new FormData();  
+      
+      // Append additional data based on conditions
+      formData.append('position', position);
+      formData.append('company', company);
+      // Send the HTTP request with the FormData
+      this.http.post(exportUrl, formData, { responseType: 'blob' }).subscribe((response: any) => {
+        const blob = new Blob([response], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        if(position =='moderator'){
+          a.download = 'STEERHUB_Itemlist.csv';
+        }else if (position =='admin'){
+          a.download = company + '_Itemlist.csv';
+        }
+       // Specify the filename
+        a.click();
+      });
+    }
   ngOnInit(): void{
  
     this.myForm = this.fb.group({
@@ -162,7 +192,8 @@ otherForm : any = FormGroup;
       codeForm_usercode:['',Validators.required],
     });
     this.qrForm = this.fb.group({
-      qrForm_itemcode:['',Validators.required],
+      qrForm_itemcode1:['',Validators.required],
+      qrForm_itemcode2:['',Validators.required],
       qrForm_location:['',Validators.required],
       qrForm_specific:['',Validators.required],
     });
@@ -293,6 +324,221 @@ otherForm : any = FormGroup;
     }
     );
   }
+  
+  submit(){ 
+
+    const formData = new FormData();
+    const position: any = localStorage.getItem('position')
+    const company:any = localStorage.getItem('company')
+    if (position =='moderator'){
+      formData.append('company',this.qrForm.value.qrForm_location)
+    } else if (position =='admin'){
+      const company: any = localStorage.getItem('company')  
+      formData.append('company',company.toUpperCase())
+      }
+      formData.append('code',this.qrForm.value.qrForm_itemcode)
+      formData.append('location',this.qrForm.value.qrForm_location)
+      formData.append('specific',this.qrForm.value.qrForm_specific)
+      console.log(this.qrForm.value.qrForm_specific)
+      console.log(this.qrForm.value.qrForm_location)
+      console.log(this.qrForm.value.qrForm_itemcode)
+    fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+    
+      this.fetchApiResponse = value;
+      if (value.result2 != 'Not Found') {
+        // Assign values to variables
+        this.productname = value.result2[0].item_name;
+        this.serial = value.result2[0].serial;
+
+        
+        var category = value.result2[0].category !== '' ? value.result2[0].category : 'N/A';
+        var location = value.result2[0].location !== '' ? value.result2[0].location : 'N/A';
+        var project = value.result2[0].project !== '' ? value.result2[0].project : 'N/A';
+        var par = value.result2[0].par !== '' ? value.result2[0].par : 'N/A';
+        var image = value.result2[0].image !== '' ? value.result2[0].image : 'N/A';
+      
+        if (value.success == true) {
+          var condition: any = 'Defective';
+          var specificlocation = value.result1[0].location !== '' ? value.result1[0].location : 'N/A';
+          var specificquantity = value.result1[0].quantity !== '' ? value.result1[0].quantity : 'N/A';
+        } else if (value.success == false) {
+          var condition: any = 'Working';
+          var specificlocation = value.result3[0].specific !== '' ? value.result3[0].specific : 'N/A';
+          var specificquantity = value.result3[0].quantity !== '' ? value.result3[0].quantity : 'N/A';
+        }
+      
+        this.myAngularxQrCode = 
+          'Product: ' + this.productname + 
+          '\n Category: ' + category + 
+          '\n Location: ' + location + 
+          '\n Condition: ' + condition + 
+          '\n Specific Location: ' + specificquantity + '-' + specificlocation + 
+          '\n Project by: ' + project + 
+          '\n Image URL: ' + image + 
+          '\n PAR URL: ' + par;
+      
+        const data = 'ewqewqeqw';
+        const blob = new Blob([data], { type: 'application/octet-stream' });
+        
+        // saves the text from qr
+        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+      
+        this.isHidden = false;
+        this.isHidden1 = true;
+      } else {
+        this.isHidden = true;
+        this.isHidden1 = false;
+      }
+
+     });
+  }
+  newqrgenerate(){
+
+    const formData = new FormData();
+    const position: any = localStorage.getItem('position')
+    const company:any = localStorage.getItem('company')
+    if (position =='moderator'){
+      formData.append('company',this.qrForm.value.qrForm_location)
+    } else if (position =='admin'){
+      const company: any = localStorage.getItem('company')  
+      formData.append('company',company.toUpperCase())
+      }
+      formData.append('position',position)
+      formData.append('code1',this.qrForm.value.qrForm_itemcode1)
+      formData.append('code2',this.qrForm.value.qrForm_itemcode2)
+      formData.append('location',this.qrForm.value.qrForm_location)
+      formData.append('specific',this.qrForm.value.qrForm_specific)
+
+    fetch('http://localhost:8080/IMS/src/backend/newqrgenerator.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(value => {
+      console.log(value.result1)
+      console.log(value.result2)
+    
+      this.productname = value.result2[0].item_name;
+      this.serial = value.result2[0].serial;
+
+      
+      var category = value.result2[0].category !== '' ? value.result2[0].category : 'N/A';
+      var location = value.result2[0].location !== '' ? value.result2[0].location : 'N/A';
+      var project = value.result2[0].project !== '' ? value.result2[0].project : 'N/A';
+      var par = value.result2[0].par !== '' ? value.result2[0].par : 'N/A';
+      var image = value.result2[0].image !== '' ? value.result2[0].image : 'N/A';
+    
+      if (value.success == true) {
+        var condition: any = 'Defective';
+        var specificlocation = value.result1[0].location !== '' ? value.result1[0].location : 'N/A';
+        var specificquantity = value.result1[0].quantity !== '' ? value.result1[0].quantity : 'N/A';
+      } else if (value.success == false) {
+        var condition: any = 'Working';
+        var specificlocation = value.result3[0].specific !== '' ? value.result3[0].specific : 'N/A';
+        var specificquantity = value.result3[0].quantity !== '' ? value.result3[0].quantity : 'N/A';
+      }
+    
+      this.myAngularxQrCode = 
+        'Product: ' + this.productname + 
+        '\n Category: ' + category + 
+        '\n Location: ' + location + 
+        '\n Condition: ' + condition + 
+        '\n Specific Location: ' + specificquantity + '-' + specificlocation + 
+        '\n Project by: ' + project + 
+        '\n Image URL: ' + image + 
+        '\n PAR URL: ' + par;
+    
+      const data = 'ewqewqeqw';
+      const blob = new Blob([data], { type: 'application/octet-stream' });
+      
+      // saves the text from qr
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    
+
+     });
+  }
+  generateQRCode1(): Promise<void> {
+    const formData = new FormData();
+    const position: any = localStorage.getItem('position');
+    const company: any = localStorage.getItem('company');
+    if (position == 'moderator') {
+      formData.append('company', this.qrForm.value.qrForm_location);
+    } else if (position == 'admin') {
+      const company: any = localStorage.getItem('company');
+      formData.append('company', company.toUpperCase());
+    }
+    formData.append('position', position);
+    formData.append('code1', this.qrForm.value.qrForm_itemcode1);
+    formData.append('code2', this.qrForm.value.qrForm_itemcode2);
+    formData.append('location', this.qrForm.value.qrForm_location);
+    formData.append('specific', this.qrForm.value.qrForm_specific);
+  
+    return fetch('http://localhost:8080/IMS/src/backend/newqrgenerator.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(value => {
+        console.log(value.result1);
+        console.log(value.result2);
+  
+        this.productname = value.result2[0].item_name;
+        this.serial = value.result2[0].serial;
+  
+        var category = value.result2[0].category !== '' ? value.result2[0].category : 'N/A';
+        var location = value.result2[0].location !== '' ? value.result2[0].location : 'N/A';
+        var project = value.result2[0].project !== '' ? value.result2[0].project : 'N/A';
+        var par = value.result2[0].par !== '' ? value.result2[0].par : 'N/A';
+        var image = value.result2[0].image !== '' ? value.result2[0].image : 'N/A';
+  
+        if (value.success == true) {
+          var condition: any = 'Defective';
+          var specificlocation = value.result1[0].location !== '' ? value.result1[0].location : 'N/A';
+          var specificquantity = value.result1[0].quantity !== '' ? value.result1[0].quantity : 'N/A';
+        } else if (value.success == false) {
+          var condition: any = 'Working';
+          var specificlocation = value.result3[0].specific !== '' ? value.result3[0].specific : 'N/A';
+          var specificquantity = value.result3[0].quantity !== '' ? value.result3[0].quantity : 'N/A';
+        }
+  
+        this.myAngularxQrCode =
+          'Product: ' + this.productname +
+          '\n Category: ' + category +
+          '\n Location: ' + location +
+          '\n Condition: ' + condition +
+          '\n Specific Location: ' + specificquantity + '-' + specificlocation +
+          '\n Project by: ' + project +
+          '\n Image URL: ' + image +
+          '\n PAR URL: ' + par;
+      });
+  }
+  
+  generateQRCodePDF(): void {
+    this.generateQRCode1()
+      .then(() => {
+        const doc = new jsPDF.default();
+        const startX = 10;
+        let startY = 10;
+  
+        const qrCode = this.myAngularxQrCode; // Generate QR code for the current item
+  
+        doc.text(`Item ID: ${this.serial}`, startX, startY);
+        doc.addImage(qrCode, 'JPEG', startX, startY + 10, 40, 40); // Add the QR code image to the PDF
+        startY += 60; // Increase the startY position for the next item
+  
+        doc.save('inventory_qrcodes.pdf'); // Save the PDF
+      })
+      .catch(error => {
+        console.error('Error generating QR code:', error);
+      });
+  }
+  
+  
   updateInstock(){
     const position : any = localStorage.getItem('position')
     const formData = new FormData();
@@ -354,6 +600,7 @@ otherForm : any = FormGroup;
       }
    
   }
+  
   handleSelectChange() {
     this.selectedValue1 = this.searchdropdown.value.value
     if(this.selectedValue1 !==''){
@@ -393,21 +640,34 @@ otherForm : any = FormGroup;
    .then(value => {
     this.tableData= [];
     for (let i = 0; i < value.data.length; i++) {
-      const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+      const codeValue = value.data[i].itemid_company !== '' ? value.data[i].itemid_company : 'N/A';
+      const serial= value.data[i].Serial !== null ? value.data[i].Serial : 'N/A';
+      const property= value.data[i].Property !== null ? value.data[i].Property : 'N/A';
       const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
+      const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
+      const specificValue = value.data[i].specificlocation !== '' ? value.data[i].specificlocation: 'N/A';
       const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
       const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
       const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
       const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-      const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
+      const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
+      const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
+
+
       this.tableData[i] = {
+        itemid: locationValue + '-' +codeValue,
         code:  codeValue ,
+        serial:serial,
+        property:property,
         productname: productValue,
-        quantity:quantityValue,
+        quantity: quantityValue,
+        specific: specificValue,
         category: categoryValue,
         location: locationValue,
         project: projectValue,
-        condition: conditionValue
+        condition: conditionValue,
+        image: image,
+        par: par,
       };
  // Access and log the "code" property
     }
@@ -1201,73 +1461,6 @@ addInstock(){
   }
 
   //FOR QR CODE
-
-  submit(){ 
-
-    const formData = new FormData();
-    const position: any = localStorage.getItem('position')
-    const company:any = localStorage.getItem('company')
-    if (position =='moderator'){
-      formData.append('company',this.qrForm.value.qrForm_location)
-    } else if (position =='admin'){
-      const company: any = localStorage.getItem('company')  
-      formData.append('company',company.toUpperCase())
-      }
-      formData.append('code',this.qrForm.value.qrForm_itemcode)
-      formData.append('location',this.qrForm.value.qrForm_location)
-      formData.append('specific',this.qrForm.value.qrForm_specific)
-    fetch('http://localhost:8080/IMS/src/backend/qrgenerator.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      console.log(value.success1)
-      
-      if (value.success1 == 'Found') {
-        // Assign values to variables
-        this.productname = value.result2[0].item_name;
-        var category = value.result2[0].category !== '' ? value.result2[0].category : 'N/A';
-        var location = value.result2[0].location !== '' ? value.result2[0].location : 'N/A';
-        var project = value.result2[0].project !== '' ? value.result2[0].project : 'N/A';
-        var par = value.result2[0].par !== '' ? value.result2[0].par : 'N/A';
-        var image = value.result2[0].image !== '' ? value.result2[0].image : 'N/A';
-      
-        if (value.success == true) {
-          var condition: any = 'Defective';
-          var specificlocation = value.result1[0].location !== '' ? value.result1[0].location : 'N/A';
-          var specificquantity = value.result1[0].quantity !== '' ? value.result1[0].quantity : 'N/A';
-        } else if (value.success == false) {
-          var condition: any = 'Working';
-          var specificlocation = value.result3[0].specific !== '' ? value.result3[0].specific : 'N/A';
-          var specificquantity = value.result3[0].quantity !== '' ? value.result3[0].quantity : 'N/A';
-        }
-      
-        this.myAngularxQrCode = 
-          'Product: ' + this.productname + 
-          '\n Category: ' + category + 
-          '\n Location: ' + location + 
-          '\n Condition: ' + condition + 
-          '\n Specific Location: ' + specificquantity + '-' + specificlocation + 
-          '\n Project by: ' + project + 
-          '\n Image URL: ' + image + 
-          '\n PAR URL: ' + par;
-      
-        const data = 'ewqewqeqw';
-        const blob = new Blob([data], { type: 'application/octet-stream' });
-        
-        // saves the text from qr
-        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-      
-        this.isHidden = false;
-        this.isHidden1 = true;
-      } else if (value.success1 == 'Not Found') {
-        this.isHidden = true;
-        this.isHidden1 = false;
-      }
-
-     });
-  }
 
   //FOR DELETE DASHBOARD INSIDE PROPERTY
 
@@ -2171,6 +2364,7 @@ addInstock(){
   }
 
   toggleContent(contentId: string): void {
+    this.activeContent = contentId;
     if (contentId === 'content1') {
       this.toggleContent1();
     } else if (contentId === 'content2') {
@@ -2187,21 +2381,31 @@ addInstock(){
     })
     .then(response => response.json())
     .then(value => {
+      const company = localStorage.getItem('company')
       for (let i = 0; i < value.data.length; i++) {
-        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
+        const codeValue = value.data[i].itemid_company !== '' ? value.data[i].itemid_company : 'N/A';
+        const serial= value.data[i].Serial !== null ? value.data[i].Serial : 'N/A';
+        const property= value.data[i].Property !== null ? value.data[i].Property : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
         const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
+        const specificValue = value.data[i].specificlocation !== '' ? value.data[i].specificlocation: 'N/A';
         const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
         const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
         const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
         const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
+
+
         this.tableData[i] = {
+          itemid: locationValue + '-' +codeValue,
           code:  codeValue ,
+          serial:serial,
+          property:property,
           productname: productValue,
-          category: categoryValue,
           quantity: quantityValue,
+          specific: specificValue,
+          category: categoryValue,
           location: locationValue,
           project: projectValue,
           condition: conditionValue,
@@ -2213,41 +2417,7 @@ addInstock(){
     
      });
 
-     fetch('http://localhost:8080/IMS/src/backend/quantity.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      interface SpecificData {
-        itemId: string;
-        specific: string;
-        totalQuantity: number;
-      }
-
-      const specificData: { [key: string]: SpecificData[] } = {}; // Updated type declaration
-
-      const result3 = value.result3;
-      Object.keys(result3).forEach(itemId => {
-        const quantitySpecificValues = result3[itemId].quantity_specific_values ;
-        const totalQuantity = result3[itemId].total_quantity;
-
-        const specificItemData: SpecificData = {
-          itemId: itemId,
-          specific: quantitySpecificValues,
-          totalQuantity: totalQuantity
-        };
-
-        if (!specificData[itemId]) {
-          specificData[itemId] = []; // Initialize array for specificData if it doesn't exist
-        }
-        specificData[itemId].push(specificItemData);
-      });
-      this.specificData = specificData;
-    });
-              
-
-
+          
     }
     else if (contentId === 'content3') {
       this.toggleContent3();

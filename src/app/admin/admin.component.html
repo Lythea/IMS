@@ -12,52 +12,52 @@
     <div class="container">
         <div class="column1">
             <div class="image-container">
-                <img class="logo" src="assets/Logo.png" alt="BsuLogo" >
+                <img class="logo" src="assets/bsu.png" alt="BsuLogo" >
                 <div class="overlay"></div>
               </div>
             <img ><br>
             <div class="logo1">
-                <img class="minilogo" id="label1" src="assets/dashboard.png" alt="BsuLogo">
-                <label class="label" id="label1" (click)="toggleContent('content1')">Dashboard</label><br>
+              <img class="minilogo" src="assets/dashboard.png" alt="BsuLogo">
+              <label class="label" [class.active]="activeContent === 'content1'" (click)="toggleContent('content1')">Dashboard</label><br>
             </div>
             <div class="logo1">
-                <img class="minilogo" id="label1" src="assets/stock.png" alt="BsuLogo">
-                <label class="label" id="label1"(click)="toggleContent('content2')">In Stock</label><br>
+              <img class="minilogo" src="assets/stock.png" alt="BsuLogo">
+              <label class="label" [class.active]="activeContent === 'content2'" (click)="toggleContent('content2')">In Stock</label><br>
             </div>
             <div class="logo1">
-                <img class="minilogo" id="label1"src="assets/aboutus.png" alt="BsuLogo">
-                <label class="label" id="label1"(click)="toggleContent('content3')">About</label><br>
+              <img class="minilogo" src="assets/aboutus.png" alt="BsuLogo">
+              <label class="label" [class.active]="activeContent === 'content3'" (click)="toggleContent('content3')">About</label><br>
             </div>
         </div>
         <div class="column2">
             <div class="upper">
                 <div class="upper1">
                   <div class="upper1_1">
-                    <img class="minilogo" id="openFormButton3"src="assets/lock.png" style="margin-left:5px;margin-top:10px;margin-right:5px;" (click)="popupactivation3()">
-                    <label><h3 >Inventory Management System</h3></label> 
-                   
+                    
+                    <label><h2 class="Techno2">Inventory Management System</h2></label> 
+                   <img class="minilogo1" id="openFormButton3"src="assets/Down.png" style="margin-left:5px;margin-top:21px;margin-right:5px; height: 6px; width: 9px;" (click)="popupactivation3()">
                   </div>
-                    <label><h2 class="Techno" style="color:#c00000;" >Center for Technopreneurship and Innovation</h2></label>
-                </div>
+                    <label><h2 class="Techno" style="color:#c00000;" >STEER HUB - Science, Technology, Engineering and Environment Research</h2></label>
+                </div>  
                 <div id="popupFormContainer3" class="popupFormContainer">
                   <div class="popupForm">
                     <span class="closeButton3">&times;</span>
                    
                     <div class="itemcenter1"> 
                       <div class="logo1">
-                        <img class="minilogo" id="label1" src="assets/dashboard.png" alt="BsuLogo">
+                        <img class="minilogo" id="label1" src="assets/Add_S.png" alt="BsuLogo">
                         <label class="label" id="label1" (click)="toggleCodeContent('content1')">Add</label><br>
                     </div>
                     <div class="logo1">
-                        <img class="minilogo" id="label1" src="assets/stock.png" alt="BsuLogo">
+                        <img class="minilogo" id="label1" src="assets/Update_B.png" alt="BsuLogo">
                         <label class="label" id="label1"(click)="toggleCodeContent('content2')">Update</label><br>
                     </div>
                     <div class="logo1">
-                        <img class="minilogo" id="label1"src="assets/aboutus.png" alt="BsuLogo">
+                        <img class="minilogo" id="label1"src="assets/Delete_S.png" alt="BsuLogo">
                         <label class="label" id="label1"(click)="toggleCodeContent('content3')">Delete</label><br>
                     </div>
                     <div class="codecontainer1" *ngIf="showCodeContent1">
-                      <h5 >Add</h5>
+                      <h5>Code Verification</h5>
                       <form [formGroup]="codeForm" form>
                         <label><h3>{{ selectedDetail}}</h3></label>
                         <label class="textlabel">Location: </label> 
@@ -127,7 +127,7 @@
                 <div class="thing0">
                   <div class="item1"><img class="dashboardbg" /></div>
                   <div class="compiler1">
-                    <div class="thing1">
+                    <div class="thing1_1">
                       <label class="instock"><h2 class="w">Dashboard</h2></label>
                     </div>
                     <div class="thing2">  
@@ -394,15 +394,9 @@
                       </div>
                     </div>
                   </div>
-                 
-                    
-                    
-                  
-         
-                        
                           <div class="TotalProduct">
                   
-                            <img class="whitebg1" img src="assets/TotalProduct.png " />
+                            <img class="whitebg1" img src="assets/Total_Product.png " />
                             <h2 class="first-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{products}}</span>
@@ -415,7 +409,7 @@
                             </div></h2>
                             <h2 class="first-txt">Total</h2>
                             <h2 class="second-txt">Product</h2>
-                            <img class="whitebg2" src="assets/DefectiveProduct.png" />
+                            <img class="whitebg2" src="assets/Defective_Product.png" />
                             <h2 class="third-txt"  style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{defective}}</span>
@@ -428,7 +422,7 @@
                             </div></h2>
                             <h2 class="third-txt">Defective</h2>
                             <h2 class="fourth-txt">Products</h2>
-                            <img class="whitebg3"  src="assets/Personel.png"  />
+                            <img class="whitebg3"  src="assets/Office_Location.png"  />
                             <h2 class="fifth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label">{{personel}}</span>
@@ -441,7 +435,7 @@
                             </div></h2>
                             <h2 class="fifth-txt">Personel</h2>
                             <h2 class="sixth-txt"></h2>
-                            <img class="whitebg4" src="assets/CategoryProduct.png" />
+                            <img class="whitebg4" src="assets/Category_Product.png" />
                             <h2 class="seventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label " >{{category}}</span>
@@ -454,7 +448,7 @@
                             </div></h2>
                             <h2 class="seventh-txt">Category</h2>
                             <h2 class="eight-txt">Products</h2>
-                            <img class="whitebg5" src="assets/Location.png" />
+                            <img class="whitebg5" src="assets/Staff_Location.png" />
                             <h2 class="nineth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                               <span class="hover-label ">{{location}}</span>
@@ -467,7 +461,7 @@
                             </div></h2>
                             <h2 class="nineth-txt">Location</h2>
                             <h2 class="tenth-txt"></h2>
-                            <img class="whitebg6" src="assets/Project.png" />
+                            <img class="whitebg6" src="assets/Project_B.png" />
                             <h2 class="eleventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                                 <span class="hover-label">{{project}}</span>
@@ -489,25 +483,34 @@
             <div class="subcontainer" *ngIf="showContent2" >
                 <div class="things">
                     <div class="thing1">
+                      <div class="var1">
                         <label class="instock"><h2 class="w2">In Stock</h2></label>
+                      </div>
+                      <div class="var2">
+                        <form [formGroup]="searchdropdown" form>
+                          <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px;" (change)="handleSelectChange()">
+                            <option disabled selected value="">Select to add</option>
+                            <option *ngFor="let data of searchinfo" [ngValue]="data">{{ data }}</option>
+                          </select>
+                        </form>
+                      </div>
+                      <div class="var3">
+                        <form id="myForm" [formGroup]="search" >
+                          <input type="text" formControlName="name"  placeholder="{{selectedValue1}}" (input)="handleSearch() ">
+                        </form>
+                      </div>
+                               
+
                     </div>
-                    <div class="thing6">
-                      <form [formGroup]="searchdropdown" form>
-                        <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px;" (change)="handleSelectChange()">
-                          <option disabled selected value="">Select to add</option>
-                          <option *ngFor="let data of searchinfo" [ngValue]="data">{{ data }}</option>
-                        </select>
-                      </form>
+               
+                    <div class="export">
+                      <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png"></button>
+                    
                     </div>
-                    <div class="thing2">
-                      <form id="myForm" [formGroup]="search" >
-                        <input type="text" formControlName="name"  placeholder="{{selectedValue1}}" (input)="handleSearch() ">
-                      </form>
-                     
-                    </div>
+                   
                     <div class="thing3">
                       <form id="myForm" [formGroup]="qrForm" >
-                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()">Generate QR Code</button>
+                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png"></button>
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
@@ -522,34 +525,34 @@
                                
           
                                 <br>
-                                <label>ITEM CODE: </label>
-                                <input type="text" formControlName="qrForm_itemcode" (input)="qrchange()" required><br>
+                                <label>1st Code: </label>
+                                <input type="text" formControlName="qrForm_itemcode1" required><br>
                                 <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
                                 <br>
-                                <label class="textlabel">Specific</label> 
-                                <select formControlName="qrForm_specific">
-                                  <option disabled selected value="">select</option>
-                                  <option *ngFor="let specific of qrspecificData" [value]="specific.specific">{{ specific.specific }}</option>
-                                </select>
+                                <label>2nd Code: </label>
+                                <input type="text" formControlName="qrForm_itemcode2" required><br>
+                                <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
                                 <br>
-                                <button class="generate" type="submit" (click)="submit()">{{ qrgenerate }}</button>
+                                <button class="generate" type="submit" (click)=" generateQRCodePDF()">{{ qrgenerate }}</button>
                               </div>
                           
                               <div class="qrcodeformat" [hidden]="isHidden">
-                                <div class="upper3">
-                                  <div class="upper4">
-                                    <img class="logo2" src="assets/Logo.png" alt="BsuLogo" >
+                                  <div class="upper3">
+                                    <div class="upper4">
+                                      <img class="logo2" src="assets/bsu.png" alt="BsuLogo"  >
+                                    </div>
+                                    <div class="upper5" style=" margin-left:5px; margin-top:10px;font-weight: bolder; width:100%;">
+                                      <label  style="font-size: 12px;">Inventory Management System</label>
+                                      <br>
+                                      <label  style="font-size: 12px;">STEER Hub</label><br>
+                                    
+                                    </div>
                                   </div>
-                                  <div class="upper5" style="  margin-top:10px;font-weight: bolder;margin-left:10px; width:100%;">
-                                    <label  style="font-size: 12px;">Center for Entrpreneurship and Innovation</label><br>
-                                    <label  style="font-size: 12px;">Inventory Management System</label>
+                                  <div class="itemcenter" >
+                                    <qrcode [qrdata]="myAngularxQrCode" [width]="150" [allowEmptyString]="true" [errorCorrectionLevel]="'M'"></qrcode>
+                                      <label class="label1" style="text-align: center;align-items: center;margin-left:10%;margin-right:10%; font-style:italic;margin-bottom: 50px;font-size: 12px;;">{{ productname }}</label>
+                                      <br>  
                                   </div>
-                                </div>
-                              <div class="itemcenter" >
-                               <qrcode [qrdata]="myAngularxQrCode" [width]="170" [allowEmptyString]="true" [errorCorrectionLevel]="'M'"></qrcode>
-                                <label class="label1" style="text-align: center;align-items: center;margin-left:10%;margin-right:10%; font-style:italic;margin-bottom: 50px;">{{ productname }}</label>
-                                <br>
-                              </div>
                               </div>
                           </div>
                         </div>
@@ -613,7 +616,7 @@
                         </div>
                       </form>
                       <form id="myForm" [formGroup]="updateInstockForm">
-                        <img class="ButtonsB" id="openFormButton2" (click)="popupactivation2()" src="assets/Add_B.png"/>
+                        <img class="ButtonsB" id="openFormButton2" (click)="popupactivation2()" src="assets/Update_B2.png"/>
                        
                         <div id="popupFormContainer2" class="popupFormContainer">
                           <div class="popupForm">
@@ -708,40 +711,38 @@
                     <table class="resizable-table" border="1">
                         <colgroup class="column">
                             <col style="width: 20px;"><!-- Code -->
-                            <col style="width: 80px;"><!-- Product Name -->
+                            <col style="width: 20px;"><!-- Serial Number -->
+                            <col style="width: 20px;"><!-- Property Number -->
+                            <col style="width: 60px;"><!-- Product Name -->
+                            <col style="width: 20px;"><!-- Quantity -->
+                            <col style="width: 50px;"><!-- Specific Location -->
                             <col style="width: 20px;"><!-- Category -->
-                            <col style="width: 20px;"><!-- Category -->
-                            <col style="width: 20px;"><!-- Location -->
-                            <col style="width: 80px;"><!-- Project -->  
-                            <col style="width: 15px;"><!-- Location -->
-                            <col style="width: 15px;"><!-- Project -->  
+                            <col style="width: 40px;"><!-- Project -->
+                            <col style="width: 15px;"><!-- Image -->   
+                            <col style="width: 15px;"><!-- Par -->  
                           </colgroup>
                         <tr>
                             <th>Code</th>
+                            <th>Serial No.</th>
+                            <th>Property No.</th>
                             <th>Product Name</th>
                             <th>Quantity</th>
+                            <th>Specific Location</th>
                             <th>Category</th>
-                            <th>Location</th>
+                      
                             <th>Project</th>
                             <th>IMAGE</th>
                             <th>PAR</th>
                           </tr>
                           <tr *ngFor="let item of tableData">
-                            <td>{{ item.code }}</td>
+                            <td>{{ item.itemid }}</td>
+                            <td>{{ item.serial }}</td>
+                            <td>{{ item.property }}</td>
                             <td>{{ item.productname }}</td>
-                            <td>
-                              <div class="popup" (mouseenter)="isOpen = true" (mouseleave)="isOpen = false">
-                                <span class="hover-label">{{ item.quantity }}</span>
-                                <div class="popup-content" [ngClass]="{ 'open': isOpen }">
-                                  <!-- Your popup content goes here -->
-                                  <label *ngFor="let info of specificData[item.code]">
-                                     {{ info.specific}}<br>
-                                  </label>
-                                </div>
-                              </div>
-                            </td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.specific}}</td>
                             <td>{{ item.category }}</td>
-                            <td>{{ item.location }}</td>
+                           
                             <td>{{ item.project }}</td>
                             <td>
                               <a href="javascript:void(0);" (click)="handleImageLinkClick(item.image)">

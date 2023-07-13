@@ -21,7 +21,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort ASC'){
-            $sql = "SELECT item_id, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name ASC";
+            $sql = "SELECT * FROM items ORDER BY item_name ASC";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -30,7 +30,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort DESC'){
-            $sql = "SELECT item_id, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name DESC";
+            $sql = "SELECT * FROM items ORDER BY item_name DESC";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -93,25 +93,14 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if ($property == 'Specific') {
-            $sql = "SELECT item_id FROM ownership WHERE `specific` = '$value'";
+            $sql = "SELECT * FROM items WHERE specificlocation ='$value'";
             $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
+                if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
-                $itemIds = array_column($data, 'item_id');
-
-                // Construct the second query using the extracted item_ids
-                $secondSql = "SELECT * FROM items WHERE item_id IN (" . implode(',', $itemIds) . ")";
-                $secondResult = $conn->query($secondSql);
-
-                if ($secondResult->num_rows > 0) {
-                    $secondData = $secondResult->fetch_all(MYSQLI_ASSOC);
-                    echo json_encode(['data' => $secondData]);
+                echo json_encode(['data' => $data]);
                 } else {
-                    echo json_encode(['data' => 'Not Found!']);
+                echo json_encode(['data'=> 'Not Found!']);
                 }
-            } else {
-                echo json_encode(['data' => 'Not Found!']);
-            }
         }
 
       }else if ($position=='admin'|| $position=='user'){
@@ -125,7 +114,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort ASC'){
-            $sql = "SELECT itemid_company, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name ASC WHERE location = '$company'";
+            $sql = "SELECT * FROM items ORDER BY item_name ASC WHERE location = '$company'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -134,7 +123,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Sort DESC'){
-            $sql = "SELECT itemid_company, item_name, quantity,category,project,location,image,par FROM items ORDER BY item_name DESC WHERE location = '$company'";
+            $sql = "SELECT * FROM items ORDER BY item_name DESC WHERE location = '$company'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -197,7 +186,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 echo json_encode(['data'=> 'Not Found!']);
                 }
         }else if($property == 'Specific'){
-            $sql = "SELECT * FROM ownership WHERE specific ='$value' WHERE location = '$company'";
+            $sql = "SELECT * FROM items WHERE specificlocation ='$value'";
             $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                 $data = $result->fetch_all(MYSQLI_ASSOC);

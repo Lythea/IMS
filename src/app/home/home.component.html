@@ -21,8 +21,8 @@
       <div class="body1">
 
         <div class="container1">
-          <img src="assets/Logo.png" alt="BsuLogo">
-          <p>Center of Technopreneurship and Innovation</p>
+          <img class ="minilogo"src="assets/bsu.png" alt="BsuLogo">
+          <p>STEER HUB - Science, Technology, Engineering and Environment Research</p>
         </div>
 
         <div class="container2">
@@ -48,24 +48,20 @@
             <label class="textlabel">Password*</label> <br>
             <input  class="textbox"placeholder="Confirm your password" id="password"name="password" formControlName="password" type ="password">
             <br>
-            <input type="checkbox" id="myCheckbox">
-            <label for="myCheckbox">Remember Me</label>
-            <label class="fg">Forgot Password?</label>
-            <br>
-
-            <button class="login" name ="button1" (click)="login()">Login</button>
+            <button class="login" name ="button1" (click)="login()" style="margin-top:10%;">Login</button>
+            
             <label class="shesh">Not registered yet?<label style="color:blue;" (click)="toggleContent('content2')"> Create an Account</label></label>
           </form>
         </div>
       </div>
     </div>
     
-    <div class="column1" *ngIf="showContent2"style="margin-top:2%;">
+    <div class="column1" *ngIf="showContent2">
       <div class="body1">
 
         <div class="container1">
-          <img src="assets/Logo.png" alt="BsuLogo">
-          <p>Center of Technopreneurship and Innovation</p>
+          <img class ="minilogo"src="assets/bsu.png" alt="BsuLogo">
+          <p>STEER HUB - Science, Technology, Engineering and Environment Research</p>
         </div>
 
         <div class="container2">
@@ -106,7 +102,7 @@
             <br>
             <br>
             <label class="textlabel">Company : </label> 
-            <select formControlName="company" style="margin-left:25%;">
+            <select formControlName="company" >
               <option disabled selected value="">Select to add</option>
               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
             </select>
@@ -115,9 +111,7 @@
             <input  class="textbox"  formControlName="code">
             <br>
             <br>
-            <input type="checkbox" id="myCheckbox">
-            <label for="myCheckbox" required>I agree on <label  style="color:blue;">Terms & Conditions</label></label>
-            <br>
+           
 
             <button class="login" name ="button1" (click)="signup()" >Sign Up</button>
             <label class="shesh">Already have account?<label style="color:blue;" (click)="toggleContent('content1')"> Sign In</label></label>
@@ -126,7 +120,7 @@
       </div>
     </div>
     <div class="column2">
-      <img class="bg" src="assets/1 - CTI Office.jpg" alt="BsuLogo" >
+      <img class="bg" src="assets/building.jpg" alt="BsuLogo" >
     </div>
     </div>
 

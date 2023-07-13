@@ -26,6 +26,7 @@
     "@mui/material": "^5.13.5",
     "@types/sweetalert": "^2.0.4",
     "angularx-qrcode": "^16.0.0",
+    "jspdf": "^2.5.1",
     "ngx-qrcode": "^0.1.0-rc.1",
     "ngx-qrcode2": "^9.0.0",
     "ngx-toastr": "^17.0.2",

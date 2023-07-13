@@ -9,7 +9,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     $code = $_POST['code'];
     $company = $_POST['location'];
 
-    $sql2 = "SELECT `specific`  as total1 FROM ownership WHERE item_id = '$code' and location ='$company'";
+    $sql2 = "SELECT specificlocation  as total1 FROM items WHERE itemid_company = '$code' and location ='$company'";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
       $data['result2'] = array(); // Initialize an empty array
