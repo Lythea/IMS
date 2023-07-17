@@ -72,7 +72,7 @@
                         <label class="textlabel">User Code: </label> 
                         <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
                         <br>
-                        <button id = "add"(click)="code()">Submit</button>
+                        <button id = "add"(click)="code()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
                     <div class="codecontainer2" *ngIf="showCodeContent2">
@@ -91,7 +91,7 @@
                         <label class="textlabel">User Code: </label> 
                         <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
                         <br>
-                        <button id = "update"(click)="code()">Submit</button>
+                        <button id = "update"(click)="code() " style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
                     <div class="codecontainer3" *ngIf="showCodeContent3">
@@ -104,7 +104,7 @@
                           <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                         </select>
                         <br>
-                        <button id = "delete"(click)="code()">Submit</button>
+                        <button id = "delete"(click)="code()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
   
@@ -143,7 +143,7 @@
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
-                            <h5 class="qrtitle">Additional Information</h5>
+                            <h2 class="qrtitle">Additional Information</h2>
                           
                             <div class="itemcenter1"> 
                               <form id="myForm" [formGroup]="myForm" form >
@@ -177,7 +177,7 @@
                                      <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">Submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -196,7 +196,7 @@
                                     <label class="textlabel">Position: </label> 
                                     <input  class="textbox" formControlName="personelForm_position" type="text"> 
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -212,7 +212,7 @@
                                     <label class="textlabel">Category:  </label> 
                                     <input  class="textbox" formControlName="categoryForm_name" type="text"> 
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -228,7 +228,7 @@
                                     <label class="textlabel">Floor: </label> 
                                     <input  class="textbox" formControlName="locationForm_floor" type="text"> 
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -244,7 +244,7 @@
                                     <label class="textlabel">Sponsors: </label>
                                     <input  class="textbox" formControlName="projectForm_name" type="text"> 
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -255,7 +255,7 @@
                                     <label class="textlabel">Name: </label>
                                     <input  class="textbox" formControlName="otherForm_name" type="text"> 
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -268,8 +268,8 @@
                       <div id="popupFormContainer1" class="popupFormContainer">
                         <div class="popupForm">
                           <span class="closeButton1">&times;</span>
-                          <img class="Warning" src="assets/warning.png" />
-                          <h3 class="qrtitle">Delete Action</h3>
+                        
+                          <h2 class="qrtitle">Delete Action</h2>
                         
                             <div class="itemcenter1"> 
                               <form id="myForm" [formGroup]="myForm" form >
@@ -300,7 +300,7 @@
                                     <label class="textlabel">Quantity</label> 
                                     <input  class="textbox" formControlName="defectiveForm_quantity" type="text"> 
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">Submit</button>
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -319,7 +319,7 @@
                                       <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -338,7 +338,7 @@
                                       <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -351,7 +351,7 @@
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -371,7 +371,7 @@
                                     </select>
                                     <br>
                                    
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -384,7 +384,7 @@
                                       <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
                                     <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
                                   </form>
                                 </div>
@@ -407,8 +407,8 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="first-txt">Total</h2>
-                            <h2 class="second-txt">Product</h2>
+                            <h2 class="first-txt" style="color: black;">Total</h2>
+                            <h2 class="second-txt"style="color: black;">Product</h2>
                             <img class="whitebg2" src="assets/Defective_Product.png" />
                             <h2 class="third-txt"  style="margin-bottom:50px;">
                               <div class="popup ">
@@ -420,8 +420,8 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="third-txt">Defective</h2>
-                            <h2 class="fourth-txt">Products</h2>
+                            <h2 class="third-txt"style="color: black;">Defective</h2>
+                            <h2 class="fourth-txt"style="color: black;">Products</h2>
                             <img class="whitebg3"  src="assets/Office_Location.png"  />
                             <h2 class="fifth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
@@ -433,8 +433,8 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="fifth-txt">Personel</h2>
-                            <h2 class="sixth-txt"></h2>
+                            <h2 class="fifth-txt"style="color: black;">Personel</h2>
+                            <h2 class="sixth-txt"style="color: black;"></h2>
                             <img class="whitebg4" src="assets/Category_Product.png" />
                             <h2 class="seventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
@@ -446,8 +446,8 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="seventh-txt">Category</h2>
-                            <h2 class="eight-txt">Products</h2>
+                            <h2 class="seventh-txt"style="color: black;">Category</h2>
+                            <h2 class="eight-txt"style="color: black;">Products</h2>
                             <img class="whitebg5" src="assets/Staff_Location.png" />
                             <h2 class="nineth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
@@ -459,8 +459,8 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="nineth-txt">Location</h2>
-                            <h2 class="tenth-txt"></h2>
+                            <h2 class="nineth-txt"style="color: black;">Location</h2>
+                            <h2 class="tenth-txt"style="color: black;"></h2>
                             <img class="whitebg6" src="assets/Project_B.png" />
                             <h2 class="eleventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
@@ -473,7 +473,7 @@
                                   </div>
                               </div>
                             </h2>
-                            <h2 class="eleventh-txt">Project</h2>
+                            <h2 class="eleventh-txt"style="color: black;">Project</h2>
                           </div>
                 </div>
                 
@@ -488,7 +488,7 @@
                       </div>
                       <div class="var2">
                         <form [formGroup]="searchdropdown" form>
-                          <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px;" (change)="handleSelectChange()">
+                          <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px; color: #8d8989; border: 1px solid #eee5e5;  cursor: pointer;border-radius: 5px;" (change)="handleSelectChange()">
                             <option disabled selected value="">Select to add</option>
                             <option *ngFor="let data of searchinfo" [ngValue]="data">{{ data }}</option>
                           </select>
@@ -504,13 +504,13 @@
                     </div>
                
                     <div class="export">
-                      <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png"></button>
+                      <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png" style="margin-top: 5%;" ></button>
                     
                     </div>
                    
                     <div class="thing3">
                       <form id="myForm" [formGroup]="qrForm" >
-                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png"></button>
+                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png" style="margin-top: 5%;"></button>
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
@@ -611,7 +611,7 @@
                             <input class="textbox" formControlName="addInstockForm_parurl" type="text" >
                             <br>
                             <br>
-                            <button (click)="addInstock()">ADD</button>
+                            <button (click)="addInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">ADD</button>
                           </div>
                         </div>
                       </form>
@@ -621,7 +621,7 @@
                         <div id="popupFormContainer2" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton2">&times;</span>
-                            <h2 class="qrtitle">Item Registration</h2>
+                            <h2 class="qrtitle">Update Action</h2>
                             
                             <label class="textlabel">Location</label> 
                             <select formControlName="updateInstockForm_location" (change)="updateInstockchange()">
@@ -672,7 +672,7 @@
                             <input class="textbox" formControlName="updateInstockForm_parurl" type="text" >
                             <br>
                             <br>
-                            <button (click)="updateInstock()">ADD</button>
+                            <button (click)="updateInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">ADD</button>
                           </div>
                         </div>
                       </form>
@@ -683,7 +683,7 @@
                         <div id="popupFormContainer4" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton4">&times;</span>
-                            <h2 class="qrtitle">Item Registration</h2>
+                            <h2 class="qrtitle">Delete Action</h2>
                             <label class="textlabel">Location</label> 
                             <select formControlName="deleteInstockForm_location" (change)="deleteInstockchange()">
                               <option disabled selected value="">Select to add</option>
@@ -696,7 +696,7 @@
                               <option *ngFor="let product of productData"[value]="product.productName">  {{ product.productName }}</option>
                             </select>
                             <br>
-                            <button (click)="deleteInstock()"> SUBMIT</button>
+                            <button (click)="deleteInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;"> SUBMIT</button>
                           </div>
                         </div>
                       </form>
@@ -799,8 +799,8 @@
                                 <label class="textrole"><h4 class="textrole">Programmer</h4></label>
                                 </td>
                                 <td>
-                                <label class="textabout"><h2 class="textabout">Rommel Guiterrez</h2></label>
-                                <label class="textrole"><h4 class="textrole">Documentation</h4></label>
+                                <label class="textabout"><h2 class="textabout">Rommel Gutierrez</h2></label>
+                                <label class="textrole"><h4 class="textrole">Programmer</h4></label>
                                 </td>
                               </tr>
                           
