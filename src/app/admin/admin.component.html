@@ -33,17 +33,17 @@
             <div class="upper">
                 <div class="upper1">
                   <div class="upper1_1">
-                    
-                    <label><h2 class="Techno2">Inventory Management System</h2></label> 
+
+                    <label><h2 class="Techno2">Inventory Management System</h2></label>
                    <img class="minilogo1" id="openFormButton3"src="assets/Down.png" style="margin-left:5px;margin-top:21px;margin-right:5px; height: 6px; width: 9px;" (click)="popupactivation3()">
                   </div>
                     <label><h2 class="Techno" style="color:#c00000;" >STEER HUB - Science, Technology, Engineering and Environment Research</h2></label>
-                </div>  
+                </div>
                 <div id="popupFormContainer3" class="popupFormContainer">
                   <div class="popupForm">
                     <span class="closeButton3">&times;</span>
-                   
-                    <div class="itemcenter1"> 
+
+                    <div class="itemcenter1">
                       <div class="logo1">
                         <img class="minilogo" id="label1" src="assets/Add_S.png" alt="BsuLogo">
                         <label class="label" id="label1" (click)="toggleCodeContent('content1')">Add</label><br>
@@ -60,54 +60,54 @@
                       <h5>Code Verification</h5>
                       <form [formGroup]="codeForm" form>
                         <label><h3>{{ selectedDetail}}</h3></label>
-                        <label class="textlabel">Location: </label> 
+                        <label class="textlabel">Location: </label>
                         <select formControlName="codeForm_location" >
                           <option disabled selected value=""></option>
                           <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                         </select>
                         <br>
-                        <label class="textlabel">Admin Code: </label> 
-                        <input  class="textbox" formControlName="codeForm_admincode" type="text"> 
+                        <label class="textlabel">Admin Code: </label>
+                        <input  class="textbox" formControlName="codeForm_admincode" type="text">
                         <br>
-                        <label class="textlabel">User Code: </label> 
-                        <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
+                        <label class="textlabel">User Code: </label>
+                        <input  class="textbox" formControlName="codeForm_usercode" type="text">
                         <br>
-                        <button id = "add"(click)="code()">Submit</button>
+                        <button id = "add"(click)="code()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
                     <div class="codecontainer2" *ngIf="showCodeContent2">
                       <h5 >Update</h5>
                       <form [formGroup]="codeForm" form>
                         <label><h3>{{ selectedDetail}}</h3></label>
-                        <label class="textlabel">Location: </label> 
+                        <label class="textlabel">Location: </label>
                         <select formControlName="codeForm_location" >
                           <option disabled selected value=""></option>
                           <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                         </select>
                         <br>
-                        <label class="textlabel">Admin Code: </label> 
-                        <input  class="textbox" formControlName="codeForm_admincode" type="text"> 
+                        <label class="textlabel">Admin Code: </label>
+                        <input  class="textbox" formControlName="codeForm_admincode" type="text">
                         <br>
-                        <label class="textlabel">User Code: </label> 
-                        <input  class="textbox" formControlName="codeForm_usercode" type="text"> 
+                        <label class="textlabel">User Code: </label>
+                        <input  class="textbox" formControlName="codeForm_usercode" type="text">
                         <br>
-                        <button id = "update"(click)="code()">Submit</button>
+                        <button id = "update"(click)="code() " style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
                     <div class="codecontainer3" *ngIf="showCodeContent3">
                       <h5 >Delete</h5>
                       <form [formGroup]="codeForm" form>
                         <label><h3>{{ selectedDetail}}</h3></label>
-                        <label class="textlabel">Location: </label> 
+                        <label class="textlabel">Location: </label>
                         <select formControlName="codeForm_location" >
                           <option disabled selected value=""></option>
                           <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                         </select>
                         <br>
-                        <button id = "delete"(click)="code()">Submit</button>
+                        <button id = "delete"(click)="code()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
-  
+
                     </div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@
                           <label class="profilerole">{{ profile }}</label>
                         </div>
                       </div>
-                    </div>  
+                    </div>
             </div>
             <div class="subcontainer2" *ngIf="showContent1">
                 <div class="thing0">
@@ -130,7 +130,7 @@
                     <div class="thing1_1">
                       <label class="instock"><h2 class="w">Dashboard</h2></label>
                     </div>
-                    <div class="thing2">  
+                    <div class="thing2">
                       <form [formGroup]="dashboard" form>
                         <select formControlName="label" class="selection" style="width:20px;border-radius: 5px" (change)="onDashboardChange()" >
                           <option disabled selected value="">Select to add</option>
@@ -138,114 +138,114 @@
                         </select>
                       </form>
                     </div>
-                    <div class="thing3">   
+                    <div class="thing3">
                       <img class="buttons"  id="openFormButton" (click)="popupactivation()" src="assets/Add_B.png">
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
-                            <h5 class="qrtitle">Additional Information</h5>
-                          
-                            <div class="itemcenter1"> 
+                            <h2 class="qrtitle">Additional Information</h2>
+
+                            <div class="itemcenter1">
                               <form id="myForm" [formGroup]="myForm" form >
                                 <label>Add:</label>
                                 <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
                               </form>
-                                
+
                                 <div  style="margin-top:5%;" *ngIf="subcontainer2_content[1] && currentPopupContent === 'defectiveForm'"> <!-- Defective Products Registration -->
                                   <form [formGroup]="defectiveForm" form>
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location: </label> 
+                                    <label class="textlabel">Location: </label>
                                     <select formControlName="defectiveForm_location" (change)="onFormChangeAddDashboard()">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Item Name: </label> 
+                                    <label class="textlabel">Item Name: </label>
                                     <select formControlName="defectiveForm_name" style="width:200px;">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let name of defectiveData" [value]="name.defectiveName">{{ name.defectiveName}}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Quantity: </label> 
-                                    <input  class="textbox" formControlName="defectiveForm_quantity" type="text"> 
+                                    <label class="textlabel">Quantity: </label>
+                                    <input  class="textbox" formControlName="defectiveForm_quantity" type="text">
                                     <br>
-                                    <label class="textlabel">Specific: </label> 
+                                    <label class="textlabel">Specific: </label>
                                     <select formControlName="defectiveForm_specific">
                                       <option selected value="">None of the above</option>
                                      <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">Submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[2] && currentPopupContent === 'personelForm'" >
                                   <form [formGroup]="personelForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location: </label> 
+                                    <label class="textlabel">Location: </label>
                                     <select formControlName="personelForm_location">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Name: </label> 
-                                    <input  class="textbox" formControlName="personelForm_name" type="text"> 
+                                    <label class="textlabel">Name: </label>
+                                    <input  class="textbox" formControlName="personelForm_name" type="text">
                                     <br>
-                                    <label class="textlabel">Position: </label> 
-                                    <input  class="textbox" formControlName="personelForm_position" type="text"> 
+                                    <label class="textlabel">Position: </label>
+                                    <input  class="textbox" formControlName="personelForm_position" type="text">
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[3] && currentPopupContent === 'categoryForm'">
                                   <form [formGroup]="categoryForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location: </label> 
+                                    <label class="textlabel">Location: </label>
                                     <select formControlName="categoryForm_location" >
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Category:  </label> 
-                                    <input  class="textbox" formControlName="categoryForm_name" type="text"> 
+                                    <label class="textlabel">Category:  </label>
+                                    <input  class="textbox" formControlName="categoryForm_name" type="text">
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[4] && currentPopupContent === 'locationForm'" >
                                   <form [formGroup]="locationForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Acronym: </label> 
-                                    <input  class="textbox" formControlName="locationForm_acronym" type="text"> 
+                                    <label class="textlabel">Acronym: </label>
+                                    <input  class="textbox" formControlName="locationForm_acronym" type="text">
                                     <br>
-                                    <label class="textlabel">Full Name: </label> 
-                                    <input  class="textbox" formControlName="locationForm_name" type="text"> 
+                                    <label class="textlabel">Full Name: </label>
+                                    <input  class="textbox" formControlName="locationForm_name" type="text">
                                     <br>
-                                    <label class="textlabel">Floor: </label> 
-                                    <input  class="textbox" formControlName="locationForm_floor" type="text"> 
+                                    <label class="textlabel">Floor: </label>
+                                    <input  class="textbox" formControlName="locationForm_floor" type="text">
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[5] && currentPopupContent === 'projectForm'">
                                   <form [formGroup]="projectForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location: </label> 
+                                    <label class="textlabel">Location: </label>
                                     <select formControlName="projectForm_location">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
                                     <label class="textlabel">Sponsors: </label>
-                                    <input  class="textbox" formControlName="projectForm_name" type="text"> 
+                                    <input  class="textbox" formControlName="projectForm_name" type="text">
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[6] && currentPopupContent === 'otherForm'">
@@ -253,10 +253,10 @@
                                     <label><h3>{{ selectedDetail}}</h3></label>
                                     <br>
                                     <label class="textlabel">Name: </label>
-                                    <input  class="textbox" formControlName="otherForm_name" type="text"> 
+                                    <input  class="textbox" formControlName="otherForm_name" type="text">
                                     <br>
-                                    <button (click)="AddDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="AddDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                             </div>
@@ -268,111 +268,111 @@
                       <div id="popupFormContainer1" class="popupFormContainer">
                         <div class="popupForm">
                           <span class="closeButton1">&times;</span>
-                          <img class="Warning" src="assets/warning.png" />
-                          <h3 class="qrtitle">Delete Action</h3>
-                        
-                            <div class="itemcenter1"> 
+
+                          <h2 class="qrtitle">Delete Action</h2>
+
+                            <div class="itemcenter1">
                               <form id="myForm" [formGroup]="myForm" form >
                                 <label>Delete: </label>
                                 <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
-                              
+
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
-                                
-                                
+
+
                               </form>
-                                
+
                                 <div  style="margin-top:5%;" *ngIf="subcontainer2_content[1] && currentPopupContent === 'defectiveForm'"> <!-- Defective Products Registration -->
                                   <form [formGroup]="defectiveForm" form>
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location</label> 
+                                    <label class="textlabel">Location</label>
                                     <select formControlName="defectiveForm_location" (change)="onFormChangeDeleteDashboard()">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Item Name:</label> 
+                                    <label class="textlabel">Item Name:</label>
                                     <select formControlName="defectiveForm_itemcode">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let name of defectiveData" [value]="name.defectiveName">{{ name.defectiveName}}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Quantity</label> 
-                                    <input  class="textbox" formControlName="defectiveForm_quantity" type="text"> 
+                                    <label class="textlabel">Quantity</label>
+                                    <input  class="textbox" formControlName="defectiveForm_quantity" type="text">
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">Submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[2] && currentPopupContent === 'personelForm'" >
                                   <form [formGroup]="personelForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location</label> 
+                                    <label class="textlabel">Location</label>
                                     <select formControlName="personelForm_location" (change)="onFormChangeDeleteDashboard()">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Name: </label> 
+                                    <label class="textlabel">Name: </label>
                                     <select formControlName="personelForm_name">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let name of personelData" [value]="name.personelName">{{ name.personelName}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[3] && currentPopupContent === 'categoryForm'">
                                   <form [formGroup]="categoryForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location</label> 
+                                    <label class="textlabel">Location</label>
                                     <select formControlName="categoryForm_location" (change)="onFormChangeDeleteDashboard()">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Category</label> 
+                                    <label class="textlabel">Category</label>
                                     <select formControlName="categoryForm_name">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[4] && currentPopupContent === 'locationForm'" >
                                   <form [formGroup]="locationForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location</label> 
+                                    <label class="textlabel">Location</label>
                                     <select formControlName="locationForm_location">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[5] && currentPopupContent === 'projectForm'">
                                   <form [formGroup]="projectForm" form >
                                     <label><h3>{{ selectedDetail}}</h3></label>
-                                    <label class="textlabel">Location: </label> 
+                                    <label class="textlabel">Location: </label>
                                     <select formControlName="projectForm_location" (change)="onFormChangeDeleteDashboard()">
                                       <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
-                                    <label class="textlabel">Sponsors: </label> 
+                                    <label class="textlabel">Sponsors: </label>
                                     <select formControlName="projectForm_name">
                                       <option disabled selected value=""></option>
                                       <option *ngFor="let name of projectData" [value]="name.projectName">{{name.projectName }}</option>
                                     </select>
                                     <br>
-                                   
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+
+                                    <button (click)="DeleteDashboardSubmit()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                                 <div *ngIf="subcontainer2_content[6] && currentPopupContent === 'otherForm'">
@@ -384,88 +384,88 @@
                                       <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
                                     </select>
                                     <br>
-                                    <button (click)="DeleteDashboardSubmit()">submit</button>
-                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label> 
+                                    <button (click)="DeleteDashboardSubmit()"style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">submit</button>
+                                    <label *ngFor="let data of deleteDashboardReply" >{{ data}} </label>
                                   </form>
                                 </div>
                             </div>
-                          
+
                         </div>
                       </div>
                     </div>
                   </div>
                           <div class="TotalProduct">
-                  
+
                             <img class="whitebg1" img src="assets/Total_Product.png " />
                             <h2 class="first-txt" style="margin-bottom:50px;">
-                              <div class="popup ">
-                              <span class="hover-label">{{products}}</span>
-                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
-                                <!-- Your popup content goes here -->
-                                <label *ngFor="let product of productData">
-                                  {{ product.productName }} <br>
-                                </label>
-                              </div>
-                            </div></h2>
-                            <h2 class="first-txt">Total</h2>
-                            <h2 class="second-txt">Product</h2>
+                              <div class="popup">
+                                <span class="hover-label" (click)="togglePopup(productsPopup)">{{products}}</span>
+                                <div #productsPopup class="popup-content" [ngClass]="{ 'open': productsPopupOpen }">
+                                  <!-- Your popup content goes here -->
+                                  <label *ngFor="let product of productData">
+                                    {{ product.productName }} <br>
+                                  </label>
+                                </div>
+                              </div></h2>
+                            <h2 class="first-txt" style="color: black;">Total</h2>
+                            <h2 class="second-txt"style="color: black;">Product</h2>
                             <img class="whitebg2" src="assets/Defective_Product.png" />
                             <h2 class="third-txt"  style="margin-bottom:50px;">
-                              <div class="popup ">
-                              <span class="hover-label">{{defective}}</span>
-                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
-                                <!-- Your popup content goes here -->
-                                <label *ngFor="let defective of defectiveData">
-                                  {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
-                                </label>
-                              </div>
-                            </div></h2>
-                            <h2 class="third-txt">Defective</h2>
-                            <h2 class="fourth-txt">Products</h2>
+                              <div class="popup">
+                                <span class="hover-label" (click)="togglePopup(defectivePopup)">{{defective}}</span>
+                                <div #defectivePopup class="popup-content" [ngClass]="{ 'open': defectivePopupOpen }">
+                                  <!-- Your popup content goes here -->
+                                  <label *ngFor="let defective of defectiveData">
+                                    {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
+                                  </label>
+                                </div>
+                              </div></h2>
+                            <h2 class="third-txt"style="color: black;">Defective</h2>
+                            <h2 class="fourth-txt"style="color: black;">Products</h2>
                             <img class="whitebg3"  src="assets/Office_Location.png"  />
                             <h2 class="fifth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
-                              <span class="hover-label">{{personel}}</span>
-                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
+                                <span class="hover-label" (click)="togglePopup(personelPopup)">{{personel}}</span>
+                                <div #personelPopup class="popup-content" [ngClass]="{ 'open': personelPopupOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let personel of personelData">
                                   {{ personel.personelLocation + '  : '+ personel.personelPosition + ' - '+ personel.personelName  }}<br>
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="fifth-txt">Personel</h2>
-                            <h2 class="sixth-txt"></h2>
+                            <h2 class="fifth-txt"style="color: black;">Personel</h2>
+                            <h2 class="sixth-txt"style="color: black;"></h2>
                             <img class="whitebg4" src="assets/Category_Product.png" />
                             <h2 class="seventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
-                              <span class="hover-label " >{{category}}</span>
-                              <div class="popup-content " [ngClass]="{ 'open': isOpen }" >
+                                <span class="hover-label" (click)="togglePopup(categoryPopup)">{{category}}</span>
+                                <div #categoryPopup class="popup-content" [ngClass]="{ 'open': categoryPopupOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let category of categoryData">
                                   {{ category.categoryName }}<br>
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="seventh-txt">Category</h2>
-                            <h2 class="eight-txt">Products</h2>
+                            <h2 class="seventh-txt"style="color: black;">Category</h2>
+                            <h2 class="eight-txt"style="color: black;">Products</h2>
                             <img class="whitebg5" src="assets/Staff_Location.png" />
                             <h2 class="nineth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
-                              <span class="hover-label ">{{location}}</span>
-                              <div class="popup-content" [ngClass]="{ 'open': isOpen }">
+                                <span class="hover-label" (click)="togglePopup(locationPopup)">{{location}}</span>
+                                <div #locationPopup class="popup-content" [ngClass]="{ 'open': locationPopupOpen }">
                                 <!-- Your popup content goes here -->
                                 <label *ngFor="let location of locationData" >
                                   {{ location.floorName +' - ' + location.locationName +' : '+ location.locationfullName }}<br>
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="nineth-txt">Location</h2>
-                            <h2 class="tenth-txt"></h2>
+                            <h2 class="nineth-txt"style="color: black;">Location</h2>
+                            <h2 class="tenth-txt"style="color: black;"></h2>
                             <img class="whitebg6" src="assets/Project_B.png" />
                             <h2 class="eleventh-txt" style="margin-bottom:50px;">
                               <div class="popup ">
-                                <span class="hover-label">{{project}}</span>
-                                  <div class="popup-content" [ngClass]="{ 'open': isOpen }">
+                                <span class="hover-label" (click)="togglePopup(projectPopup)">{{project}}</span>
+                                <div #projectPopup class="popup-content" [ngClass]="{ 'open': projectPopupOpen }">
                                     <!-- Your popup content goes here -->
                                     <label *ngFor="let project of projectData">
                                       {{ project.projectLocation +' : '+ project.projectName }}<br>
@@ -473,12 +473,12 @@
                                   </div>
                               </div>
                             </h2>
-                            <h2 class="eleventh-txt">Project</h2>
+                            <h2 class="eleventh-txt"style="color: black;">Project</h2>
                           </div>
                 </div>
-                
-               
-          
+
+
+
             </div>
             <div class="subcontainer" *ngIf="showContent2" >
                 <div class="things">
@@ -488,7 +488,7 @@
                       </div>
                       <div class="var2">
                         <form [formGroup]="searchdropdown" form>
-                          <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px;" (change)="handleSelectChange()">
+                          <select formControlName="value" style="width:20px;margin-top:18px;margin-left:10px; color: #8d8989; border: 1px solid #eee5e5;  cursor: pointer;border-radius: 5px;" (change)="handleSelectChange()">
                             <option disabled selected value="">Select to add</option>
                             <option *ngFor="let data of searchinfo" [ngValue]="data">{{ data }}</option>
                           </select>
@@ -499,15 +499,19 @@
                           <input type="text" formControlName="name"  placeholder="{{selectedValue1}}" (input)="handleSearch() ">
                         </form>
                       </div>
-                               
+
 
                     </div>
-               
+
                     <div class="export">
-                      <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png"></button>
-                    
+                      <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png" style="margin-top: 5%;" ></button>
                     </div>
-                   
+                    <div class="import">
+                      <form (submit)="uploadFile($event)">
+                        <input type="file" accept=".csv" (change)="handleFileInput($event)">
+                        <button type="submit">Upload</button>
+                      </form>
+                    </div>
                     <div class="thing3">
                       <form id="myForm" [formGroup]="qrForm" >
                         <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png"></button>
@@ -515,15 +519,15 @@
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
                             <h2 class="qrtitle">QR Generator</h2>
-                          
+
                               <div class="itemcenter">
-                                <label class="textlabel">Location</label> 
+                                <label class="textlabel">Location</label>
                                 <select formControlName="qrForm_location">
                                   <option disabled selected value="">select</option>
                                   <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                 </select>
-                               
-          
+
+
                                 <br>
                                 <label>1st Code: </label>
                                 <input type="text" formControlName="qrForm_itemcode1" required><br>
@@ -533,9 +537,9 @@
                                 <input type="text" formControlName="qrForm_itemcode2" required><br>
                                 <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
                                 <br>
-                                <button class="generate" type="submit" (click)=" generateQRCodePDF()">{{ qrgenerate }}</button>
+                                <button class="generate" type="submit" (click)="newqrgenerate()">{{ qrgenerate }}</button>
                               </div>
-                          
+
                               <div class="qrcodeformat" [hidden]="isHidden">
                                   <div class="upper3">
                                     <div class="upper4">
@@ -545,13 +549,13 @@
                                       <label  style="font-size: 12px;">Inventory Management System</label>
                                       <br>
                                       <label  style="font-size: 12px;">STEER Hub</label><br>
-                                    
+
                                     </div>
                                   </div>
                                   <div class="itemcenter" >
                                     <qrcode [qrdata]="myAngularxQrCode" [width]="150" [allowEmptyString]="true" [errorCorrectionLevel]="'M'"></qrcode>
                                       <label class="label1" style="text-align: center;align-items: center;margin-left:10%;margin-right:10%; font-style:italic;margin-bottom: 50px;font-size: 12px;;">{{ productname }}</label>
-                                      <br>  
+                                      <br>
                                   </div>
                               </div>
                           </div>
@@ -559,13 +563,13 @@
                       </form>
                       <form id="myForm" [formGroup]="addInstockForm">
                         <img class="ButtonsA" id="openFormButton1" (click)="popupactivation1()" src="assets/Add_B.png"/>
-                       
+
                         <div id="popupFormContainer1" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton1">&times;</span>
                             <h2 class="qrtitle">Item Registration</h2>
-                            
-                            <label class="textlabel">Location</label> 
+
+                            <label class="textlabel">Location</label>
                             <select formControlName="addInstockForm_location" (change)="addInstockchange()">
                               <option disabled selected value="">Select to add</option>
                               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
@@ -577,19 +581,19 @@
                               <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
                             </select>
                             <br>
-                            <label class="textlabel">Category</label> 
+                            <label class="textlabel">Category</label>
                             <select formControlName="addInstockForm_category">
                               <option disabled selected value=""></option>
                               <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
                             </select>
                             <br>
-                              
-                            <label class="textlabel">Item name: </label> 
-                            <input  class="textbox" formControlName="addInstockForm_name" type="text"> 
+
+                            <label class="textlabel">Item name: </label>
+                            <input  class="textbox" formControlName="addInstockForm_name" type="text">
                             <br>
-                              
-                            <label class="textlabel">Quantity: </label> 
-                            <input  class="textbox" formControlName="addInstockForm_quantity" type="text"> 
+
+                            <label class="textlabel">Quantity: </label>
+                            <input  class="textbox" formControlName="addInstockForm_quantity" type="text">
                             <br>
                             <label class="textlabel"># of borrowed:</label>
                             <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange()">
@@ -603,7 +607,7 @@
                               </select>
                               <br>
                             </div>
-                        
+
                             <label class="textlabel">Image Url:</label>
                             <input class="textbox" formControlName="addInstockForm_imgurl" type="text" >
                             <br>
@@ -611,19 +615,19 @@
                             <input class="textbox" formControlName="addInstockForm_parurl" type="text" >
                             <br>
                             <br>
-                            <button (click)="addInstock()">ADD</button>
+                            <button (click)="addInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">ADD</button>
                           </div>
                         </div>
                       </form>
                       <form id="myForm" [formGroup]="updateInstockForm">
                         <img class="ButtonsB" id="openFormButton2" (click)="popupactivation2()" src="assets/Update_B2.png"/>
-                       
+
                         <div id="popupFormContainer2" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton2">&times;</span>
-                            <h2 class="qrtitle">Item Registration</h2>
-                            
-                            <label class="textlabel">Location</label> 
+                            <h2 class="qrtitle">Update Action</h2>
+
+                            <label class="textlabel">Location</label>
                             <select formControlName="updateInstockForm_location" (change)="updateInstockchange()">
                               <option disabled selected value="">Select to add</option>
                               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
@@ -635,22 +639,22 @@
                               <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
                             </select>
                             <br>
-                            <label class="textlabel">Category</label> 
+                            <label class="textlabel">Category</label>
                             <select formControlName="updateInstockForm_category" style="width:100px;">
                               <option disabled selected value=""></option>
                               <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
                             </select>
                             <br>
-                              
-                            <label class="textlabel">Item name: </label> 
+
+                            <label class="textlabel">Item name: </label>
                             <select formControlName="updateInstockForm_name"  style="width:100px;">
                               <option disabled selected value=""></option>
                               <option *ngFor="let name of productData" [value]="name.productName">{{ name.productName }}</option>
                             </select>
                             <br>
-                              
-                            <label class="textlabel">Quantity: </label> 
-                            <input  class="textbox" formControlName="updateInstockForm_quantity" type="text"> 
+
+                            <label class="textlabel">Quantity: </label>
+                            <input  class="textbox" formControlName="updateInstockForm_quantity" type="text">
                             <br>
                             <label class="textlabel"># of borrowed:</label>
                             <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange1()">
@@ -672,41 +676,41 @@
                             <input class="textbox" formControlName="updateInstockForm_parurl" type="text" >
                             <br>
                             <br>
-                            <button (click)="updateInstock()">ADD</button>
+                            <button (click)="updateInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">ADD</button>
                           </div>
                         </div>
                       </form>
                       <form id="myForm" [formGroup]="deleteInstockForm">
                         <img class="ButtonsC"id="openFormButton4" (click)="popupactivation4()" src="assets/Delete_B.png">
 
-  
+
                         <div id="popupFormContainer4" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton4">&times;</span>
-                            <h2 class="qrtitle">Item Registration</h2>
-                            <label class="textlabel">Location</label> 
+                            <h2 class="qrtitle">Delete Action</h2>
+                            <label class="textlabel">Location</label>
                             <select formControlName="deleteInstockForm_location" (change)="deleteInstockchange()">
                               <option disabled selected value="">Select to add</option>
                               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                             </select>
                             <br>
-                            <label class="textlabel">Item name: </label> 
-                            <select formControlName="deleteInstockForm_itemname" style="width:100px;"> 
+                            <label class="textlabel">Item name: </label>
+                            <select formControlName="deleteInstockForm_itemname" style="width:100px;">
                               <option disabled selected value="">Select to add</option>
                               <option *ngFor="let product of productData"[value]="product.productName">  {{ product.productName }}</option>
                             </select>
                             <br>
-                            <button (click)="deleteInstock()"> SUBMIT</button>
+                            <button (click)="deleteInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;"> SUBMIT</button>
                           </div>
                         </div>
                       </form>
-                     
 
-                      
+
+
                     </div>
                 </div>
 
-               
+
                 <div class="scrollablecontent">
                     <table class="resizable-table" border="1">
                         <colgroup class="column">
@@ -718,8 +722,8 @@
                             <col style="width: 50px;"><!-- Specific Location -->
                             <col style="width: 20px;"><!-- Category -->
                             <col style="width: 40px;"><!-- Project -->
-                            <col style="width: 15px;"><!-- Image -->   
-                            <col style="width: 15px;"><!-- Par -->  
+                            <col style="width: 15px;"><!-- Image -->
+                            <col style="width: 15px;"><!-- Par -->
                           </colgroup>
                         <tr>
                             <th>Code</th>
@@ -729,7 +733,7 @@
                             <th>Quantity</th>
                             <th>Specific Location</th>
                             <th>Category</th>
-                      
+
                             <th>Project</th>
                             <th>IMAGE</th>
                             <th>PAR</th>
@@ -742,7 +746,7 @@
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.specific}}</td>
                             <td>{{ item.category }}</td>
-                           
+
                             <td>{{ item.project }}</td>
                             <td>
                               <a href="javascript:void(0);" (click)="handleImageLinkClick(item.image)">
@@ -755,7 +759,7 @@
                               </a>
                             </td>
                           </tr>
-                        
+
                       </table>
                 </div>
             </div>
@@ -770,11 +774,11 @@
                     <p class="p">
                         Once sold, inventory becomes revenue. Before it sells, inventory (although reported as an asset on the balance sheet) ties up cash. Therefore, too much stock costs money
                         and reduces cash flow.
-                    </p>    
+                    </p>
                     <p class="p">
                         One measurement of good inventory management is inventory turnover. An accounting measurement, inventory turnover reflects how often stock is sold in a period. A business does not want more stock than sales. Poor inventory turnover can lead to deadstock, or unsold stock.
                     </p>
-                    <h2 class="dev">Developer Team</h2> 
+                    <h2 class="dev">Developer Team</h2>
                     <div class="profile">
                         <table class="resizable-table1">
 
@@ -790,7 +794,7 @@
                               </tr>
                               <tr >
                                 <td>
-                  
+
                                 <label class="textabout"><h2 class="textabout">Lloyd Jerome Hombre</h2></label>
                                 <label class="textrole"><h4 class="textrole">Designer and Programmer</h4></label>
                                 </td>
@@ -799,22 +803,22 @@
                                 <label class="textrole"><h4 class="textrole">Programmer</h4></label>
                                 </td>
                                 <td>
-                                <label class="textabout"><h2 class="textabout">Rommel Guiterrez</h2></label>
-                                <label class="textrole"><h4 class="textrole">Documentation</h4></label>
+                                <label class="textabout"><h2 class="textabout">Rommel Gutierrez</h2></label>
+                                <label class="textrole"><h4 class="textrole">Programmer</h4></label>
                                 </td>
                               </tr>
-                          
+
                         </table>
-                       
-                        
+
+
 
                     </div>
                 </div>
             </div>
-           
+
         </div>
     </div>
 
-    
+
 </body>
 </html>

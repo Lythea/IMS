@@ -1,27 +1,12 @@
 body {
   font-family: "Poppins";
 }
+
 .popup {
   position: relative;
   display: inline-block;
 }
-.export{
-  width:10%;
-  margin-left:2%;
-}
-.exportbutton{
-  margin-top: 25px;
-  border: 2px solid rgb(253, 251, 251);
-  background-color: #c00000;
-  margin-right: 450px;
-  border-radius: 25px;
-  width: 100%;
-  height: 33px;
-  color: white;
-  font-weight: bolder;
-  font-size: 12px;
-  cursor: pointer;
-}
+
 .popup-content {
   width: 300px;
   display: none;
@@ -39,23 +24,17 @@ body {
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
-.popup:hover .popup-content,
 .popup.open .popup-content {
   display: block;
 }
 
 .hover-label {
   cursor: pointer;
-}
-
-.popup-content:hover {
-  overflow-y: auto;
-}
-
-.hover-label {
-  cursor: pointer;
-  
   font-family: "Poppins";
+}
+
+.popup-content.open {
+  display: block;
 }
 .value1-txt {
   position: absolute;
@@ -106,36 +85,36 @@ body {
 }
 .first-txt {
   position: absolute;
-  bottom: -75px;
-  left: 340px;
+  bottom: -130px;
+  left: 310px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .second-txt {
   position: absolute;
-  bottom: -85px;
-  left: 340px;
+  bottom: -150px;
+  left: 310px;
   font-family: "Poppins";
   font-size: 100%;
 }
 .third-txt {
   position: absolute;
-  bottom: -20px;
-  left: 940px;
+  bottom: -130px;
+  left: 575px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .fourth-txt {
   position: absolute;
-  bottom: -35px;
-  left: 940px;
+  bottom: -150px;
+  left: 575px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .fifth-txt {
   position: absolute;
-  bottom: -20px;
-  left: 1513px;
+  bottom: -140px;
+  left: 835px;
   font-size: 100%;
   font-family: "Poppins";
 }
@@ -148,22 +127,22 @@ body {
 }
 .seventh-txt {
   position: absolute;
-  bottom: -330px;
-  left: 410px;
+  bottom: -130px;
+  left: 1095px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .eight-txt {
   position: absolute;
-  bottom: -350px;
-  left: 410px;
+  bottom: -150px;
+  left: 1095px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .nineth-txt {
   position: absolute;
-  bottom: -330px;
-  left: 940px;
+  bottom: -140px;
+  left: 1360px;
   font-size: 100%;
   font-family: "Poppins";
 }
@@ -176,8 +155,8 @@ body {
 }
 .eleventh-txt {
   position: absolute;
-  bottom: -330px;
-  left: 1513px;
+  bottom: -140px;
+  left: 1620px;
   font-size: 100%;
   font-family: "Poppins";
 }
@@ -192,25 +171,26 @@ body {
   margin-left: -80px;
   position: relative;
   height: 250px;
+  color:#a02f2f;
 }
 
 .whitebg1 {
   position: relative;
-  margin-left: 250px;
-  margin-top: 250px;
+  margin-left: 220px;
+  margin-top: 300px;
   margin-bottom: 20px;
   height: 130px;
 }
 .whitebg2 {
   position: relative;
-  margin-left: 290px;
+  margin-left: 80px;
   margin-top: 140px;
   margin-bottom: 20px;
   height: 130px;
 }
 .whitebg3 {
   position: relative;
-  margin-left: 330px;
+  margin-left: 80px;
   margin-top: 30px;
   margin-bottom: 20px;
   height: 130px;
@@ -220,22 +200,22 @@ body {
 }
 
 .whitebg4 {
-  position: relative;
-  margin-left: 290px;
-  margin-top: 115px;
+  position:relative;
+  margin-left: 80px;
+  margin-top: 50px;
   margin-bottom: 20px;
   height: 130px;
 }
 .whitebg5 {
   position: relative;
-  margin-left: 290px;
+  margin-left: 80px;
   margin-top: 115px;
   margin-bottom: 20px;
   height: 130px;
 }
 .whitebg6 {
   position: relative;
-  margin-left: 330px;
+  margin-left: 80px;
   margin-top: 115px;
   height: 130px;
   margin-bottom: 20px;
@@ -258,7 +238,7 @@ body {
 .subcontainer2 {
   position: fixed;
   height: 830px;
-  
+
 }
 .column td {
   height: 50px;
@@ -275,7 +255,7 @@ body {
   border-radius: 15px;
 }
 .container {
- 
+
 
   position: fixed;
   padding: 0;
@@ -289,7 +269,7 @@ body {
 }
 .column1 .label {
   margin-bottom: 10%;
-  
+
 }
 .column2 {
   margin-top: -23px;
@@ -431,15 +411,16 @@ body {
   margin-left: 10%;
 }
 .subcontainer2 {
-  position: fixed;
-  height: 875px;
+
+  width: 90%;
+  height: 870px;
   display: block;
   box-shadow: 1px 2px 1px 1px rgb(255, 255, 255),
     -1px -2px 1px 1px rgb(185, 182, 182);
   background-image: linear-gradient(
     180deg,
     rgb(232, 231, 240),
-    rgb(232, 231, 240)  
+    rgb(232, 231, 240)
   );
 }
 .thing0 {
@@ -521,13 +502,14 @@ body {
 }
 
 .qrbutton {
-  margin-top: 25px;
+  margin-top: 26px;
+  margin-left: -110%;
   border: 2px solid rgb(253, 251, 251);
-  background-color: rgb(226, 27, 27);
-  margin-right: 450px;
-  border-radius: 25px;
-  width: 300px;
-  height: 40px;
+  background-color: #c00000;
+  margin-right: 570px;
+  border-radius: 15px;
+  width: 114px;
+  height: 35px;
   color: white;
   font-weight: bolder;
   font-size: 18px;
@@ -549,11 +531,28 @@ body {
 }
 .compiler1 .thing3 {
   display: flex;
-  margin-left: 0%;
+  margin-left: -19%;
 }
 .thing1{
   width:30%;
   display:flex;
+}
+.export{
+  width:10%;
+  margin-left:2%;
+}
+.exportbutton{
+  margin-top: 26px;
+  margin-left: -160%;
+  border: 2px solid rgb(253, 251, 251);
+  background-color: #c00000;
+  border-radius: 15px;
+  width: 50%;
+  height: 35px;
+  color: white;
+  font-weight: bolder;
+  font-size: 12px;
+  cursor: pointer;
 }
 .thing3 {
   display: flex;
@@ -564,6 +563,7 @@ body {
   width:17%;
 }
 .var2 {
+
   margin-top: 15px;
   margin-left: 5px;
 }
@@ -601,7 +601,7 @@ body {
   font-size: 20px;
   font-weight: bolder;
   width: 50px;
-  
+
   margin-right: 50px;
 }
 
@@ -645,7 +645,7 @@ body {
 .profile label {
   font-weight: bold;
   font-size: 17px;
-  
+
 }
 .profile1 {
   margin-top: 7px;
@@ -705,7 +705,7 @@ body {
 .upper5 {
   margin-top: 10px;
   font-weight: bolder;
-  
+
   width: 100%;
 }
 .column1 .label .inactive {
@@ -751,7 +751,7 @@ body {
   display: flex;
   width: 75px;
   height: auto;
-  margin-left: 170px;
+  margin-left: 200px;
 }
 .closeButton2 {
   float: right;

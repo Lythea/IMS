@@ -13,9 +13,10 @@
   <script src="https://unpkg.com/@angular/platform-browser@12.0.0/bundles/platform-browser.umd.js"></script>
   <script src="https://unpkg.com/@angular/platform-browser-dynamic@12.0.0/bundles/platform-browser-dynamic.umd.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <meta name="google-signin-client_id" content="96642581716-lcclv76orlmslu9kt1151r91eldmm7sk.apps.googleusercontent.com.apps.googleusercontent.com">
 </head>
-<body ng-app="myApp" ng-controller="myController" >
+<body ng-app="myApp" ng-controller="myController" style="margin:0px;">
   <div class="container">
     <div class="column1" *ngIf="showContent1">
       <div class="body1">
@@ -39,7 +40,7 @@
         </div>
 
         <div class="container4">
-        
+
           <form method="post" form [formGroup]="accounts">
             <label class="textlabel">Email*</label> <br>
             <input class="textbox"placeholder="Enter your E-mail" id="email"name="email" formControlName="email">
@@ -49,13 +50,13 @@
             <input  class="textbox"placeholder="Confirm your password" id="password"name="password" formControlName="password" type ="password">
             <br>
             <button class="login" name ="button1" (click)="login()" style="margin-top:10%;">Login</button>
-            
+
             <label class="shesh">Not registered yet?<label style="color:blue;" (click)="toggleContent('content2')"> Create an Account</label></label>
           </form>
         </div>
       </div>
     </div>
-    
+    <!--ewqewq
     <div class="column1" *ngIf="showContent2">
       <div class="body1">
 
@@ -101,17 +102,17 @@
             </select>
             <br>
             <br>
-            <label class="textlabel">Company : </label> 
+            <label class="textlabel">Company : </label>
             <select formControlName="company" >
               <option disabled selected value="">Select to add</option>
               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
             </select>
             <br>
-            <label class="textlabel">Code : </label> 
+            <label class="textlabel">Code : </label>
             <input  class="textbox"  formControlName="code">
             <br>
             <br>
-           
+
 
             <button class="login" name ="button1" (click)="signup()" >Sign Up</button>
             <label class="shesh">Already have account?<label style="color:blue;" (click)="toggleContent('content1')"> Sign In</label></label>
@@ -119,11 +120,12 @@
         </div>
       </div>
     </div>
+    -->
     <div class="column2">
       <img class="bg" src="assets/building.jpg" alt="BsuLogo" >
     </div>
     </div>
 
-    
+
 </body>
 </html>

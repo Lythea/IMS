@@ -1,0 +1,52 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+Dim rng As Range
+Dim cell As Range
+Dim lastRow As Long
+Dim currentLocation As String
+Dim currentNumber As Long
+' Check if any cells in the monitored range have changed
+Set rng = Range("C:L") ' Change "C:L" to the range that includes the columns you want to check
+
+' Check if any cells in the monitored range have changed
+If Not Intersect(Target, rng) Is Nothing Then
+    Application.EnableEvents = False ' Disable event handling to avoid infinite loop
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row ' Find the last used row in column A
+
+    ' Loop through each cell in the monitored range
+    For Each cell In Intersect(Target, rng)
+        ' Check if the corresponding cell in column A is empty
+        If IsEmpty(Cells(cell.Row, 1).Value) Then
+            ' If column A is empty, assign the increment value based on the recent value
+            lastRow = WorksheetFunction.Max(Range("A:A")) ' Get the recent value in column A
+            Cells(cell.Row, 1).Value = lastRow + 1
+        End If
+        
+        ' Check if the corresponding cell in column J is not empty
+        If Not IsEmpty(Cells(cell.Row, 10).Value) Then
+            ' Get the current location
+            currentLocation = Cells(cell.Row, 10).Value
+            
+            ' Find the most recent number with the same location
+            currentNumber = 0 ' Initialize the current number
+            
+            ' Loop through the previous rows to find the latest number with the same location
+            Dim i As Long
+            For i = cell.Row - 1 To 1 Step -1
+                If Cells(i, 10).Value = currentLocation Then
+                    currentNumber = Cells(i, 2).Value
+                    Exit For
+                End If
+            Next i
+            
+            ' If a matching number exists, increment it; otherwise, set it to 1
+            If currentNumber <> 0 Then
+                Cells(cell.Row, 2).Value = currentNumber + 1
+            Else
+                Cells(cell.Row, 2).Value = 1
+            End If
+        End If
+    Next cell
+
+    Application.EnableEvents = True ' Re-enable event handling
+End If
+End Sub

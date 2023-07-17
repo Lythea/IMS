@@ -36,22 +36,20 @@ export class HomeComponent {
 
   toggleContent(contentId: string): void {
     if (contentId === 'content1') {
-      this.showContent1 = true;
-      this.showContent2 = false;
+
     } else if (contentId === 'content2') {
-      this.showContent1 = false;
-      this.showContent2 = true;
+      alert('Contact the Administrator.')
 
       const formData = new FormData();
-   
-    
+
+      /**
       fetch('http://localhost:8080/IMS/src/backend/location.php', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
       .then(value => {
-      
+
         // Accessing the data and populating this.accounts array
         this.locationData = [];
         for (let i = 0; i < value.count; i++) {
@@ -61,6 +59,7 @@ export class HomeComponent {
           };
         }
       });
+      */
     }
   }
   login(){
@@ -82,7 +81,7 @@ export class HomeComponent {
       localStorage.setItem('name',value.data[0].name)
       localStorage.setItem('position',position.toLowerCase())
       localStorage.setItem('company',company.toLowerCase())
-     
+
       if(position=='admin' || position=='MODERATOR'){
         localStorage.setItem('position',position.toLowerCase())
         localStorage.setItem('company',company)
@@ -120,7 +119,7 @@ export class HomeComponent {
       .then(response => response.json())
       .then(value => {
         value.data.toLowerCase()
-     
+
         this.showContent1 = true;
         this.showContent2 = false;
       });
@@ -128,9 +127,9 @@ export class HomeComponent {
       console.log(value.data)
       alert(value.data[0].name + ' already in used and ' + value.data[0].email + ' already registered')
      }
-      
+
     });
 
-  
+
 }
 }
