@@ -79,11 +79,11 @@ export class HomeComponent {
       alert(value.data)
     }else {
       localStorage.setItem('name',value.data[0].name)
-      localStorage.setItem('position',position.toLowerCase())
-      localStorage.setItem('company',company.toLowerCase())
+      localStorage.setItem('position',position)
+      localStorage.setItem('company',company)
 
-      if(position=='admin' || position=='MODERATOR'){
-        localStorage.setItem('position',position.toLowerCase())
+      if(position=='moderator' || position=='administrator'){
+        localStorage.setItem('position',position)
         localStorage.setItem('company',company)
         this.router.navigate(['admin']);
       }else if(position=='user'){

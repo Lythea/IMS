@@ -9,21 +9,21 @@ $conn = new mysqli($servername, $username, $password,$db);
 
     $property = $_POST['property'];
 $position = $_POST['position'];
-if($position =='moderator'){
+if($position =='administrator'){
 
     if($property =='Defective Products' ){
         $itemcode = $_POST['defectiveForm_itemcode'];
         $location = $_POST['defectiveForm_location'];
         $quantity = $_POST['defectiveForm_quantity'];
-        
+
         // Select the current quantity for the given item and location
         $sql = "SELECT quantity FROM defective WHERE item_name ='$itemcode' AND companyownership = '$location'";
         $result = $conn->query($sql);
-        
+
         if ($result->num_rows > 0) {
         $data = $result->fetch_all(MYSQLI_ASSOC);
         $currentQuantity = $data[0]['quantity'];
-        
+
         // Check if the current quantity is greater than 1
         if ($currentQuantity > 1) {
             // Update the data
@@ -41,10 +41,10 @@ if($position =='moderator'){
             // Remove the entire row
             $deleteSql = "DELETE FROM defective WHERE item_name ='$itemcode' AND companyownership = '$location'";
             $conn->query($deleteSql);
-        
+
             echo json_encode(['data' => 'Row removed successfully']);
         } else {
-          
+
 
             echo json_encode(['data' => 'Quantity is less than 1, cannot update or remove']);
         }
@@ -76,7 +76,7 @@ if($position =='moderator'){
         echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
     }
 }else if($property =='Location' ){
-    
+
     $location = $_POST['locationForm_location'];
 
     // Delete the row from the database based on the provided conditions
@@ -110,21 +110,21 @@ if($position =='moderator'){
         echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
     }
 }
-}else if ($position =='admin'){
+}else if ($position =='moderator'){
     $company = $_POST['company'];
     if($property =='Defective Products' ){
         $itemcode = $_POST['defectiveForm_itemcode'];
         $location = $_POST['defectiveForm_location'];
         $quantity = $_POST['defectiveForm_quantity'];
-        
+
         // Select the current quantity for the given item and location
         $sql = "SELECT quantity FROM defective WHERE item_name ='$itemcode' AND companyownership = '$company'";
         $result = $conn->query($sql);
-        
+
         if ($result->num_rows > 0) {
         $data = $result->fetch_all(MYSQLI_ASSOC);
         $currentQuantity = $data[0]['quantity'];
-        
+
         // Check if the current quantity is greater than 1
         if ($currentQuantity > 1) {
             // Update the data
@@ -142,10 +142,10 @@ if($position =='moderator'){
             // Remove the entire row
             $deleteSql = "DELETE FROM defective WHERE item_name ='$itemcode' AND companyownership = '$company'";
             $conn->query($deleteSql);
-        
+
             echo json_encode(['data' => 'Row removed successfully']);
         } else {
-          
+
 
             echo json_encode(['data' => 'Quantity is less than 1, cannot update or remove']);
         }
@@ -177,7 +177,7 @@ if($position =='moderator'){
         echo json_encode(['data' => 'Error removing row: ' . $conn->error]);
     }
 }else if($property =='Location' ){
-    
+
     $location = $_POST['locationForm_location'];
 
     // Delete the row from the database based on the provided conditions

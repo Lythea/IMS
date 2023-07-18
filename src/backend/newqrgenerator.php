@@ -13,7 +13,7 @@ $company = $_POST['company'];
 $position = $_POST['position'];
 $data = array(); // Initialize the main data array
 
-if ($position == 'moderator') {
+if ($position == 'administrator') {
     $data['result1_count'] = 0; // Initialize the result1_count key
 
     if ($code1 == '' || $code2 == '') {
