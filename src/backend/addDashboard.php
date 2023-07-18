@@ -6,7 +6,7 @@ $property = $_POST['property'];
 $position = $_POST['position'];
 
 
-if ($position == 'moderator') {
+if ($position == 'administrator') {
     if ($property == 'Defective Products') {
         $itemname = $_POST['defectiveForm_name'];
         $location = $_POST['defectiveForm_location'];
@@ -115,7 +115,7 @@ if ($position == 'moderator') {
             echo json_encode(['data' => 'Error inserting row: ' . $conn->error]);
         }
     }
-} else if ($position == 'admin') {
+} else if ($position == 'moderator') {
     if ($property == 'Defective Products') {
         $itemname = $_POST['defectiveForm_name'];
         $location = $_POST['company'];

@@ -10,7 +10,7 @@ $conn = new mysqli($servername, $username, $password,$db);
       $value = $_POST['value'];
       $property = $_POST['property'];
 
-      if($position=='moderator'){
+      if($position=='administrator'){
         if($property == 'All'){
             $sql = "SELECT * FROM `items`";
             $result = $conn->query($sql);
@@ -103,7 +103,7 @@ $conn = new mysqli($servername, $username, $password,$db);
                 }
         }
 
-      }else if ($position=='admin'|| $position=='user'){
+      }else if ($position=='moderator'|| $position=='user'){
         if($property == 'All'){
             $sql = "SELECT * FROM `items` WHERE location = '$company'";
             $result = $conn->query($sql);

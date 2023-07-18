@@ -2,11 +2,6 @@ body {
   font-family: "Poppins";
 }
 
-.popup {
-  position: relative;
-  display: inline-block;
-}
-
 .export{
   width:10%;
   margin-left:2%;
@@ -25,6 +20,12 @@ body {
   font-size: 12px;
   cursor: pointer;
 }
+.popup {
+  top:20px;
+  position: relative;
+  display: inline-block;
+}
+
 .popup-content {
   width: 300px;
   display: none;
@@ -42,17 +43,13 @@ body {
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
-.popup.open .popup-content {
+.popup-content.open {
   display: block;
 }
 
 .hover-label {
   cursor: pointer;
   font-family: "Poppins";
-}
-
-.popup-content.open {
-  display: block;
 }
 .value1-txt {
   position: absolute;
@@ -131,15 +128,15 @@ body {
 }
 .fifth-txt {
   position: absolute;
-  bottom: -140px;
+  bottom: -130px;
   left: 835px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .sixth-txt {
   position: absolute;
-  bottom: -50px;
-  left: 1470px;
+  bottom: -150px;
+  left: 835px;
   font-size: 100%;
   font-family: "Poppins";
 }
@@ -152,28 +149,28 @@ body {
 }
 .eight-txt {
   position: absolute;
-  bottom: -150px;
+  bottom: -130px;
   left: 1095px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .nineth-txt {
   position: absolute;
-  bottom: -140px;
+  bottom: -130px;
   left: 1360px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .tenth-txt {
   position: absolute;
-  bottom: -425px;
+  bottom: -130px;
   left: 940px;
   font-size: 100%;
   font-family: "Poppins";
 }
 .eleventh-txt {
   position: absolute;
-  bottom: -140px;
+  bottom: -130px;
   left: 1620px;
   font-size: 100%;
   font-family: "Poppins";
@@ -190,6 +187,7 @@ body {
   position: relative;
   height: 250px;
   color:#a02f2f;
+  margin-top:-4%;
 }
 
 .whitebg1 {
@@ -243,8 +241,8 @@ body {
   margin-left: 20%;
   height: 80px;
   width: 100px;
-  margin-top: -17%;
-  margin-bottom: 10%;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 .subcontainer2 .qrtitle {
   font-size: 20px;
@@ -268,7 +266,7 @@ body {
   margin-left: 6%;
   margin-right: 2%;
   width: 90%;
-  height: 88%;
+  height: 75%;
   border: 1px solid rgb(185, 181, 181);
   border-radius: 15px;
 }
@@ -554,23 +552,6 @@ body {
 .thing1{
   width:30%;
   display:flex;
-}
-.export{
-  width:10%;
-  margin-left:2%;
-}
-.exportbutton{
-  margin-top: 26px;
-  margin-left: -160%;
-  border: 2px solid rgb(253, 251, 251);
-  background-color: #c00000;
-  border-radius: 15px;
-  width: 50%;
-  height: 35px;
-  color: white;
-  font-weight: bolder;
-  font-size: 12px;
-  cursor: pointer;
 }
 .thing3 {
   display: flex;

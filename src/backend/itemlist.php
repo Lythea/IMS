@@ -7,7 +7,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     die("Connection failed: " . $conn->connect_error);}
       $company = $_POST['company'];
       $position = $_POST['position'];
-      if($position=='moderator'){
+      if($position=='administrator'){
         $sql = "SELECT * FROM `items`";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -16,7 +16,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         } else {
           echo json_encode(['data'=> 'Not Found!']);
       }
-      }else if ($position=='admin'|| $position=='user'){
+      }else if ($position=='moderator'|| $position=='user'){
         $sql = "SELECT * FROM `items` WHERE location = '$company'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -26,7 +26,7 @@ $conn = new mysqli($servername, $username, $password,$db);
           echo json_encode(['data'=> 'Not Found!']);
       }
       }
-    
+
 
       $conn->close();
       exit();
