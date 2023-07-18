@@ -15,7 +15,7 @@
                 <img class="logo" src="assets/bsu.png" alt="BsuLogo" >
                 <div class="overlay"></div>
               </div>
-            <img ><br>
+            <br>
             <div class="logo1">
               <img class="minilogo" src="assets/dashboard.png" alt="BsuLogo">
               <label class="label" [class.active]="activeContent === 'content1'" (click)="toggleContent('content1')">Dashboard</label><br>
@@ -72,7 +72,7 @@
                         <label class="textlabel">User Code: </label>
                         <input  class="textbox" formControlName="codeForm_usercode" type="text">
                         <br>
-                        <button id = "add"(click)="code()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
+                        <button id = "add"(click)="code()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Submit</button>
                       </form>
                     </div>
                     <div class="codecontainer2" *ngIf="showCodeContent2">
@@ -398,45 +398,36 @@
 
                             <img class="whitebg1" img src="assets/Total_Product.png " />
                             <h2 class="first-txt" style="margin-bottom:50px;">
-                              <div class="popup">
+                              <div class="popup ">
                                 <span class="hover-label" (click)="togglePopup(productsPopup)">{{products}}</span>
                                 <div #productsPopup class="popup-content" [ngClass]="{ 'open': productsPopupOpen }">
-                                  <!-- Your popup content goes here -->
-                                  <label *ngFor="let product of productData">
-                                    {{ product.productName }} <br>
-                                  </label>
-                                </div>
-                              </div></h2>
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let product of productData">
+                                  {{ product.productName }} <br>
+                                </label>
+                              </div>
+                            </div></h2>
                             <h2 class="first-txt" style="color: black;">Total</h2>
                             <h2 class="second-txt"style="color: black;">Product</h2>
                             <img class="whitebg2" src="assets/Defective_Product.png" />
                             <h2 class="third-txt"  style="margin-bottom:50px;">
-                              <div class="popup">
+                              <div class="popup ">
                                 <span class="hover-label" (click)="togglePopup(defectivePopup)">{{defective}}</span>
                                 <div #defectivePopup class="popup-content" [ngClass]="{ 'open': defectivePopupOpen }">
-                                  <!-- Your popup content goes here -->
-                                  <label *ngFor="let defective of defectiveData">
-                                    {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
-                                  </label>
-                                </div>
-                              </div></h2>
-                            <h2 class="third-txt"style="color: black;">Defective</h2>
-                            <h2 class="fourth-txt"style="color: black;">Products</h2>
-                            <img class="whitebg3"  src="assets/Office_Location.png"  />
-                            <h2 class="fifth-txt" style="margin-bottom:50px;">
-                              <div class="popup ">
-                                <span class="hover-label" (click)="togglePopup(personelPopup)">{{personel}}</span>
-                                <div #personelPopup class="popup-content" [ngClass]="{ 'open': personelPopupOpen }">
                                 <!-- Your popup content goes here -->
-                                <label *ngFor="let personel of personelData">
-                                  {{ personel.personelLocation + '  : '+ personel.personelPosition + ' - '+ personel.personelName  }}<br>
+                                <label *ngFor="let defective of defectiveData">
+                                  {{ defective.defectiveValue + ' - ' +defective.defectiveName }}<br>
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="fifth-txt"style="color: black;">Personel</h2>
-                            <h2 class="sixth-txt"style="color: black;"></h2>
-                            <img class="whitebg4" src="assets/Category_Product.png" />
-                            <h2 class="seventh-txt" style="margin-bottom:50px;">
+                            <h2 class="third-txt"style="color: black;">Defective</h2>
+                            <h2 class="fourth-txt"style="color: black;">Products</h2>
+
+
+
+
+                            <img class="whitebg3"   src="assets/Category_Product.png"  />
+                            <h2 class="fifth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
                                 <span class="hover-label" (click)="togglePopup(categoryPopup)">{{category}}</span>
                                 <div #categoryPopup class="popup-content" [ngClass]="{ 'open': categoryPopupOpen }">
@@ -446,8 +437,25 @@
                                 </label>
                               </div>
                             </div></h2>
-                            <h2 class="seventh-txt"style="color: black;">Category</h2>
-                            <h2 class="eight-txt"style="color: black;">Products</h2>
+                            <h2 class="fifth-txt"style="color: black;">Category</h2>
+                            <h2 class="sixth-txt"style="color: black;">Products</h2>
+                            <img class="whitebg4" src="assets/Office_Location.png"/>
+                            <h2 class="seventh-txt" style="margin-bottom:50px;">
+                              <div class="popup ">
+                                <span class="hover-label" (click)="togglePopup(personelPopup)">{{personel}}</span>
+                                <div #personelPopup class="popup-content" [ngClass]="{ 'open': personelPopupOpen }">
+
+                                <!-- Your popup content goes here -->
+                                <label *ngFor="let personel of personelData">
+                                  {{ personel.personelLocation + '  : '+ personel.personelPosition + ' - '+ personel.personelName  }}<br>
+                                </label>
+
+                              </div>
+                            </div></h2>
+                            <h2 class="seventh-txt"style="color: black;">Personel</h2>
+                            <h2 class="eight-txt"style="color: black;"></h2>
+
+
                             <img class="whitebg5" src="assets/Staff_Location.png" />
                             <h2 class="nineth-txt" style="margin-bottom:50px;">
                               <div class="popup ">
@@ -505,6 +513,7 @@
 
                     <div class="export">
                       <button class="exportbutton"(click)="exportData()"><img src="assets/Download2.png" style="margin-top: 5%;" ></button>
+
                     </div>
                     <div class="import">
                       <form (submit)="uploadFile($event)">
@@ -514,7 +523,7 @@
                     </div>
                     <div class="thing3">
                       <form id="myForm" [formGroup]="qrForm" >
-                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png"></button>
+                        <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png" style="margin-top: 5%;"></button>
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>

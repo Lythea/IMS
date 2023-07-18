@@ -163,9 +163,9 @@ selectedFile: File | null = null;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        if(position =='moderator'){
+        if(position =='administrator'){
           a.download = 'STEERHUB_Itemlist.csv';
-        }else if (position =='admin'){
+        }else if (position =='moderator'){
           a.download = company + '_Itemlist.csv';
         }
        // Specify the filename
@@ -290,9 +290,9 @@ selectedFile: File | null = null;
     const position = localStorage.getItem('position');
     const company = localStorage.getItem('company');
 
-    if(position == 'moderator' ){
+    if(position == 'administrator' ){
       this.toggleFormControl(false);
-    }else if ( position == 'admin'){
+    }else if ( position == 'moderator'){
       this.toggleFormControl(true);
     }else if (position =='user' ){
       this.toggleFormControl(true);
@@ -412,9 +412,9 @@ selectedFile: File | null = null;
     const formData = new FormData();
     const position: any = localStorage.getItem('position')
     const company:any = localStorage.getItem('company')
-    if (position =='moderator'){
+    if (position =='administrator'){
       formData.append('company',this.qrForm.value.qrForm_location)
-    } else if (position =='admin'){
+    } else if (position =='moderator'){
       const company: any = localStorage.getItem('company')
       formData.append('company',company.toUpperCase())
       }
@@ -546,10 +546,10 @@ pdfDocGenerator.download('qr_code_data.pdf');
     const inputValuesJSON = JSON.stringify(inputValues);
     const blob = new Blob([inputValuesJSON], { type: 'application/json' });
 
-    if (position =='moderator'){
+    if (position =='administrator'){
       formData.append('company',location)
       formData.append('position',position)
-    } else if (position =='admin'){
+    } else if (position =='moderator'){
       const company: any = localStorage.getItem('company')
       formData.append('company',company.toUpperCase())
       formData.append('position',position)
@@ -676,7 +676,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
       control1.disable();
     }
     const position = localStorage.getItem('position');
-    if(position == 'admin'){
+    if(position == 'moderator'){
       const control1 = this.defectiveForm.get('defectiveForm_location')
 
       if (disabled) {
@@ -870,10 +870,10 @@ addInstock(){
   const inputValuesJSON = JSON.stringify(inputValues);
   const blob = new Blob([inputValuesJSON], { type: 'application/json' });
 
-  if (position =='moderator'){
+  if (position =='administrator'){
     formData.append('company',location)
     formData.append('position',position)
-  } else if (position =='admin'){
+  } else if (position =='moderator'){
 
     const company: any = localStorage.getItem('company')
     formData.append('company',company.toUpperCase())
@@ -909,11 +909,11 @@ addInstock(){
     const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
     const position : any = localStorage.getItem('position')
     const formData = new FormData();
-    if (position =='moderator'){
+    if (position =='administrator'){
       formData.append('name',name)
       formData.append('location',location)
       formData.append('position',position)
-    } else if (position =='admin'){
+    } else if (position =='moderator'){
       const company: any = localStorage.getItem('company')
       formData.append('name',name)
       formData.append('location',location)
@@ -991,12 +991,12 @@ addInstock(){
     const position = localStorage.getItem('position')
     const company: any = localStorage.getItem('company')
 
-    if(position =='moderator'){
+    if(position =='administrator'){
       const location : any = this.updateInstockForm.value.updateInstockForm_location
       formData.append('location',location)
       formData.append('position',position)
 
-    }else if (position =='admin'){
+    }else if (position =='moderator'){
       formData.append('position',position)
       formData.append('location',company)
     }
@@ -1031,12 +1031,12 @@ addInstock(){
     const position = localStorage.getItem('position')
     const company: any = localStorage.getItem('company')
 
-    if(position =='moderator'){
+    if(position =='administrator'){
       const location : any = this.addInstockForm.value.addInstockForm_location
       formData.append('location',location)
       formData.append('position',position)
 
-    }else if (position =='admin'){
+    }else if (position =='moderator'){
       formData.append('position',position)
       formData.append('location',company)
     }
@@ -1254,11 +1254,11 @@ addInstock(){
         this.subcontainer2_content[1]=true;
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        if (position =='moderator'){
+        if (position =='administrator'){
           const location : any = this.defectiveForm.value.defectiveForm_location
           formData.append('location',location)
           formData.append('value',value)
-        } else if (position =='admin'){
+        } else if (position =='moderator'){
           const company: any = localStorage.getItem('company');
           formData.append('location',company)
           formData.append('value',value)
@@ -1285,11 +1285,11 @@ addInstock(){
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
 
-        if (position =='moderator'){
+        if (position =='administrator'){
           const location : any = this.personelForm.value.personelForm_location
           formData.append('location',location)
           formData.append('value',value)
-        } else if (position =='admin'){
+        } else if (position =='moderator'){
           const company: any = localStorage.getItem('company');
           formData.append('location',company)
           formData.append('value',value)
@@ -1321,11 +1321,11 @@ addInstock(){
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
 
-        if (position =='moderator'){
+        if (position =='administrator'){
           const location : any = this.categoryForm.value.categoryForm_location
           formData.append('location',location)
           formData.append('value',value)
-        } else if (position =='admin'){
+        } else if (position =='moderator'){
           const company: any = localStorage.getItem('company');
           formData.append('location',company)
           formData.append('value',value)
@@ -1389,11 +1389,11 @@ addInstock(){
 
         const formData = new FormData();
         const value: any = localStorage.getItem('value');
-        if (position =='moderator'){
+        if (position =='administrator'){
           const location : any = this.projectForm.value.projectForm_location
           formData.append('location',location)
           formData.append('value',value)
-        } else if (position =='admin'){
+        } else if (position =='moderator'){
           const company: any = localStorage.getItem('company');
           formData.append('location',company)
           formData.append('value',value)
@@ -1639,7 +1639,7 @@ addInstock(){
     }
     else if(this.myForm.value.myForm_information=='Location'){
       const position = localStorage.getItem('position');
-      if(position == 'admin'){
+      if(position == 'moderator'){
         alert('ACCESS DENIED')
       }else{
         this.subcontainer2_content[2]=false;
@@ -1661,7 +1661,7 @@ addInstock(){
     }
     else if(this.myForm.value.myForm_information=='Others'){
       const position = localStorage.getItem('position');
-      if(position == 'admin'){
+      if(position == 'moderator'){
         alert('ACCESS DENIED')
       }else{
       this.subcontainer2_content[2]=false;
@@ -1685,7 +1685,7 @@ addInstock(){
     if(value=='Defective Products'){
       const formData = new FormData();
 
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('position',position)
         formData.append('company',company)
@@ -1693,7 +1693,7 @@ addInstock(){
         formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
         formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
         formData.append('defectiveForm_specific',this.defectiveForm.value.defectiveForm_specific)
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('position',position)
@@ -1715,14 +1715,14 @@ addInstock(){
     else if(value=='Personel'){
       const formData = new FormData();
 
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('position',position)
         formData.append('personelForm_name',this.personelForm.value.personelForm_name)
         formData.append('personelForm_location',this.personelForm.value.personelForm_location)
         formData.append('personelForm_position',this.personelForm.value.personelForm_position)
 
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('position',position)
@@ -1744,13 +1744,13 @@ addInstock(){
     }
     else if(value=='Category'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('position',position)
         formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
         formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
 
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('position',position)
@@ -1790,12 +1790,12 @@ addInstock(){
     }
     else if(value=='Project'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('position',position)
         formData.append('projectForm_name',this.projectForm.value.projectForm_name)
         formData.append('projectForm_location',this.projectForm.value.projectForm_location)
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('position',position)
@@ -1838,13 +1838,13 @@ addInstock(){
     const position:any = localStorage.getItem('position')
     if(value=='Defective Products'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
         formData.append('defectiveForm_location',this.defectiveForm.value.defectiveForm_location)
         formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
 
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('defectiveForm_itemcode',this.defectiveForm.value.defectiveForm_itemcode)
@@ -1866,11 +1866,11 @@ addInstock(){
     }
     else if(value=='Personel'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('personelForm_name',this.personelForm.value.personelForm_name)
         formData.append('personelForm_location',this.personelForm.value.personelForm_location)
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('personelForm_name',this.personelForm.value.personelForm_name)
@@ -1891,12 +1891,12 @@ addInstock(){
     }
     else if(value=='Category'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
         formData.append('categoryForm_location',this.categoryForm.value.categoryForm_location)
 
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
@@ -1917,12 +1917,12 @@ addInstock(){
     }
     else if(value=='Project'){
       const formData = new FormData();
-      if (position =='moderator'){
+      if (position =='administrator'){
         formData.append('property',value)
         formData.append('projectForm_name',this.projectForm.value.projectForm_name)
         formData.append('projectForm_location',this.projectForm.value.projectForm_location)
 
-      } else if (position =='admin'){
+      } else if (position =='moderator'){
         const company: any = localStorage.getItem('company')
         formData.append('property',value)
         formData.append('projectForm_name',this.projectForm.value.projectForm_name)
@@ -2060,7 +2060,7 @@ addInstock(){
     const closeButton1 = document.querySelector('.closeButton') as HTMLInputElement;
 
     const position = localStorage.getItem('position')
-    if (position == 'moderator' || position == 'admin'){
+    if (position == 'administrator' || position == 'moderator'){
      let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2088,7 +2088,7 @@ addInstock(){
         // Here, you can perform further actions like sending the form data to a server
 
   });
-}else if(position == 'user' || position == 'admin'){
+}else if(position == 'user' || position == 'moderator'){
   alert('ACCESS DENIED!')
 }
   }
@@ -2100,7 +2100,7 @@ addInstock(){
     const popupFormContainer = document.getElementById('popupFormContainer1') as HTMLInputElement;
     const closeButton1 = document.querySelector('.closeButton1') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'moderator' || position == 'admin'){
+    if (position == 'administrator' || position == 'moderator'){
      let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2140,7 +2140,7 @@ addInstock(){
     const popupFormContainer = document.getElementById('popupFormContainer2') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton2') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'moderator' || position == 'admin'){
+    if (position == 'administrator' || position == 'moderator'){
      let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2178,7 +2178,7 @@ addInstock(){
     const popupFormContainer = document.getElementById('popupFormContainer4') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton4') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'moderator' ){
+    if (position == 'administrator' ){
       let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2206,7 +2206,7 @@ addInstock(){
         // Here, you can perform further actions like sending the form data to a server
 
   });
-    }else if(position == 'user' || position == 'admin'){
+    }else if(position == 'user' || position == 'moderator'){
       alert('ACCESS DENIED!')
     }
 
@@ -2219,7 +2219,7 @@ addInstock(){
     const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton3') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'moderator' ){
+    if (position == 'administrator' ){
       let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2247,7 +2247,7 @@ addInstock(){
         // Here, you can perform further actions like sending the form data to a server
 
   });
-    }else if(position == 'user' || position == 'admin'){
+    }else if(position == 'user' || position == 'moderator'){
       alert('ACCESS DENIED!')
     }
 

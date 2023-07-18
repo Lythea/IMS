@@ -1,62 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/angular/angular.js"></script>
-  <title>Document</title>
-  <script src="https://unpkg.com/angular/angular.js"></script>
-  <script src="https://unpkg.com/@angular/core@12.0.0/bundles/core.umd.js"></script>
-  <script src="https://unpkg.com/@angular/common@12.0.0/bundles/common.umd.js"></script>
-  <script src="https://unpkg.com/@angular/compiler@12.0.0/bundles/compiler.umd.js"></script>
-  <script src="https://unpkg.com/@angular/platform-browser@12.0.0/bundles/platform-browser.umd.js"></script>
-  <script src="https://unpkg.com/@angular/platform-browser-dynamic@12.0.0/bundles/platform-browser-dynamic.umd.js"></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <meta name="google-signin-client_id" content="96642581716-lcclv76orlmslu9kt1151r91eldmm7sk.apps.googleusercontent.com.apps.googleusercontent.com">
-</head>
-<body ng-app="myApp" ng-controller="myController" style="margin:0px;">
-  <div class="container">
-    <div class="column1" *ngIf="showContent1">
-      <div class="body1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/angular/angular.js"></script>
+    <title>Document</title>
+    <script src="https://unpkg.com/angular/angular.js"></script>
+    <script src="https://unpkg.com/@angular/core@12.0.0/bundles/core.umd.js"></script>
+    <script src="https://unpkg.com/@angular/common@12.0.0/bundles/common.umd.js"></script>
+    <script src="https://unpkg.com/@angular/compiler@12.0.0/bundles/compiler.umd.js"></script>
+    <script src="https://unpkg.com/@angular/platform-browser@12.0.0/bundles/platform-browser.umd.js"></script>
+    <script src="https://unpkg.com/@angular/platform-browser-dynamic@12.0.0/bundles/platform-browser-dynamic.umd.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <script src="https://unpkg.com/angular/angular.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <meta name="google-signin-client_id" content="96642581716-lcclv76orlmslu9kt1151r91eldmm7sk.apps.googleusercontent.com.apps.googleusercontent.com" />
+  </head>
+  <body ng-app="myApp" ng-controller="myController" style="margin: 0px">
+    <div class="container">
+      <div class="column1" *ngIf="showContent1">
+        <div class="body1">
+          <div class="container1">
+            <img class="logobsu" src="assets/bsu.png" alt="BsuLogo" />
+            <h2 class="text-steer">
+              STEER HUB - Science, Technology, Engineering and Environment
+              Research
+            </h2>
+          </div>
 
-        <div class="container1">
-          <img class ="minilogo"src="assets/bsu.png" alt="BsuLogo">
-          <p>STEER HUB - Science, Technology, Engineering and Environment Research</p>
-        </div>
+          <div class="container2">
+            <h1>Login</h1>
+            <p>Inventory Management System</p>
+          </div>
 
-        <div class="container2">
-          <h1>Login</h1>
-          <p>Inventory Management System</p>
-        </div>
+          <div class="container3">
+            <div class="text-with-lines">
+              <span class="line"></span>
+              <span class="line"></span>
+            </div>
+          </div>
 
-        <div class="container3">
-          <div class="text-with-lines">
-            <span class="line"></span>
-            <span class="text">or Sign in with Email</span>
-            <span class="line"></span>
+          <div class="container4">
+            <form method="post" form [formGroup]="accounts">
+              <label class="textlabel">Email</label> <br />
+              <input class="textbox" placeholder="Enter your Email" id="email" name="email" formControlName="email" />
+              <br />
+              <br />
+              <label class="textlabel">Password</label> <br />
+              <input class="textbox" placeholder="Confirm your password" id="password" name="password" formControlName="password" type="password" />
+              <br />
+              <button class="login" name="button1" (click)="login()" style="margin-top: 10%" > Login </button>
+              <label class="shesh">Not registered yet?<label style="color: blue" (click)="toggleContent('content2')">Create an Account</label></label>
+            </form>
           </div>
         </div>
-
-        <div class="container4">
-
-          <form method="post" form [formGroup]="accounts">
-            <label class="textlabel">Email*</label> <br>
-            <input class="textbox"placeholder="Enter your E-mail" id="email"name="email" formControlName="email">
-            <br>
-            <br>
-            <label class="textlabel">Password*</label> <br>
-            <input  class="textbox"placeholder="Confirm your password" id="password"name="password" formControlName="password" type ="password">
-            <br>
-            <button class="login" name ="button1" (click)="login()" style="margin-top:10%;">Login</button>
-
-            <label class="shesh">Not registered yet?<label style="color:blue;" (click)="toggleContent('content2')"> Create an Account</label></label>
-          </form>
-        </div>
       </div>
-    </div>
-    <!--ewqewq
+      <!--ewqewq
     <div class="column1" *ngIf="showContent2">
       <div class="body1">
 
@@ -86,11 +86,11 @@
             <input class="textbox"placeholder="Enter your name" id="name"name="name" formControlName="name">
             <br>
             <br>
-            <label class="textlabel">Email*</label> <br>
-            <input class="textbox"placeholder="Enter your E-mail" id="email"name="email" formControlName="email">
+            <label class="textlabel">Email</label> <br>
+            <input class="textbox"placeholder="Enter your Email" id="email"name="email" formControlName="email">
             <br>
             <br>
-            <label class="textlabel">Password*</label> <br>
+            <label class="textlabel">Password</label> <br>
             <input  class="textbox"placeholder="Confirm your password" id="password"name="password" formControlName="password" type ="password">
             <br>
             <br>
@@ -121,11 +121,9 @@
       </div>
     </div>
     -->
-    <div class="column2">
-      <img class="bg" src="assets/building.jpg" alt="BsuLogo" >
+      <div class="column2">
+        <img class="bg" src="assets/building.jpg" alt="BsuLogo" />
+      </div>
     </div>
-    </div>
-
-
-</body>
+  </body>
 </html>
