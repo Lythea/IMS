@@ -7,6 +7,24 @@ body {
   display: inline-block;
 }
 
+.export{
+  width:10%;
+  margin-left:2%;
+}
+.exportbutton{
+  margin-top: 26px;
+  margin-left: -160%;
+  border: 2px solid rgb(253, 251, 251);
+  background-color: #c00000;
+
+  border-radius: 15px;
+  width: 50%;
+  height: 35px;
+  color: white;
+  font-weight: bolder;
+  font-size: 12px;
+  cursor: pointer;
+}
 .popup-content {
   width: 300px;
   display: none;
