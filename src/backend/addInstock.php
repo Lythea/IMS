@@ -45,15 +45,6 @@ if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name']))
         }
     }
 
-    // Access the values from the inputArray and process them as needed
-    foreach ($inputArray as $inputName => $inputData) {
-        $inputValue = $inputData['value'];
-        $inputQuantity = $inputData['quantity'];
-
-        // Process the values as needed
-        // ...
-    }
-
     $company = $_POST['company'];
     $sponsors = $_POST['sponsors'];
     $category = $_POST['category'];
@@ -61,43 +52,36 @@ if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name']))
     $quantity = $_POST['quantity'];
     $imgurl = $_POST['imgurl'];
     $parurl = $_POST['parurl'];
+    $serial = $_POST['serial'];
+    $property = $_POST['property'];
+    $condition = $_POST['condition'];
 
-    $sql2 = "SELECT item_name FROM items WHERE item_name='$itemname' and location ='$company'";
-    $result2 = $conn->query($sql2);
-    if ($result2->num_rows > 0) {
-        echo json_encode(['data' => 'Data Found, Go to Update Button for updating Info']);
-    } else {
-        $sql = "INSERT INTO items (itemid_company, item_name, quantity, category, project, location, image, par) 
-        SELECT COALESCE(MAX(itemid_company), 0) + 1, '$itemname', '$quantity', '$category', '$sponsors', '$company', '$imgurl', '$parurl' 
-        FROM items WHERE location ='$company'";
-        if ($conn->query($sql) === TRUE) {
-            $lastInsertID = $conn->insert_id;
+    // Perform the insert query for $inputValue one by one
 
-            $insertQuery = "INSERT INTO ownership (item_id, location, `specific`, quantity) VALUES ";
+    $insertQuery = "INSERT INTO items (itemid_company, Serial, Property, item_name, quantity, category, project, specificlocation, location, image, par, `condition`)  VALUES ";
 
-            foreach ($inputArray as $inputName => $inputData) {
-                $inputValue = $inputData['value'];
-                $inputQuantity = $inputData['quantity'];
+    foreach ($inputArray as $inputName => $inputData) {
+        $inputValue = $inputData['value'];
+        $inputQuantity = $inputData['quantity'];
 
-                $escapedInputValue = $conn->real_escape_string($inputValue);
-                $escapedInputQuantity = $conn->real_escape_string($inputQuantity);
+        $escapedInputValue = $conn->real_escape_string($inputValue);
+        $escapedInputQuantity = $conn->real_escape_string($inputQuantity);
 
-                $insertQuery .= "('$lastInsertID', '$company', '$escapedInputValue', '$escapedInputQuantity'), ";
-            }
-
-            $insertQuery = rtrim($insertQuery, ', ');
-
-            // Execute the insert query
-            if ($conn->query($insertQuery) === TRUE) {
-                echo json_encode(['data' => 'Data inserted successfully']);
-            } else {
-                echo json_encode(['data' => 'Error: ' . $sql . '<br>' . $conn->error]);
-            }
-        } else {
-            echo json_encode(['data' => 'Error: ' . $sql . '<br>' . $conn->error]);
-        }
+        $insertQuery .= "SELECT COALESCE(MAX(itemid_company), 0) + 1, '$serial', '$property', '$itemname', '$escapedInputQuantity', '$category', '$sponsors', '$escapedInputValue', '$company', '$imgurl', '$parurl', '$condition' ";
+        $insertQuery .= "FROM items WHERE location = '$company' UNION ALL ";
     }
-           
+
+    $insertQuery = rtrim($insertQuery, ' UNION ALL ');
+
+    // Execute the insert query
+    if ($conn->query($insertQuery) === TRUE) {
+        echo json_encode(['data' => 'Data inserted successfully']);
+    } else {
+        echo json_encode(['data' => 'Error: ' . $insertQuery . '<br>' . $conn->error]);
+    }
+
+    // Access the values from the inputArray and process them as needed
+
 } else {
     echo json_encode(['data' => 'No inputValues file uploaded']);
 }

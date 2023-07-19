@@ -22,7 +22,7 @@ $conn = new mysqli($servername, $username, $password,$db);
         echo "No results found.";
     }
 
-    $sql2 = "SELECT COALESCE(SUM(IFNULL(quantity, 0)), 0) AS total FROM defective WHERE companyownership = '$changinginfoDashboard'";
+    $sql2 = "SELECT COALESCE(SUM(IFNULL(quantity, 0)), 0) AS total FROM items WHERE location = '$changinginfoDashboard' and `condition`='DEFECTIVE'";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
         $row = mysqli_fetch_assoc($result2);

@@ -22,8 +22,7 @@ $conn = new mysqli($servername, $username, $password,$db);
             echo "No results found.";
         }
 
-
-        $sql2 = "SELECT SUM(quantity) AS total FROM defective";
+        $sql2 = "SELECT SUM(quantity) AS total FROM items WHERE `condition` = 'DEFECTIVE'";
         $result2 = $conn->query($sql2);
         if ($result2->num_rows > 0) {
             $row = mysqli_fetch_assoc($result2);
@@ -82,9 +81,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     } else {
         echo "No results found.";
     }
-
-
-    $sql2 = "SELECT SUM(quantity) AS total FROM defective WHERE companyownership = '$company'";
+    $sql2 = "SELECT SUM(quantity) AS total FROM items WHERE location = '$company' and `condition`='DEFECTIVE'";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
         $row = mysqli_fetch_assoc($result2);

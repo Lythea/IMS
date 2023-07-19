@@ -81,15 +81,7 @@ export class HomeComponent {
       localStorage.setItem('name',value.data[0].name)
       localStorage.setItem('position',position)
       localStorage.setItem('company',company)
-
-      if(position=='moderator' || position=='administrator'){
-        localStorage.setItem('position',position)
-        localStorage.setItem('company',company)
-        this.router.navigate(['admin']);
-      }else if(position=='user'){
-        localStorage.setItem('position',position)
-        this.router.navigate(['admin']);
-      }
+      this.router.navigate(['admin']);
     }
 
   });}
@@ -99,7 +91,7 @@ export class HomeComponent {
     formData.append('name',this.accounts.value.name)
     formData.append('email',this.accounts.value.email)
     formData.append('password',this.accounts.value.password)
-    formData.append('position',this.accounts.value.position.toLowerCase())
+    formData.append('position',this.accounts.value.position)
     formData.append('company',this.accounts.value.company)
     formData.append('code',this.accounts.value.code)
 
@@ -129,7 +121,5 @@ export class HomeComponent {
      }
 
     });
-
-
 }
 }

@@ -39,9 +39,13 @@ export class AdminComponent implements OnInit{
   showCodeContent1 = true;
   showCodeContent2 = false;
   showCodeContent3 = false;
+  state: any = ['WORKING','DEFECTIVE'];
+
+  container1 = false;
+  container2 = true;
   subcontainer2_content: any =[];
   defectiveHidden = false;
- hidden: any = ['Defective Products','Personel','Category','Location','Project','Others'];
+ hidden: any = ['Personel','Category','Location','Project','Others'];
   name: any;
   profile: any;
   isHidden: boolean = true;
@@ -64,6 +68,7 @@ export class AdminComponent implements OnInit{
   fullnameData: any = [];
   specificData : any = [];
   qrData: any =[];
+  productDeleteInfo: any = [];
   products: any;
   defective: any;
   personel: any;
@@ -72,8 +77,9 @@ export class AdminComponent implements OnInit{
   location: any;
   deleteDashboardReply: any =[];
   defectiveQuantity: any;
-  info : any = ['Defective Products','Personel','Category','Location','Project','Others']
-  searchinfo : any = ['All','Sort ASC','Sort DESC','Item Code','Item Name','Quantity','Category','Location','Project','Specific']
+  account : any = ['Create Code','Create Account'];
+  info : any = ['Personel','Category','Location','Project','Others']
+  searchinfo : any = ['All','Sort ASC','Sort DESC','Item Code','Item Name','Quantity','Category','Location','Project','Specific','Defective']
   myForm: any = FormGroup;
   qrForm: any = FormGroup;
   addInstockForm: any = FormGroup;
@@ -99,6 +105,7 @@ personelForm: any = FormGroup;
 categoryForm: any = FormGroup;
 locationForm: any = FormGroup;
 projectForm: any = FormGroup;
+accounts: any = FormGroup;
 updateInstockForm : any = FormGroup;
 currentPopupContent: any;
 generatedInputs: string[] = [];
@@ -118,87 +125,20 @@ selectedFile: File | null = null;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder,private http: HttpClient,private renderer: Renderer2) {
     window.addEventListener('click', this.closePopup.bind(this));
     }
-    disableSelect() {
-      this.dropdown.nativeElement.disabled = true;
 
-    }
-    togglePopup(popup: HTMLElement) {
-      popup.classList.toggle('open');
-    }
-    // Function to close the popup when clicking outside
-    closePopup(event: MouseEvent) {
-      const popupContents = document.getElementsByClassName('popup-content');
-      for (let i = 0; i < popupContents.length; i++) {
-        const popupContent = popupContents[i];
-        if (!popupContent.contains(event.target as Node)) {
-          this.isOpenProducts = false;
-          this.isOpenDefective = false;
-          // Set other popup properties to false as well
-        }
-      }
-    }
-    closeAllPopups() {
-      this.productsPopupOpen = false;
-      this.defectivePopupOpen = false;
-      this.categoryPopupOpen = false;
-      this.personelPopupOpen = false;
-      this.locationPopupOpen = false;
-      this.projectPopupOpen = false;
-      // Add similar logic for other popup properties
-    }
-    exportData() {
-      const position: any = localStorage.getItem('position');
-      const company : any =localStorage.getItem('company');
-      const exportUrl = 'http://localhost:8080/IMS/src/backend/exportdata.php';
-
-      // Create a new FormData object
-      const formData = new FormData();
-
-      // Append additional data based on conditions
-      formData.append('position', position);
-      formData.append('company', company);
-      // Send the HTTP request with the FormData
-      this.http.post(exportUrl, formData, { responseType: 'blob' }).subscribe((response: any) => {
-        const blob = new Blob([response], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        if(position =='administrator'){
-          a.download = 'STEERHUB_Itemlist.csv';
-        }else if (position =='moderator'){
-          a.download = company + '_Itemlist.csv';
-        }
-       // Specify the filename
-        a.click();
-      });
-    }
-    handleFileInput(event: any) {
-      this.selectedFile = event.target.files[0];
-    }
-
-    uploadFile(event: Event) {
-
-      event.preventDefault();
-
-      if (this.selectedFile) {
-        const formData = new FormData();
-        formData.append('file', this.selectedFile);
-
-        this.http.post('http://localhost:8080/IMS/src/backend/importData.php', formData)
-          .subscribe(
-            response => {
-              console.log('File uploaded successfully');
-            },
-            error => {
-              console.error('An error occurred:', error);
-            }
-          );
-      }
-    }
   ngOnInit(): void{
     this.renderer.listen('document', 'click', () => {
       this.closeAllPopups();
     });
+    this.accounts = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      position: ['', Validators.required],
+      company: ['', Validators.required],
+      code: ['', Validators.required]
+    });
+
     this.myForm = this.fb.group({
       myForm_information:['',Validators.required],
     });
@@ -223,7 +163,6 @@ selectedFile: File | null = null;
     });
     this.search = this.fb.group({
       name: new FormControl({ value: '', disabled: true }, Validators.required),
-
     });
     this.dashboard = this.fb.group({
       label: new FormControl({ value: '', disabled: true }, Validators.required),
@@ -279,11 +218,16 @@ selectedFile: File | null = null;
       addInstockForm_location:['',Validators.required],
       addInstockForm_imgurl:['',Validators.required],
       addInstockForm_parurl:['',Validators.required],
+      addInstockForm_serial:['',Validators.required],
+      addInstockForm_property:['',Validators.required],
     });
     this.deleteInstockForm = this.fb.group({
-      deleteInstockForm_itemname:['',Validators.required],
+      deleteInstockForm_code:['',Validators.required],
       deleteInstockForm_location:['',Validators.required],
     });
+    this.refreshDashboard()
+  }
+  refreshDashboard(){
     this.name = localStorage.getItem('name')
     this.profile = localStorage.getItem('position')?.toUpperCase();
 
@@ -298,7 +242,6 @@ selectedFile: File | null = null;
       this.toggleFormControl(true);
     }
 
-
     for(let i =1; i<7;i++){
       this.subcontainer2_content[i] == false;
     }
@@ -307,9 +250,10 @@ selectedFile: File | null = null;
    if (position!== null && company!==null) {
     // Append the position field to the formData object
     formData.append('position', position);
-    formData.append('company', company.toUpperCase());
+    formData.append('company', company);
   }
-
+  console.log(position)
+  console.log(company)
   fetch('http://localhost:8080/IMS/src/backend/specific.php', {
     method: 'POST',
     body: formData
@@ -395,7 +339,136 @@ selectedFile: File | null = null;
     }
     );
   }
+  disableSelect() {
+    this.dropdown.nativeElement.disabled = true;
+  }
+  togglePopup(popup: HTMLElement) {
+    popup.classList.toggle('open');
+  }
+  // Function to close the popup when clicking outside
+  closePopup(event: MouseEvent) {
+    const popupContents = document.getElementsByClassName('popup-content');
+    for (let i = 0; i < popupContents.length; i++) {
+      const popupContent = popupContents[i];
+      if (!popupContent.contains(event.target as Node)) {
+        this.isOpenProducts = false;
+        this.isOpenDefective = false;
+        // Set other popup properties to false as well
+      }
+    }
+  }
+  closeAllPopups() {
+    this.productsPopupOpen = false;
+    this.defectivePopupOpen = false;
+    this.categoryPopupOpen = false;
+    this.personelPopupOpen = false;
+    this.locationPopupOpen = false;
+    this.projectPopupOpen = false;
+    // Add similar logic for other popup properties
+  }
+  signup(){
+    if (this.accounts.invalid) {
+      alert('Sign Up Information Invalid')
+      // Form is invalid, handle accordingly (display errors, prevent submission, etc.)
+    } else {
+      // Form is valid, continue with the signup process
+      const formData = new FormData();
+      formData.append('name',this.accounts.value.name)
+      formData.append('email',this.accounts.value.email)
+      formData.append('password',this.accounts.value.password)
+      formData.append('position',this.accounts.value.position.toLowerCase())
+      formData.append('company',this.accounts.value.company)
+      formData.append('code',this.accounts.value.code)
 
+      fetch('http://localhost:8080/IMS/src/backend/verifyaccount.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(value => {
+      if (value.data == 'No Data'){
+        alert('Code is incorrect')
+      }else if(value.data=='Not Found!'){
+        fetch('http://localhost:8080/IMS/src/backend/signup.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(value => {
+          value.data.toLowerCase()
+
+          this.showContent1 = true;
+          this.showContent2 = false;
+        });
+       }else if(value.data[0].name!='' || value.data[0].email!=''){
+        console.log(value.data)
+        alert(value.data[0].name + ' already in used and ' + value.data[0].email + ' already registered')
+       }
+
+      });
+    }
+
+}
+  exportData() {
+    const position: any = localStorage.getItem('position');
+    const company : any =localStorage.getItem('company');
+    if(position =='administrator' || position =='moderator'){
+      const exportUrl = 'http://localhost:8080/IMS/src/backend/exportdata.php';
+
+      // Create a new FormData object
+      const formData = new FormData();
+
+      // Append additional data based on conditions
+      formData.append('position', position);
+      formData.append('company', company);
+      // Send the HTTP request with the FormData
+      this.http.post(exportUrl, formData, { responseType: 'blob' }).subscribe((response: any) => {
+        const blob = new Blob([response], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        if(position =='administrator'){
+          a.download = 'STEERHUB_Itemlist.csv';
+        }else if (position =='moderator'){
+          a.download = company + '_Itemlist.csv';
+        }
+       // Specify the filename
+        a.click();
+      });
+    }else if(position=='user'){
+      alert('ACCESS DENIED!')
+    }
+
+  }
+  handleFileInput(event: any) {
+    this.selectedFile  = event.target.files[0];
+  }
+
+  uploadFile(event: Event) {
+    let position: any = localStorage.getItem('position')
+    console.log(position)
+    if(position =='administrator'){
+      event.preventDefault();
+
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+
+        this.http.post('http://localhost:8080/IMS/src/backend/importData.php', formData)
+          .subscribe(
+            response => {
+              alert('File uploaded successfully')
+            },
+            error => {
+              alert('An error occurred');
+            }
+          );
+      }
+    }else if(position =='moderator' || position =='user') {
+      alert('ACCESS DENIED!')
+    }
+
+  }
   async generateQRCode(data: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       toDataURL(data, { errorCorrectionLevel: 'M' }, (error, url) => {
@@ -520,9 +593,6 @@ pdfDocGenerator.download('qr_code_data.pdf');
      });
   }
 
-
-
-
   updateInstock(){
     const position : any = localStorage.getItem('position')
     const formData = new FormData();
@@ -579,7 +649,6 @@ pdfDocGenerator.download('qr_code_data.pdf');
         .then(value => {
           alert(value.data)
           this.updateFormDisplay()
-          window.location.reload();
         });
       }
 
@@ -592,12 +661,13 @@ pdfDocGenerator.download('qr_code_data.pdf');
     }else{
       this.toggleFormControl(false);
     }
-
     if(this.selectedValue1 == 'All'){
       this.handleSearch()
     }else if(this.selectedValue1 == 'Sort ASC'){
       this.handleSearch()
     }else if(this.selectedValue1 == 'Sort DESC'){
+      this.handleSearch()
+    }else if(this.selectedValue1 == 'Defective'){
       this.handleSearch()
     }
   }
@@ -605,17 +675,15 @@ pdfDocGenerator.download('qr_code_data.pdf');
     const formData = new FormData();
     const position: any | null = localStorage.getItem('position');
     const company: any | null = localStorage.getItem('company');
-
     formData.append('property', this.selectedValue1);
     formData.append('value', this.search.value.name);
+    console.log(this.search.value.name)
+    console.log(this.selectedValue1)
+    console.log(company)
+    console.log(position)
+    formData.append('position', position);
+    formData.append('company', company);
 
-    if (position) {
-      formData.append('position', position);
-    }
-
-    if (company) {
-      formData.append('company', company);
-    }
      fetch('http://localhost:8080/IMS/src/backend/searchbar.php', {
      method: 'POST',
      body: formData
@@ -625,15 +693,15 @@ pdfDocGenerator.download('qr_code_data.pdf');
     this.tableData= [];
     for (let i = 0; i < value.data.length; i++) {
       const codeValue = value.data[i].itemid_company !== '' ? value.data[i].itemid_company : 'N/A';
-      const serial= value.data[i].Serial !== null ? value.data[i].Serial : 'N/A';
-      const property= value.data[i].Property !== null ? value.data[i].Property : 'N/A';
+      const serial= value.data[i].Serial !== '' ? value.data[i].Serial : 'N/A';
+      const property= value.data[i].Property !== '' ? value.data[i].Property : 'N/A';
       const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
       const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
       const specificValue = value.data[i].specificlocation !== '' ? value.data[i].specificlocation: 'N/A';
       const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
       const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
       const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-      const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+      const conditionValue = value.data[i].condition !== '' ? value.data[i].condition : 'N/A';
       const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
       const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
 
@@ -660,7 +728,63 @@ pdfDocGenerator.download('qr_code_data.pdf');
     }
     );
   }
+handleDelete(){
+const location : any = this.deleteInstockForm.value.deleteInstockForm_location
+const code : any = this.deleteInstockForm.value.deleteInstockForm_code
+const position : any = localStorage.getItem('position')
+const formData = new FormData();
+console.log(location)
+console.log(code)
+if (position =='administrator'){
+  formData.append('code',code)
+  formData.append('location',location)
+} else if (position =='moderator'){
+  const company: any = localStorage.getItem('company')
+  formData.append('code',code)
+  formData.append('location',company)
+}
+fetch('http://localhost:8080/IMS/src/backend/getdeleteInstock.php', {
+  method: 'POST',
+  body: formData
+})
+  .then(response => response.json())
+  .then(value => {
+    console.log(value.result1[0].condition)
+    this.productDeleteInfo =[]
 
+      const codeValue = value.result1[0].itemid_company !== '' ? value.result1[0].itemid_company : 'N/A';
+      const serial= value.result1[0].Serial !== '' ? value.result1[0].Serial : 'N/A';
+      const property= value.result1[0].Property !== '' ? value.result1[0].Property : 'N/A';
+      const productValue = value.result1[0].item_name !== '' ? value.result1[0].item_name  : 'N/A';
+      const quantityValue = value.result1[0].quantity !== '' ? value.result1[0].quantity : 'N/A';
+      const specificValue = value.result1[0].specificlocation !== '' ? value.result1[0].specificlocation: 'N/A';
+      const categoryValue = value.result1[0].category !== '' ? value.result1[0].category : 'N/A';
+      const locationValue = value.result1[0].location !== '' ? value.result1[0].location : 'N/A';
+      const conditionValue = value.result1[0].condition !== '' ? value.result1[0].condition : 'N/A';
+
+      const projectValue = value.result1[0].project !== '' ? value.result1[0].project : 'N/A';
+      const image = value.result1[0].image !== '' ? value.result1[0].image : 'N/A';
+      const par = value.result1[0].par !== '' ? value.result1[0].par : 'N/A';
+
+       this.productDeleteInfo[0] = {
+        itemid: locationValue + '-' +codeValue,
+        code:  codeValue ,
+        serial:serial,
+        property:property,
+        productname: productValue,
+        quantity: quantityValue,
+        specific: specificValue,
+        category: categoryValue,
+        location: locationValue,
+        project: projectValue,
+        image: image,
+        par: par,
+        condition : conditionValue,
+      };
+  });
+
+
+}
   toggleFormControl(disabled: boolean) {
     const control = this.dashboard.get('label');
     if (disabled) {
@@ -671,7 +795,6 @@ pdfDocGenerator.download('qr_code_data.pdf');
     const control1 = this.search.get('name');
     if (disabled) {
       control1.enable();
-
     } else {
       control1.disable();
     }
@@ -759,7 +882,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
         .then(value => {
           alert(value.data)
           this.updateFormDisplay()
-          location.reload();
+
         });
 
     }else if(upd){
@@ -781,7 +904,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
         .then(value => {
           alert(value.data)
           this.updateFormDisplay()
-          location.reload();
+
         });
 
     }else if (del){
@@ -801,7 +924,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
         .then(value => {
           alert(value.data)
           this.updateFormDisplay()
-          location.reload();
+
         });
     }
 
@@ -813,6 +936,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
     this.generatedInputs.forEach((input) => {
       this.addInstockForm.removeControl(input);
       this.addInstockForm.removeControl(input + 'quantity');
+      this.addInstockForm.removeControl(input + 'condition');
     });
     this.generatedInputs = [];
 
@@ -821,18 +945,21 @@ pdfDocGenerator.download('qr_code_data.pdf');
       const inputName = `${i}`;
       this.addInstockForm.addControl(inputName, new FormControl(''));
       this.addInstockForm.addControl(inputName + 'quantity', new FormControl(''));
+      this.addInstockForm.addControl(inputName + 'condition', new FormControl(''));
       this.generatedInputs.push(inputName);
     }
-
   }
+
   getInputValue(inputName: string): string {
     return this.addInstockForm.get(inputName).value;
+  }
 
+  getAllInputValues(): string[] {
+    return this.generatedInputs.map(input => this.getInputValue(input));
   }
 
   getTotalQuantity(): number {
     let total = 0;
-
     for (const input of this.generatedInputs) {
       const quantity = this.addInstockForm.get(input + 'quantity')?.value;
       if (quantity) {
@@ -841,11 +968,8 @@ pdfDocGenerator.download('qr_code_data.pdf');
     }
     this.totalQuantity = total;
     return total;
+  }
 
-  }
-  getAllInputValues(): string[] {
-    return this.generatedInputs.map(input => this.getInputValue(input));
-  }
 addInstock(){
   const position : any = localStorage.getItem('position')
   const formData = new FormData();
@@ -864,12 +988,14 @@ addInstock(){
   this.generatedInputs.forEach((input) => {
     const inputValue = this.addInstockForm.get(input).value;
     const quantityValue = this.addInstockForm.get(input + 'quantity').value;
+    const conditionValue = this.addInstockForm.get(input + 'condition').value;
     inputValues[input] = inputValue;
     inputValues[input + 'quantity'] = quantityValue;
+    inputValues[input + 'condition'] = conditionValue;
   });
   const inputValuesJSON = JSON.stringify(inputValues);
   const blob = new Blob([inputValuesJSON], { type: 'application/json' });
-
+  formData.append('inputValues', blob);
   if (position =='administrator'){
     formData.append('company',location)
     formData.append('position',position)
@@ -885,7 +1011,7 @@ addInstock(){
       formData.append('b_quantity',b_quantity)
     }
 
-    formData.append('inputValues', blob);
+
     formData.append('sponsors',sponsors)
     formData.append('category',category)
     formData.append('itemname',itemname)
@@ -901,22 +1027,21 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        window.location.reload();
       });
     }
   deleteInstock(){
     const location : any = this.deleteInstockForm.value.deleteInstockForm_location
-    const name : any = this.deleteInstockForm.value.deleteInstockForm_itemname
+    const code : any = this.deleteInstockForm.value.deleteInstockForm_code
     const position : any = localStorage.getItem('position')
     const formData = new FormData();
     if (position =='administrator'){
-      formData.append('name',name)
+      formData.append('code',code)
       formData.append('location',location)
       formData.append('position',position)
     } else if (position =='moderator'){
       const company: any = localStorage.getItem('company')
-      formData.append('name',name)
-      formData.append('location',location)
+      formData.append('code',code)
+      formData.append('location',company)
       formData.append('position',position)
     }
     fetch('http://localhost:8080/IMS/src/backend/deleteInstock.php', {
@@ -926,23 +1051,7 @@ addInstock(){
       .then(response => response.json())
       .then(value => {
         alert(value.data)
-        this.categoryData = []
-        for (let i = 0; i < value.result1.length; i++) {
-          this.categoryValue = value.result1[i];
-          this. categoryData[i] = {
-            categoryName:   this.categoryValue ,
-
-          };
-        }
-        this.projectData = []
-        for (let i = 0; i < value.result2.length; i++) {
-          this.projectValue = value.result2[i];
-          this.projectData[i] = {
-            projectName: this.projectValue ,
-          };
-        }
         this.updateFormDisplay()
-        window.location.reload();
       });
   }
 
@@ -1066,32 +1175,6 @@ addInstock(){
 
       });
  }
- deleteInstockchange(){
-  this.subcontainer2_content[1]=true;
-  const formData = new FormData();
-  const location : any = this.deleteInstockForm.value.deleteInstockForm_location
-  formData.append('location',location)
-
-  fetch('http://localhost:8080/IMS/src/backend/changingDeleteDashboard.php', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => response.json())
-    .then(value => {
-
-
-      this.productData = []
-      for (let i = 0; i < value.result1.length; i++) {
-        this.productValue = value.result1[i];
-        this.productData[i] = {
-          productName:  this.productValue ,
-
-        };
-      }
-
-    });
-
-}
   showPopup() {
     var popup = document.getElementById("popup") as HTMLInputElement;
     popup.classList.add("show");
@@ -1106,57 +1189,9 @@ addInstock(){
   }
 
 
-  neededinfoAddDashboard(){
-    const value = localStorage.getItem('value');
-    const location = localStorage.getItem('location');
-      if(value=='Defective Products'){
-        this.subcontainer2_content[1]=true;
-        const formData = new FormData();
-        const value: any = localStorage.getItem('value');
-        const location : any = this.defectiveForm.value.defectiveForm_location
-        formData.append('location',location)
-        formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/neededinfoAddDashboard.php', {
-          method: 'POST',
-          body: formData
-        })
-          .then(response => response.json())
-          .then(value => {
-
-
-            this.defectiveData = [];
-            for (let i = 0; i < value.result1.length; i++) {
-              this.defectiveData.push({
-                defectiveName: value.result1[i],
-              });
-            }
-          });
-      }
-
-
-  }
 
   // Method to fetch defective data based on the selected location
-
-  refreshdashboard(){
-    // After the page reloads, navigate to specific content based on the provided contentId
-    const formData = new FormData();
-    fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      this.products = value.result1
-      this.defective = value.result2
-      this.personel = value.result3
-      this.category = value.result4
-      this.location = value.result5
-      this.project = value.result6
-     });
-
-  }
   toggleCodeContent1(): void {
     this.showCodeContent1 = true;
     this.showCodeContent2 = false;
@@ -1204,49 +1239,48 @@ addInstock(){
       this.toggleCodeContent3();
     }
   }
+  toggleCodeContentmema1(): void {
+    const position = localStorage.getItem('position')
+    if (position=='administrator'){
+      this.container1 = true;
+      this.container2 = false;
+    }else if(position =='moderator'){
+      alert('ACCESS DENIED')
+    }
+  }
 
-  refreshinstock(){
-    // After the page reloads, navigate to specific content based on the provided contentId
+  toggleCodeContentmema2(): void {
+    this.container1 = false;
+    this.container2 = true;
+  }
+  toggleCodeContentmema(contentId: string): void {
     const formData = new FormData();
-    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-      for (let i = 0; i < value.data.length; i++) {
-        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
-        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
-        const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
-        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
-        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
-        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-        const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
-        const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
-        this.tableData[i] = {
-          code:  codeValue ,
-          productname: productValue,
-          category: categoryValue,
-          quantity: quantityValue,
-          location: locationValue,
-          project: projectValue,
-          condition: conditionValue,
-          image: image,
-          par: par,
-        };
-   // Access and log the "code" property
-      }
+   fetch('http://localhost:8080/IMS/src/backend/location.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(value => {
+            this.locationData = []
+            for (let i = 0; i < value.count; i++) {
 
-     });
+              this.locationValue = value.result5[i];
+              this.locationData[i] = {
+                locationName:  this.locationValue
+              };
+            }
 
+  });
+  const position = localStorage.getItem('position')
+    if (contentId === 'content1') {
+      this.toggleCodeContentmema1();
+    } else if (contentId === 'content2') {
+      this.toggleCodeContentmema2();
+    }
 
   }
   // DONE FUNCTIONS FOR RESPONSIVE AND BACKEND
-
-
   //FOR ADD DASHBOARD INSIDE PROPERTY
-
   onFormChangeAddDashboard(): void {
     const value = localStorage.getItem('value');
     const position = localStorage.getItem('position');
@@ -1262,7 +1296,6 @@ addInstock(){
           const company: any = localStorage.getItem('company');
           formData.append('location',company)
           formData.append('value',value)
-
         }
         fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
           method: 'POST',
@@ -1739,7 +1772,7 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
+
        });
     }
     else if(value=='Category'){
@@ -1765,7 +1798,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Location'){
@@ -1785,7 +1817,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Project'){
@@ -1810,7 +1841,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Others'){
@@ -1827,7 +1857,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
   }
@@ -1861,7 +1890,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Personel'){
@@ -1885,8 +1913,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
-
        });
     }
     else if(value=='Category'){
@@ -1912,7 +1938,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Project'){
@@ -1939,7 +1964,6 @@ addInstock(){
 
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
     else if(value=='Others'){
@@ -1955,7 +1979,6 @@ addInstock(){
       .then(value => {
         alert(value.data)
         this.updateFormDisplay()
-        location.reload();
        });
     }
   }
@@ -2219,7 +2242,7 @@ addInstock(){
     const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton3') as HTMLInputElement;
     const position = localStorage.getItem('position')
-    if (position == 'administrator' ){
+    if (position == 'administrator' || position == 'moderator'){
       let isFormVisible = false; // Flag to track form visibility
 
       openFormButton.addEventListener('click', () => {
@@ -2247,7 +2270,7 @@ addInstock(){
         // Here, you can perform further actions like sending the form data to a server
 
   });
-    }else if(position == 'user' || position == 'moderator'){
+    }else if(position == 'user' ){
       alert('ACCESS DENIED!')
     }
 
@@ -2271,52 +2294,12 @@ addInstock(){
       window.open(par, '_blank');
     }
   }
+
   toggleContent2(): void {
     this.showContent1 = false;
     this.showContent2 = true;
     this.showContent3 = false;
-    const formData = new FormData();
-    const position : any = localStorage.getItem('position')
-    const company : any = localStorage.getItem('company')
-
-    formData.append('company',company.toUpperCase())
-    formData.append('position',position)
-    fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(value => {
-
-      for (let i = 0; i < value.data.length; i++) {
-        const codeValue = value.data[i].item_id !== '' ? value.data[i].item_id : 'N/A';
-        const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
-        const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
-        const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
-        const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
-        const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
-        const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
-        const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
-
-        this.tableData[i] = {
-          code:  codeValue ,
-          productname: productValue,
-          category: categoryValue,
-          quantity: quantityValue,
-          location: locationValue,
-          project: projectValue,
-          condition: conditionValue,
-          image: image,
-          par: par,
-        };
-   // Access and log the "code" property
-      }
-
-     });
-
   }
-
   toggleContent3(): void {
     this.showContent1 = false;
     this.showContent2 = false;
@@ -2327,6 +2310,7 @@ addInstock(){
     this.activeContent = contentId;
     if (contentId === 'content1') {
       this.toggleContent1();
+      this.refreshDashboard();
     } else if (contentId === 'content2') {
 
       this.toggleContent2();
@@ -2344,15 +2328,15 @@ addInstock(){
       const company = localStorage.getItem('company')
       for (let i = 0; i < value.data.length; i++) {
         const codeValue = value.data[i].itemid_company !== '' ? value.data[i].itemid_company : 'N/A';
-        const serial= value.data[i].Serial !== null ? value.data[i].Serial : 'N/A';
-        const property= value.data[i].Property !== null ? value.data[i].Property : 'N/A';
+        const serial= value.data[i].Serial !== '' ? value.data[i].Serial : 'N/A';
+        const property= value.data[i].Property !== '' ? value.data[i].Property : 'N/A';
         const productValue = value.data[i].item_name !== '' ? value.data[i].item_name  : 'N/A';
         const quantityValue = value.data[i].quantity !== '' ? value.data[i].quantity : 'N/A';
         const specificValue = value.data[i].specificlocation !== '' ? value.data[i].specificlocation: 'N/A';
         const categoryValue = value.data[i].category !== '' ? value.data[i].category : 'N/A';
         const locationValue = value.data[i].location !== '' ? value.data[i].location : 'N/A';
         const projectValue = value.data[i].project !== '' ? value.data[i].project : 'N/A';
-        const conditionValue = value.data[i].state !== '' ? value.data[i].state : 'N/A';
+        const conditionValue = value.data[i].condition !== '' ? value.data[i].condition : 'N/A';
         const image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
         const par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
 

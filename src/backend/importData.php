@@ -1,7 +1,12 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 include './access.php';
+$sqlDropTable = "DROP TABLE IF EXISTS items";
+if ($conn->query($sqlDropTable) !== true) {
+  $response = ['data' => 'Error dropping table: ' . $conn->error];
+  echo json_encode($response);
+  exit;
+}
 
 $sqlCreateTable = "CREATE TABLE IF NOT EXISTS items (
   item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -16,6 +21,7 @@ $sqlCreateTable = "CREATE TABLE IF NOT EXISTS items (
   location VARCHAR(255),
   image VARCHAR(255),
   par VARCHAR(255),
+  `condition` VARCHAR(255),
   UNIQUE (item_id)
 )";
 
@@ -52,13 +58,13 @@ if (isset($_FILES['file'])) {
             include './access.php';
 
             // Prepare the INSERT statement
-            $stmt = $conn->prepare("INSERT INTO items (item_id, itemid_company, Serial, Property, item_name, quantity, category, project, specificlocation, location, image, par)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO items (item_id, itemid_company, Serial, Property, item_name, quantity, category, project, specificlocation, location, image, par,`condition`)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Insert data into the database
             foreach ($csvData as $row) {
                 // Check if the row has enough columns
-                if (count($row) < 12) {
+                if (count($row) < 13) {
                     $response = ['data' => 'Invalid number of columns in the CSV file.'];
                     echo json_encode($response);
                     exit;
@@ -77,7 +83,7 @@ if (isset($_FILES['file'])) {
                 $location = $row[9];
                 $image = $row[10];
                 $par = $row[11];
-
+                $condition = $row[12];
                 // Check if the item_id already exists in the table
                 $checkStmt = $conn->prepare("SELECT item_id FROM items WHERE item_id = ?");
                 $checkStmt->bind_param("i", $item_id);
@@ -91,7 +97,7 @@ if (isset($_FILES['file'])) {
                 $checkStmt->close();
 
                 // Bind the values to the prepared statement
-                $stmt->bind_param("iisssissssss", $item_id, $itemid_company, $Serial, $Property, $item_name, $quantity, $category, $project, $specificlocation, $location, $image, $par);
+                $stmt->bind_param("iisssisssssss", $item_id, $itemid_company, $Serial, $Property, $item_name, $quantity, $category, $project, $specificlocation, $location, $image, $par, $condition);
 
                 // Execute the prepared statement
                 if (!$stmt->execute()) {

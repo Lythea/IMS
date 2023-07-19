@@ -26,7 +26,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     }
 
 
-    $sql2 = "SELECT item_name as item_name,quantity as quantity FROM defective ";
+    $sql2 = "SELECT item_name as item_name,quantity as quantity FROM items WHERE `condition`='DEFECTIVE' ";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
         $data['result2'] = array(); // Initialize an empty array
@@ -123,7 +123,7 @@ $conn = new mysqli($servername, $username, $password,$db);
     }
 
 
-    $sql2 = "SELECT item_name as item_name,quantity as quantity FROM defective WHERE companyownership = '$company'";
+    $sql2 = "SELECT item_name as item_name,quantity as quantity FROM items WHERE location = '$company' and `condition`='DEFECTIVE'";
     $result2 = $conn->query($sql2);
     if ($result2->num_rows > 0) {
         $data['result2'] = array(); // Initialize an empty array
