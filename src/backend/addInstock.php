@@ -1,11 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 include './access.php';
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Check if the inputValues file is uploaded and not empty
 if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name'])) {
@@ -32,18 +32,24 @@ if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name']))
 
     // Loop through the input values data
     foreach ($inputValuesData as $key => $value) {
-        // Check if the key ends with 'quantity'
-        if (substr($key, -8) === 'quantity') {
-            // Extract the input name by removing the 'quantity' suffix
-            $inputName = substr($key, 0, -8);
+      // Check if the key ends with 'quantity'
+      if (substr($key, -8) === 'quantity') {
+          // Extract the input name by removing the 'quantity' suffix
+          $inputName = substr($key, 0, -8);
 
-            // Store the input value and quantity in the inputArray
-            $inputArray[$inputName]['quantity'] = $value;
-        } else {
-            // Store the input value in the inputArray
-            $inputArray[$key]['value'] = $value;
-        }
-    }
+          // Store the input value and quantity in the inputArray
+          $inputArray[$inputName]['quantity'] = $value;
+      } elseif (substr($key, -9) === 'condition') { // Check if the key ends with 'condition'
+          // Extract the input name by removing the 'condition' suffix
+          $inputName = substr($key, 0, -9);
+
+          // Store the condition value in the inputArray
+          $inputArray[$inputName]['condition'] = $value;
+      } else {
+          // Store the input value in the inputArray
+          $inputArray[$key]['value'] = $value;
+      }
+  }
 
     $company = $_POST['company'];
     $sponsors = $_POST['sponsors'];
@@ -54,31 +60,48 @@ if (isset($_FILES['inputValues']) && !empty($_FILES['inputValues']['tmp_name']))
     $parurl = $_POST['parurl'];
     $serial = $_POST['serial'];
     $property = $_POST['property'];
-    $condition = $_POST['condition'];
 
     // Perform the insert query for $inputValue one by one
 
-    $insertQuery = "INSERT INTO items (itemid_company, Serial, Property, item_name, quantity, category, project, specificlocation, location, image, par, `condition`)  VALUES ";
+    $insertQueries = array();
 
-    foreach ($inputArray as $inputName => $inputData) {
-        $inputValue = $inputData['value'];
-        $inputQuantity = $inputData['quantity'];
+$maxItemIdQuery = "SELECT COALESCE(MAX(itemid_company), 0) + 1 FROM items WHERE location = '$company'";
+$maxItemIdResult = $conn->query($maxItemIdQuery);
+$maxItemIdRow = $maxItemIdResult->fetch_assoc();
+$maxItemId = $maxItemIdRow['COALESCE(MAX(itemid_company), 0) + 1'];
 
-        $escapedInputValue = $conn->real_escape_string($inputValue);
-        $escapedInputQuantity = $conn->real_escape_string($inputQuantity);
+foreach ($inputArray as $inputName => $inputData) {
+    $inputValue = $inputData['value'];
+    $inputQuantity = $inputData['quantity'];
+    $inputCondition = $inputData['condition'];
 
-        $insertQuery .= "SELECT COALESCE(MAX(itemid_company), 0) + 1, '$serial', '$property', '$itemname', '$escapedInputQuantity', '$category', '$sponsors', '$escapedInputValue', '$company', '$imgurl', '$parurl', '$condition' ";
-        $insertQuery .= "FROM items WHERE location = '$company' UNION ALL ";
+    $escapedInputValue = $conn->real_escape_string($inputValue);
+    $escapedInputQuantity = $conn->real_escape_string($inputQuantity);
+    $escapedInputCondition = $conn->real_escape_string($inputCondition);
+
+    $insertQuery = "INSERT INTO items (itemid_company, Serial, Property, item_name, quantity, category, project, specificlocation, location, image, par, `condition`) VALUES ";
+    $insertQuery .= "($maxItemId, '$serial', '$property', '$itemname', '$escapedInputQuantity', '$category', '$sponsors', '$escapedInputValue', '$company', '$imgurl', '$parurl', '$escapedInputCondition'); ";
+
+    $maxItemId++; // Increment the itemid_company value for the next iteration
+
+    // Check if the three values are different
+    if (count(array_unique([$escapedInputValue, $escapedInputQuantity, $escapedInputCondition])) === 3) {
+        // Duplicate the insert query with all other values being the same
+        $insertQueries[] = $insertQuery;
     }
+}
 
-    $insertQuery = rtrim($insertQuery, ' UNION ALL ');
-
-    // Execute the insert query
-    if ($conn->query($insertQuery) === TRUE) {
+// Execute the insert queries
+if (count($insertQueries) > 0) {
+    $allInsertQueries = implode("", $insertQueries);
+    if ($conn->multi_query($allInsertQueries) === TRUE) {
         echo json_encode(['data' => 'Data inserted successfully']);
     } else {
-        echo json_encode(['data' => 'Error: ' . $insertQuery . '<br>' . $conn->error]);
+        echo json_encode(['data' => 'Error: ' . $conn->error]);
     }
+} else {
+    echo json_encode(['data' => 'No unique data to insert']);
+}
 
     // Access the values from the inputArray and process them as needed
 

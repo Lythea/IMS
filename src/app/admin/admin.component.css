@@ -306,7 +306,7 @@ body {
   margin-top: 27px;
   width: 2%;
   margin-left: 10px;
-  margin-right:70%;
+  margin-right:50%;
 }
 .logo2 {
   margin-top:15px;
@@ -354,13 +354,6 @@ body {
   width: 100%;
   max-width: 500px;
 }
-
-.closeButton:hover,
-.closeButton:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 .popupFormContainer {
   display: none;
   position: fixed;
@@ -389,6 +382,13 @@ body {
     rgb(232, 231, 240)
   );
 }
+.closeButton:hover,
+.closeButton:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 .closeButton {
   color: #aaa;
@@ -433,7 +433,9 @@ body {
   width:100%;
 }
 
-
+.codecontainer1,.codecontainer2,.codecontainer3{
+  margin-left:5%;
+}
 .exportbutton{
   margin-top: 26px;
   border: 2px solid rgb(253, 251, 251);
@@ -512,13 +514,13 @@ body {
   width:60%;
 }
 .subcontainer2 .thing3{
-
-
-  width:5%;
+  width:2%;
+  margin-left:21%;
 }
 .subcontainer2 .thing4{
   display: flex;
-  width:30%;
+  width:2%;
+  margin-left:7%;
 }
 .subcontainer .thing4{
   display: flex;
@@ -652,6 +654,12 @@ body {
   height: 20px;
 }
 .deleteInfo label{
+  font-size:12px;
+}
+.tables{
+  display:flex;
+}
+.updateInfo label{
   font-size:12px;
 }
 .column1 .label {
@@ -818,7 +826,6 @@ body {
 .itemcenterthing2{
   border-left:2px solid rgb(182, 96, 96);
   margin-left:5%;
-
   width:100%;
 }
 .num1{

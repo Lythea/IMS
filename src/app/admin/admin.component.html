@@ -240,10 +240,10 @@
                     </div>
                     <div class="thing3">
                       <img class="buttons buttons1 "  id="openFormButton" (click)="popupactivation()" src="assets/Add_B.png">
-                        <div id="popupFormContainer" class="popupFormContainer">
-                          <div class="popupForm">
-                            <span class="closeButton">&times;</span>
-                            <h2 class="qrtitle">Additional Information</h2>
+                      <div id="popupFormContainer" class="popupFormContainer">
+                        <div class="popupForm">
+                          <span class="closeButton">&times;</span>
+                          <h2 class="qrtitle">Additional Information</h2>
 
                             <div class="itemcenter1">
                               <form id="myForm" [formGroup]="myForm" form >
@@ -721,60 +721,128 @@
                         <img class="ButtonsB" id="openFormButton2" (click)="popupactivation2()" src="assets/Update_B2.png"/>
 
                         <div id="popupFormContainer2" class="popupFormContainer">
-                          <div class="popupForm">
+                          <div class="popupForm" style="text-align:center;align-items:center;">
                             <span class="closeButton2">&times;</span>
                             <h2 class="qrtitle">Update Action</h2>
 
                             <label class="textlabel">Location</label>
                             <select formControlName="updateInstockForm_location" (change)="updateInstockchange()">
-                              <option disabled selected value="">Select to add</option>
+                              <option disabled selected value="">Select to Update</option>
                               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                             </select>
-                            <br>
-                            <label>Sponsored by:</label>
-                            <select formControlName="updateInstockForm_sponsors" style="width:100px;">
-                              <option selected value="None of the above">None of the above</option>
-                              <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
-                            </select>
-                            <br>
-                            <label class="textlabel">Category</label>
-                            <select formControlName="updateInstockForm_category" style="width:100px;">
-                              <option disabled selected value=""></option>
-                              <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
-                            </select>
-                            <br>
 
+                            <br>
                             <label class="textlabel">Item Code: </label>
-                            <select formControlName="updateInstockForm_name"  style="width:100px;">
-                              <option disabled selected value=""></option>
-                              <option *ngFor="let name of productData" [value]="name.productName">{{ name.productName }}</option>
-                            </select>
+                            <input type="text" formControlName="updateInstockForm_code" (input)="handleUpdate() ">
                             <br>
+                            <br>
+                            <label style="margin-top:10px;margin-bottom:0"*ngFor="let name of productUpdateInfo" >{{name.productname}}</label>
 
-                            <label class="textlabel">Quantity: </label>
-                            <input  class="textbox" formControlName="updateInstockForm_quantity" type="text">
-                            <br>
-                            <label class="textlabel"># of borrowed:</label>
-                            <input class="textbox" formControlName="quantity" type="text" (input)="onQuantityChange1()">
-                            <br>
-                            <div *ngFor="let input of generatedInputs">
-                              <label>{{ 'Borrower #' + input }}:</label>
-                              <input class="textbox" [formControlName]="input + 'quantity'" type="text" style="width:30px;">
-                              <select [formControlName]="input">
-                                <option selected value="">None of the above</option>
-                               <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
-                              </select>
-                              <br>
+                            <div class="tables" style="text-align:center;align-items:left;margin-top:0;">
+                              <table class="resizable-table updateInfo" *ngFor="let name of productUpdateInfo" style=" text-align:left;">
+
+                                <colgroup class="column">
+                                    <col style="width: 20px;"><!-- Code -->
+                                    <col style="width: 20px;"><!-- Serial Number -->
+                                  </colgroup>
+                                  <tr style="height: 15px;">
+                                    <td colspan="2" style="text-align: center; font-size: 20px;"><h4>Old Information</h4></td>
+                                  </tr>
+                                  <tr>
+                                    <th>Label</th>
+                                    <th>Information</th>
+
+                                </tr>
+                                <tr  class="updateInfo">
+                                  <tr>
+                                    <td><label >Item ID: </label></td>
+                                    <td><label >{{name.itemid}}</label></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label >Item Serial: </label></td>
+                                    <td><label >{{name.serial}}</label></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label >Item Property:</label></td>
+                                    <td><label >{{name.property}}</label></td>
+                              </tr>
+                                  <tr>
+                                    <td><label >Product Name: </label></td>
+                                    <td><label >{{name.productname}}</label></td>
+                                 </tr>
+                                  <tr>
+                                    <td><label >Specific Location: </label></td>
+                                    <td><label >{{name.specific}}</label></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label >Sponsored by: </label></td>
+                                    <td><label >{{name.project}}</label></td>
+                                  </tr>
+
+                              </table>
+                              <table class="resizable-table updateInfo" *ngFor="let name of productUpdateInfo" style=" text-align:left;">
+
+                                <colgroup class="column">
+                                    <col style="width: 20px;"><!-- Code -->
+                                    <col style="width: 20px;"><!-- Serial Number -->
+                                  </colgroup>
+                                  <tr style="height:15px;">
+                                    <td colspan="2" style="text-align: center;font-size:20px;"><h4>New Information</h4></td>
+                                  </tr>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Information</th>
+                                </tr>
+                                <tr  class="updateInfo">
+                                  <tr>
+                                    <td> <label class="textlabel">New Location: </label></td>
+                                    <td><select style="width:94px;" formControlName="updateInstockForm_newlocation">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                    </select></td>
+                                  </tr>
+                                  <tr>
+                                    <td> <label class="textlabel">Specific Location: </label></td>
+                                    <td><select style="width:94px;" formControlName="updateInstockForm_specificlocation">
+                                      <option disabled selected value="">Select to add</option>
+                                      <option *ngFor="let name of othersData" [value]="name.specific">{{ name.specific}}</option>
+                                    </select>
+
+                                  </tr>
+                                  <tr>
+
+                                    <td><label>Sponsored by:</label></td>
+                                    <td><select style="width:92px;" formControlName="updateInstockForm_sponsors" style="width:100px;">
+                                      <option selected value="None of the above">None of the above</option>
+                                      <option *ngFor="let name of projectData" [value]="name.projectName">{{ name.projectName }}</option>
+                                    </select></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label class="textlabel">Category</label></td>
+                                    <td> <select style="width:92px;" formControlName="updateInstockForm_category" style="width:100px;">
+                                      <option disabled selected value=""></option>
+                                      <option *ngFor="let name of categoryData" [value]="name.categoryName">{{ name.categoryName }}</option>
+                                    </select></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label class="textlabel">Quantity: </label></td>
+                                    <td><input style="width:92px;"class="textbox" formControlName="updateInstockForm_quantity" type="text"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label class="textlabel">Image Url:</label></td>
+                                    <td><input style="width:92px;"class="textbox" formControlName="updateInstockForm_imgurl" type="text"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><label class="textlabel">Par Url:</label></td>
+                                    <td><input style="width:92px;"class="textbox" formControlName="updateInstockForm_parurl" type="text"></td>
+                                  </tr>
+
+
+
+                              </table>
                             </div>
-                            <p>Total Quantity: {{ getTotalQuantity() }}</p>
-                            <label class="textlabel">Image Url:</label>
-                            <input class="textbox" formControlName="updateInstockForm_imgurl" type="text" >
-                            <br>
-                            <label class="textlabel">PAR Url:</label>
-                            <input class="textbox" formControlName="updateInstockForm_parurl" type="text" >
-                            <br>
-                            <br>
-                            <button (click)="updateInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">ADD</button>
+
+                            <button (click)="updateInstock()" style="background-color: #c00000; border: none; color: white; border-radius: 10px; font-family: 'Poppins'; padding: 4px; width: 20%; margin-top: 2%;">Update</button>
                           </div>
                         </div>
                       </form>
@@ -802,8 +870,8 @@
                                     <col style="width: 20px;"><!-- Serial Number -->
                                   </colgroup>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>Serial No.</th>
+                                    <th>Label</th>
+                                    <th>Information</th>
                                 </tr>
                                 <tr  class="deleteInfo">
                                   <tr>
@@ -830,6 +898,8 @@
                                     <td><label >Sponsored by: </label></td>
                                     <td><label >{{name.project}}</label></td>
                                   </tr>
+
+
                               </table>
                             </div>
                             <br>
