@@ -46,10 +46,10 @@
                       <div class="itemcenter1">
                         <div class="val1">
                           <div class="logo1">
-                            <label class="label num1" id="label1" (click)="toggleCodeContentmema('content1')">Create Code</label><br>
+                            <label class="label num1" [class.active]="activeContent === 'content1'"id="label1" (click)="toggleCodeContentmema('content1')">Create Code</label><br>
                           </div>
                           <div class="logo1">
-                              <label class="label num1" id="label1"(click)="toggleCodeContentmema('content2')">Create Account</label><br>
+                              <label class="label num1" [class.active]="activeContent === 'content2'"id="label1"(click)="toggleCodeContentmema('content2')">Create Account</label><br>
                           </div>
                         </div>
 
@@ -57,15 +57,15 @@
                           <div class="itemcenterthing1">
                               <div class="logo1">
                                 <img class="minilogo" id="label1" src="assets/Add_S.png" alt="BsuLogo">
-                                <label class="label num1" id="label1" (click)="toggleCodeContent('content1')">Add</label><br>
+                                <label class="label num1" [class.active]="activeContent === 'content1'"id="label1" (click)="toggleCodeContent('content1')">Add</label><br>
                             </div>
                             <div class="logo1">
                                 <img class="minilogo" id="label1" src="assets/Update_B.png" alt="BsuLogo">
-                                <label class="label num1" id="label1"(click)="toggleCodeContent('content2')">Update</label><br>
+                                <label class="label num1"  [class.active]="activeContent === 'content2'" id="label1"(click)="toggleCodeContent('content2')">Update</label><br>
                             </div>
                             <div class="logo1">
                                 <img class="minilogo" id="label1"src="assets/Delete_S.png" alt="BsuLogo">
-                                <label class="label num1" id="label1"(click)="toggleCodeContent('content3')">Delete</label><br>
+                                <label class="label num1" [class.active]="activeContent === 'content3'" id="label1"(click)="toggleCodeContent('content3')">Delete</label><br>
                             </div>
 
 
@@ -248,7 +248,8 @@
                             <div class="itemcenter1">
                               <form id="myForm" [formGroup]="myForm" form >
                                 <label>Add:</label>
-                                <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
+                                <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedDetail">
+                                  <option disabled selected value=""></option>
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
                               </form>
@@ -286,7 +287,7 @@
                                     <label><h3>{{ selectedDetail}}</h3></label>
                                     <label class="textlabel">Location: </label>
                                     <select formControlName="personelForm_location">
-                                      <option disabled selected value=""></option>
+                                      <option disabled selected value="">Select to add</option>
                                       <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                                     </select>
                                     <br>
@@ -375,7 +376,6 @@
                               <form id="myForm" [formGroup]="myForm" form >
                                 <label>Delete: </label>
                                 <select formControlName="myForm_information" (change)="onSelectionChange()" [value]="selectedValue">
-
                                   <option *ngFor="let detail of info" [value]="detail">{{ detail }}</option>
                                 </select>
 
@@ -612,33 +612,73 @@
 
                     </div>
                     <div class="thing5">
-                      <form class="thing8"id="myForm" [formGroup]="qrForm" >
+
                         <button class="qrbutton" id="openFormButton" (click)="popupactivation()"><img src="assets/QrCode2.png" style="margin-top: 5%;"></button>
                         <div id="popupFormContainer" class="popupFormContainer">
                           <div class="popupForm">
                             <span class="closeButton">&times;</span>
-                            <h2 class="qrtitle">QR Generator</h2>
 
-                              <div class="itemcenter">
-                                <label class="textlabel">Location</label>
-                                <select formControlName="qrForm_location">
-                                  <option disabled selected value="">select</option>
-                                  <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
-                                </select>
-                                <br>
-                                <label>1st Code: </label>
-                                <input type="text" formControlName="qrForm_itemcode1" required><br>
-                                <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
-                                <br>
-                                <label>2nd Code: </label>
-                                <input type="text" formControlName="qrForm_itemcode2" required><br>
-                                <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
-                                <br>
-                                <button class="generate" type="submit" (click)="newqrgenerate()">{{ qrgenerate }}</button>
+                            <h2 class="qrtitle">QR Code Printing</h2>
+
+                            <div class="itemcenter3">
+                              <div class="val_1">
+                                <div class="logo3">
+                                  <label class="label2 num2"   [class.active]="activeContent === 'content1'"(click)="toggleCodeContentmema_3('content1')">Manual Printing</label><br>
+                                </div>
+                                <div class="logo3">
+                                    <label class="label2 num2"  [class.active]="activeContent === 'content2'"(click)="toggleCodeContentmema_3('content2')">Bulk Printing</label><br>
+                                </div>
+                              </div>
+
+                              <div class="modcontainer1" *ngIf ="container_1">
+                                <form class="thing8"id="myForm" [formGroup]="itemForm" >
+                                <div class="codecontainer_1">
+                                  <label class="textlabel">Location</label>
+                                  <select formControlName="itemForm_location">
+                                    <option disabled selected value="">select</option>
+                                    <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                  </select>
+                                  <br>
+                                  <label>QR Code Quantity: </label>
+                                  <input type="text" formControlName="quantity" (input)="onQuantityChange2()"required><br>
+                                  <br>
+                                  <div *ngFor="let input of generatedInputs1">
+                                    <label>{{ input }} :</label>
+                                    <input type="text" [formControlName]="input" required><br>
+                                    <br>
+                                  </div>
+                                  </div>
+
+                                  <button class="generate" type="submit" (click)="trysubmit()">{{ qrgenerate }}</button>
+                                  </form>
+
+                              </div>
+                              <div class="modcontainer1" *ngIf ="container_2">
+                                <form class="thing8" id="myForm" [formGroup]="qrForm" >
+                                <div class="codecontainer_2">
+                                  <label class="textlabel">Location</label>
+                                  <select formControlName="qrForm_location">
+                                    <option disabled selected value="">select</option>
+                                    <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
+                                  </select>
+                                  <br>
+                                  <label>1st Code: </label>
+                                  <input type="text" formControlName="qrForm_itemcode1" required><br>
+                                  <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
+                                  <br>
+                                  <label>2nd Code: </label>
+                                  <input type="text" formControlName="qrForm_itemcode2" required><br>
+                                  <label [hidden]="isHidden1" style="color:red;font-size:16px;margin-left:23%;margin-right:0;">item code not registered</label>
+                                  <br>
+                                  <button class="generate" type="submit" (click)="newqrgenerate()">{{ qrgenerate }}</button>
+                                </div>
+                                </form>
                               </div>
                           </div>
+
+                          </div>
                         </div>
-                      </form>
+
 
                     </div>
                     <div class="export">
@@ -856,7 +896,7 @@
                             <h2 class="qrtitle">Delete Action</h2>
                             <label class="textlabel">Location</label>
                             <select formControlName="deleteInstockForm_location">
-                              <option disabled selected value="">Select to add</option>
+                              <option disabled selected value="">Select to Delete</option>
                               <option *ngFor="let location of locationData" [value]="location.locationName">{{ location.locationName }}</option>
                             </select>
                             <br>
@@ -864,7 +904,9 @@
                             <input type="text" formControlName="deleteInstockForm_code" (input)="handleDelete() ">
                             <br>
                             <div >
+                              <label *ngFor="let name of productDeleteInfo" style="text-align: center;margin-left:40%;">{{name.productname}}</label>
                               <table class="resizable-table deleteInfo" *ngFor="let name of productDeleteInfo" style=" text-align:left;">
+
                                 <colgroup class="column">
                                     <col style="width: 20px;"><!-- Code -->
                                     <col style="width: 20px;"><!-- Serial Number -->

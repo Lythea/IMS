@@ -432,7 +432,18 @@ body {
   margin-left: 25px;
   width:100%;
 }
-
+.codecontainer_1{
+  align-items: center;
+text-align: center;
+}
+.modcontainer1{
+  align-items: center;
+text-align: center;
+}
+.codecontainer_2{
+  align-items: center;
+text-align: center;
+}
 .codecontainer1,.codecontainer2,.codecontainer3{
   margin-left:5%;
 }
@@ -511,7 +522,7 @@ body {
   margin-left:60%;
 }
 .thing8{
-  width:60%;
+  width:100%;
 }
 .subcontainer2 .thing3{
   width:2%;
@@ -679,15 +690,34 @@ body {
 .column1 .label.active {
   color: #c00000;
 }
+.column1 .label .inactive {
+  color: black;
+}
+.val1 .label.active {
+  color: #c00000;
+}
+.val1 .label .inactive {
+  color: black;
+}
+.itemcenterthing1 .label.active {
+  color: #c00000;
+}
+.itemcenterthing1 .label .inactive {
+  color: black;
+}
+.val_1 .label2.active {
+  color: #c00000;
+}
+.val_1 .label2 .inactive {
+  color: black;
+}
 .upper5 {
   margin-top: 10px;
   font-weight: bolder;
 
   width: 100%;
 }
-.column1 .label .inactive {
-  color: black;
-}
+
 .logo1 {
   margin-left: 25px;
   display: flex;
@@ -809,16 +839,32 @@ body {
 .upper1_1{
   display:flex;
 }
+.logo3,.label2,.num2{
+  width:100%;
+  align-items: center;
+text-align: center;
+}
+.num2{
+  width:100%;
+}
 .val1{
   display:flex;
   width:100%;
   margin-left:20%;
   margin-right:20%;
 }
+.val_1{
+  display:flex;
+  width:100%;
+  align-items: center;
+  text-align: center;
+  margin-left:7%;
+}
 .modcontainer{
   border: 2px solid rgb(182, 96, 96);
   display:flex;
   margin-top:10%;
+
 }
 .itemcenterthing1{
   margin-top:5%;
@@ -830,4 +876,8 @@ body {
 }
 .num1{
   margin-top:11%;
+}
+.itemcenter3{
+align-items: center;
+text-align: center;
 }

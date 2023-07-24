@@ -40,7 +40,8 @@ export class AdminComponent implements OnInit{
   showCodeContent2 = false;
   showCodeContent3 = false;
   state: any = ['WORKING','DEFECTIVE'];
-
+  container_1 = true;
+  container_2 = false;
   container1 = false;
   container2 = true;
   subcontainer2_content: any =[];
@@ -110,6 +111,7 @@ accounts: any = FormGroup;
 updateInstockForm : any = FormGroup;
 currentPopupContent: any;
 generatedInputs: string[] = [];
+generatedInputs1: string[] = [];
 disabled :boolean =true;
 addInstockData : any = [];
 totalQuantity: number = 0;
@@ -121,6 +123,7 @@ othersData: any = [];
 othersValue : any;
 otherForm : any = FormGroup;
 inventoryItems: any[] = [];
+itemForm: any = FormGroup;
 
 selectedFile: File | null = null;
   constructor(private sanitizer: DomSanitizer,private fb: FormBuilder,private http: HttpClient,private renderer: Renderer2) {
@@ -131,6 +134,8 @@ selectedFile: File | null = null;
     this.renderer.listen('document', 'click', () => {
       this.closeAllPopups();
     });
+    this.container_1 = true;
+    this.container_2 = false;
     this.accounts = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -229,7 +234,176 @@ selectedFile: File | null = null;
       deleteInstockForm_code:['',Validators.required],
       deleteInstockForm_location:['',Validators.required],
     });
+    this.createQRForm();
     this.refreshDashboard()
+  }
+  createQRForm() {
+    this.itemForm = this.fb.group({
+      itemForm_location: ['', Validators.required],
+      quantity: ['', Validators.required],
+    });
+  }
+
+  onQuantityChange2() {
+    const quantity = this.itemForm.get('quantity').value;
+    // Clear previously generated form controls
+    this.generatedInputs1.forEach((input) => {
+      this.itemForm.removeControl(input);
+    });
+    this.generatedInputs1 = [];
+
+    // Generate and add new form controls
+    for (let i = 1; i <= quantity; i++) {
+      const inputName = this.generateInputName(i);
+      this.itemForm.addControl(inputName, new FormControl('', Validators.required));
+      this.generatedInputs1.push(inputName);
+    }
+  }
+
+  generateInputName(index: number): string {
+    return `Item Code ${index}`;
+  }
+
+  trysubmit() {
+    const formDataToSend = new FormData();
+    const content:any = localStorage.getItem('content')
+
+    let position : any = localStorage.getItem('position')
+    if (position =='administrator'){
+      formDataToSend.append('company', this.itemForm.value.itemForm_location);
+    }else if(position ='moderator'){
+      const company:any = localStorage.getItem('company')
+      formDataToSend.append('company', company);
+    }
+    const generatedInputsData1: { [key: string]: any } = {};
+
+    for (const inputName of this.generatedInputs1) {
+      // Extract the numeric index from the input name
+      const index = parseInt(inputName.replace('Item Code', '').trim(), 10);
+      // Use the numeric index to generate the input name without the prefix
+      const generatedInputName = this.generateInputName(index);
+      const inputValue = this.itemForm.get(inputName).value;
+      generatedInputsData1[generatedInputName] = inputValue;
+    }
+
+  // Now, generatedInputsData object contains the data from the dynamically generated input fields.
+  // You can use this data as needed.
+
+  // Example: Convert the object to JSON and send it to the server using Fetch API.
+  const generatedInputsDataJSON = JSON.stringify(generatedInputsData1);
+
+
+  formDataToSend.append('generatedInputsData', generatedInputsDataJSON);
+
+  formDataToSend.append('content', content);
+
+
+  fetch('http://localhost:8080/IMS/src/backend/qr1.php', {
+    method: 'POST',
+    body: formDataToSend
+  })
+    .then(response => response.json())
+    .then(async value => {
+      console.log(value.count)
+    if(value.count>0){
+      const qrCodeImages: string[] = []; // Array to collect QR code images
+
+      for (let i = 0; i < value.count; i++) {
+        if (value.data[i]) { // Add a condition to check if result2[i] exists
+          var productname = value.data[i].item_name;
+          var serial = value.data[i].Serial !== '' ? value.data[i].Serial : 'N/A';
+          var property = value.data[i].Property !== '' ? value.data[i].Property : 'N/A';
+          var category = value.data[i].category !== '' ? value.data[i].category : 'N/A';
+          var location = value.data[i].location !== '' ? value.data[i].location : 'N/A';
+          var specificlocation = value.data[i].specificlocation !== '' ? value.data[i].specificlocation : 'N/A';
+          var project = value.data[i].project !== '' ? value.data[i].project : 'N/A';
+          var par = value.data[i].par !== '' ? value.data[i].par : 'N/A';
+          var image = value.data[i].image !== '' ? value.data[i].image : 'N/A';
+
+          const qrCodeData = 'Product: ' + productname +
+            '\nSerial: ' + serial +
+            '\nProperty: ' + property +
+            '\nCategory: ' + category +
+            '\nLocation: ' + location +
+            '\nSpecific Location: ' + specificlocation +
+            '\nProject by: ' + project +
+            '\nImage URL: ' + image +
+            '\nPAR URL: ' + par;
+
+          let qrCodeImage: string;
+          try {
+            qrCodeImage = await this.generateQRCode(qrCodeData);
+            qrCodeImages.push(qrCodeImage); // Collect QR code image in the array
+          } catch (error) {
+            console.error('QR code generation failed:', error);
+            return;
+          }
+        } else {
+          console.warn('Item data missing for index:', i);
+        }
+      }
+            interface QRCodeContent {
+              image: string;
+              width: number;
+            }
+
+            interface PDFDocumentDefinition {
+              pageSize: string;
+              pageOrientation: string;
+              content: { columns: { width: string; stack: QRCodeContent[] }[] }[];
+            }
+
+            // ...
+
+            const qrCodeContent: any[][] = qrCodeImages.map((image, index) => {
+              const productname = value.data[index]?.item_name || 'N/A';
+
+              return [
+                { image: image, width: 100, alignment: 'center' },
+                { text: productname, alignment: 'center' }
+              ];
+            });
+
+            const qrCodePages: any[][][] = [];
+            let qrCodePage: any[][] = [];
+
+            qrCodeContent.forEach((qrCode, index) => {
+              qrCodePage.push(qrCode);
+
+              // Check if the page is complete or if it's the last QR code
+              if (qrCodePage.length === 10 || index === qrCodeContent.length - 1) {
+                qrCodePages.push(qrCodePage);
+                qrCodePage = [];
+              }
+            });
+
+            const documentDefinition: TDocumentDefinitions = {
+              pageSize: 'A4',
+              pageOrientation: 'portrait' as PageOrientation,
+              content: qrCodePages.map((page) => ({
+                columns: [
+                  {
+                    width: '50%',
+                    stack: page.slice(0, 5)
+                  },
+                  {
+                    width: '50%',
+                    stack: page.slice(5)
+                  }
+                ]
+              }))
+            };
+
+            const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+            pdfDocGenerator.download('qr_code_data.pdf');
+    }else {
+      alert('No Data')
+    }
+
+
+    this.updateFormDisplay()
+    });
+
   }
   refreshDashboard(){
     this.name = localStorage.getItem('name')
@@ -256,8 +430,7 @@ selectedFile: File | null = null;
     formData.append('position', position);
     formData.append('company', company);
   }
-  console.log(position)
-  console.log(company)
+
   fetch('http://localhost:8080/IMS/src/backend/specific.php', {
     method: 'POST',
     body: formData
@@ -406,7 +579,6 @@ selectedFile: File | null = null;
           this.showContent2 = false;
         });
        }else if(value.data[0].name!='' || value.data[0].email!=''){
-        console.log(value.data)
         alert(value.data[0].name + ' already in used and ' + value.data[0].email + ' already registered')
        }
 
@@ -451,7 +623,6 @@ selectedFile: File | null = null;
 
   uploadFile(event: Event) {
     let position: any = localStorage.getItem('position')
-    console.log(position)
     if(position =='administrator'){
       event.preventDefault();
 
@@ -475,21 +646,45 @@ selectedFile: File | null = null;
 
   }
   async generateQRCode(data: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      toDataURL(data, { errorCorrectionLevel: 'M' }, (error, url) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(url);
-        }
+    try {
+      return await new Promise<string>((resolve, reject) => {
+        toDataURL(data, { errorCorrectionLevel: 'M' }, (error, url) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(url);
+          }
+        });
       });
-    });
+    } catch (error) {
+      console.error('QR code generation failed:', error);
+      throw error; // Rethrow the error to be caught in the outer catch block
+    }
+  }
+  toggleCodeContentmema_1(): void {
+
+    this.container_1 = true;
+    this.container_2 = false;
+  }
+  toggleCodeContentmema_2(): void {
+    this.container_1 = false;
+    this.container_2 = true;
+  }
+  toggleCodeContentmema_3(contentId: string): void {
+    this.activeContent = contentId;
+    localStorage.setItem('content', contentId);
+
+    if (contentId === 'content1') {
+      this.toggleCodeContentmema_1();
+    } else if (contentId === 'content2') {
+      this.toggleCodeContentmema_2();
+    }
   }
   newqrgenerate(){
-
+const content: any = localStorage.getItem('content')
     const formData = new FormData();
     const position: any = localStorage.getItem('position')
-    const company:any = localStorage.getItem('company')
+
     if (position =='administrator'){
       formData.append('company',this.qrForm.value.qrForm_location)
     } else if (position =='moderator'){
@@ -499,102 +694,112 @@ selectedFile: File | null = null;
       formData.append('position',position)
       formData.append('code1',this.qrForm.value.qrForm_itemcode1)
       formData.append('code2',this.qrForm.value.qrForm_itemcode2)
-
+      formData.append('content',content)
     fetch('http://localhost:8080/IMS/src/backend/newqrgenerator.php', {
       method: 'POST',
       body: formData
     })
     .then(response => response.json())
     .then(async value => {
-      console.log(value.total_count)
+      if(value.total_count>0){
+        const qrCodeImages: string[] = []; // Array to collect QR code images
 
+        for (let i = 0; i < value.total_count; i++) {
+          if (value.result2[i]) { // Add a condition to check if result2[i] exists
+            var productname = value.result2[i].item_name;
+            var serial = value.result2[i].Serial !== '' ? value.result2[i].Serial : 'N/A';
+            var property = value.result2[i].Property !== '' ? value.result2[i].Property : 'N/A';
+            var category = value.result2[i].category !== '' ? value.result2[i].category : 'N/A';
+            var location = value.result2[i].location !== '' ? value.result2[i].location : 'N/A';
+            var specificlocation = value.result2[i].specificlocation !== '' ? value.result2[i].specificlocation : 'N/A';
+            var project = value.result2[i].project !== '' ? value.result2[i].project : 'N/A';
+            var par = value.result2[i].par !== '' ? value.result2[i].par : 'N/A';
+            var image = value.result2[i].image !== '' ? value.result2[i].image : 'N/A';
 
-      const qrCodeImages: string[] = []; // Array to collect QR code images
+            const qrCodeData = 'Product: ' + productname +
+              '\nSerial: ' + serial +
+              '\nProperty: ' + property +
+              '\nCategory: ' + category +
+              '\nLocation: ' + location +
+              '\nSpecific Location: ' + specificlocation +
+              '\nProject by: ' + project +
+              '\nImage URL: ' + image +
+              '\nPAR URL: ' + par;
 
-for (let i = 0; i < value.total_count; i++) {
-  if (value.result2[i]) { // Add a condition to check if result2[i] exists
-    var productname = value.result2[i].item_name;
-    var serial = value.result2[i].serial;
-    var category = value.result2[i].category !== '' ? value.result2[i].category : 'N/A';
-    var location = value.result2[i].location !== '' ? value.result2[i].location : 'N/A';
-    var project = value.result2[i].project !== '' ? value.result2[i].project : 'N/A';
-    var par = value.result2[i].par !== '' ? value.result2[i].par : 'N/A';
-    var image = value.result2[i].image !== '' ? value.result2[i].image : 'N/A';
+            let qrCodeImage: string;
+            try {
+              qrCodeImage = await this.generateQRCode(qrCodeData);
+              qrCodeImages.push(qrCodeImage); // Collect QR code image in the array
+            } catch (error) {
+              console.error('QR code generation failed:', error);
+              return;
+            }
+          } else {
+            console.warn('Item data missing for index:', i);
+          }
+        }
+        interface QRCodeContent {
+          image: string;
+          width: number;
+        }
 
-    const qrCodeData = 'Product: ' + productname +
-      '\nSerial: ' + serial +
-      '\nCategory: ' + category +
-      '\nLocation: ' + location +
-      '\nProject by: ' + project +
-      '\nImage URL: ' + image +
-      '\nPAR URL: ' + par;
+        interface PDFDocumentDefinition {
+          pageSize: string;
+          pageOrientation: string;
+          content: { columns: { width: string; stack: QRCodeContent[] }[] }[];
+        }
 
-    let qrCodeImage: string;
-    try {
-      qrCodeImage = await this.generateQRCode(qrCodeData);
-      qrCodeImages.push(qrCodeImage); // Collect QR code image in the array
-    } catch (error) {
-      console.error('QR code generation failed:', error);
-      return;
-    }
-  } else {
-    console.warn('Item data missing for index:', i);
-  }
-}
-interface QRCodeContent {
-  image: string;
-  width: number;
-}
+        // ...
 
-interface PDFDocumentDefinition {
-  pageSize: string;
-  pageOrientation: string;
-  content: { columns: { width: string; stack: QRCodeContent[] }[] }[];
-}
+        const qrCodeContent: any[][] = qrCodeImages.map((image, index) => {
+          const productname = value.result2[index]?.item_name || 'N/A';
 
-// ...
+          return [
+            { image: image, width: 100, alignment: 'center' },
+            { text: productname, alignment: 'center' }
+          ];
+        });
 
-const qrCodeContent: any[][] = qrCodeImages.map((image, index) => {
-  const productname = value.result2[index]?.item_name || 'N/A';
+        const qrCodePages: any[][][] = [];
+        let qrCodePage: any[][] = [];
 
-  return [
-    { image: image, width: 100, alignment: 'center' },
-    { text: productname, alignment: 'center' }
-  ];
-});
+        qrCodeContent.forEach((qrCode, index) => {
+          qrCodePage.push(qrCode);
 
-const qrCodePages: any[][][] = [];
-let qrCodePage: any[][] = [];
+          // Check if the page is complete or if it's the last QR code
+          if (qrCodePage.length === 10 || index === qrCodeContent.length - 1) {
+            qrCodePages.push(qrCodePage);
+            qrCodePage = [];
+          }
+        });
 
-qrCodeContent.forEach((qrCode, index) => {
-  qrCodePage.push(qrCode);
+        const documentDefinition: TDocumentDefinitions = {
+          pageSize: 'A4',
+          pageOrientation: 'portrait' as PageOrientation,
+          content: qrCodePages.map((page) => ({
+            columns: [
+              {
+                width: '50%',
+                stack: page.slice(0, 5)
+              },
+              {
+                width: '50%',
+                stack: page.slice(5)
+              }
+            ]
+          }))
+        };
 
-  // Check if the page is complete or if it's the last QR code
-  if (qrCodePage.length === 10 || index === qrCodeContent.length - 1) {
-    qrCodePages.push(qrCodePage);
-    qrCodePage = [];
-  }
-});
+        const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+        pdfDocGenerator.download('qr_code_data.pdf');
 
-const documentDefinition: TDocumentDefinitions = {
-  pageSize: 'A4',
-  pageOrientation: 'portrait' as PageOrientation,
-  content: qrCodePages.map((page) => ({
-    columns: [
-      {
-        width: '50%',
-        stack: page.slice(0, 5)
-      },
-      {
-        width: '50%',
-        stack: page.slice(5)
+      }else {
+        alert('No Data.')
       }
-    ]
-  }))
-};
 
-const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
-pdfDocGenerator.download('qr_code_data.pdf');
+
+      this.updateFormDisplay()
+
      });
   }
 
@@ -662,10 +867,6 @@ pdfDocGenerator.download('qr_code_data.pdf');
     const company: any | null = localStorage.getItem('company');
     formData.append('property', this.selectedValue1);
     formData.append('value', this.search.value.name);
-    console.log(this.search.value.name)
-    console.log(this.selectedValue1)
-    console.log(company)
-    console.log(position)
     formData.append('position', position);
     formData.append('company', company);
 
@@ -718,8 +919,6 @@ pdfDocGenerator.download('qr_code_data.pdf');
     const code : any = this.deleteInstockForm.value.deleteInstockForm_code
     const position : any = localStorage.getItem('position')
     const formData = new FormData();
-    console.log(location)
-    console.log(code)
     if (position =='administrator'){
       formData.append('code',code)
       formData.append('location',location)
@@ -734,7 +933,7 @@ pdfDocGenerator.download('qr_code_data.pdf');
     })
       .then(response => response.json())
       .then(value => {
-        console.log(value.result1[0].condition)
+
         this.productDeleteInfo =[]
 
           const codeValue = value.result1[0].itemid_company !== '' ? value.result1[0].itemid_company : 'N/A';
@@ -775,8 +974,7 @@ const location : any = this.updateInstockForm.value.updateInstockForm_location
 const code : any = this.updateInstockForm.value.updateInstockForm_code
 const position : any = localStorage.getItem('position')
 const formData = new FormData();
-console.log(location)
-console.log(code)
+
 if (position =='administrator'){
   formData.append('code',code)
   formData.append('location',location)
@@ -896,6 +1094,13 @@ fetch('http://localhost:8080/IMS/src/backend/getupdateInstock.php', {
         control8.disable();
       } else {
         control8.enable();
+      }
+      const control9= this.itemForm.get('itemForm_location')
+
+      if (disabled) {
+        control9.disable();
+      } else {
+        control9.enable();
       }
     }
 
@@ -1260,6 +1465,7 @@ addInstock(){
   }
 
   toggleCodeContent(contentId: string): void {
+    this.activeContent=contentId;
     const formData = new FormData();
    fetch('http://localhost:8080/IMS/src/backend/location.php', {
     method: 'POST',
@@ -1302,6 +1508,7 @@ addInstock(){
     this.container2 = true;
   }
   toggleCodeContentmema(contentId: string): void {
+    this.activeContent = contentId;
     const formData = new FormData();
    fetch('http://localhost:8080/IMS/src/backend/location.php', {
     method: 'POST',
@@ -1327,6 +1534,7 @@ addInstock(){
     }
 
   }
+
   // DONE FUNCTIONS FOR RESPONSIVE AND BACKEND
   //FOR ADD DASHBOARD INSIDE PROPERTY
   onFormChangeAddDashboard(): void {
@@ -1654,7 +1862,7 @@ addInstock(){
       }
       else if(value=='Others'){
         const position = localStorage.getItem('position')
-        console.log(position)
+
         this.subcontainer2_content[2]=false;
         this.subcontainer2_content[1]=false;
         this.subcontainer2_content[3]=false;
@@ -1703,20 +1911,18 @@ addInstock(){
     localStorage.setItem('value',this.selectedDetail)
    if(this.myForm.value.myForm_information=='Defective Products'){
       this.subcontainer2_content[1]=true;
-      this.ngOnInit()
-
+      this.selectedDetail = this.myForm.get('myForm_information').value;
     }
     else if(this.myForm.value.myForm_information=='Personel'){
       this.subcontainer2_content[2]=true;
       this.subcontainer2_content[1]=false;
-      this.ngOnInit()
-
+      this.selectedDetail = this.myForm.get('myForm_information').value;
     }
     else if(this.myForm.value.myForm_information=='Category'){
       this.subcontainer2_content[2]=false;
       this.subcontainer2_content[1]=false;
       this.subcontainer2_content[3]=true;
-      this.ngOnInit()
+      this.selectedDetail = this.myForm.get('myForm_information').value;
     }
     else if(this.myForm.value.myForm_information=='Location'){
       const position = localStorage.getItem('position');
@@ -1727,10 +1933,8 @@ addInstock(){
         this.subcontainer2_content[1]=false;
         this.subcontainer2_content[3]=false;
         this.subcontainer2_content[4]=true;
-        this.ngOnInit()
+        this.selectedDetail = this.myForm.get('myForm_information').value;
       }
-
-
     }
     else if(this.myForm.value.myForm_information=='Project'){
       this.subcontainer2_content[2]=false;
@@ -1738,13 +1942,14 @@ addInstock(){
       this.subcontainer2_content[3]=false;
       this.subcontainer2_content[5]=true;
       this.subcontainer2_content[4]=false;
-
+      this.selectedDetail = this.myForm.get('myForm_information').value;
     }
     else if(this.myForm.value.myForm_information=='Others'){
       const position = localStorage.getItem('position');
       if(position == 'moderator'){
         alert('ACCESS DENIED')
       }else{
+        this.selectedDetail = this.myForm.get('myForm_information').value;
       this.subcontainer2_content[2]=false;
       this.subcontainer2_content[1]=false;
       this.subcontainer2_content[3]=false;
@@ -2126,6 +2331,7 @@ addInstock(){
   //USED FOR ANY POP UP FEATURES
 
   popupactivation(){
+    this.activeContent = 'content1';
     const openFormButton = document.getElementById('openFormButton') as HTMLInputElement;
     const popupFormContainer = document.getElementById('popupFormContainer') as HTMLInputElement;
     const closeButton1 = document.querySelector('.closeButton') as HTMLInputElement;
@@ -2321,7 +2527,6 @@ addInstock(){
    //USED FOR ANY POP UP FEATURES
 
    popupactivation3(){
-
     const openFormButton = document.getElementById('openFormButton3') as HTMLInputElement;
     const popupFormContainer = document.getElementById('popupFormContainer3') as HTMLInputElement;
     const closeButton = document.querySelector('.closeButton3') as HTMLInputElement;
