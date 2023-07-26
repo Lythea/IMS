@@ -16,7 +16,7 @@ import { Renderer2 } from '@angular/core';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit{
-
+ //'http://localhost:8080/IMS/src/backend/itemlist.php' fetch api url example localhost
   @ViewChild('dropdown', { static: true }) dropdown: ElementRef = new ElementRef(null);
   isOpenProducts: boolean = false;
   isOpenDefective: boolean = false;
@@ -298,7 +298,7 @@ selectedFile: File | null = null;
   formDataToSend.append('content', content);
 
 
-  fetch('http://localhost:8080/IMS/src/backend/qr1.php', {
+  fetch('backend/qr1.php', {
     method: 'POST',
     body: formDataToSend
   })
@@ -431,7 +431,7 @@ selectedFile: File | null = null;
     formData.append('company', company);
   }
 
-  fetch('http://localhost:8080/IMS/src/backend/specific.php', {
+  fetch('backend/specific.php', {
     method: 'POST',
     body: formData
   })
@@ -445,7 +445,7 @@ selectedFile: File | null = null;
     };
   }
    });
-   fetch('http://localhost:8080/IMS/src/backend/quantitydashboard.php', {
+   fetch('backend/quantitydashboard.php', {
      method: 'POST',
      body: formData
    })
@@ -459,7 +459,7 @@ selectedFile: File | null = null;
      this.project = value.result6
     });
 
-   fetch('http://localhost:8080/IMS/src/backend/infodashboard.php', {
+   fetch('backend/infodashboard.php', {
      method: 'POST',
      body: formData
    })
@@ -557,7 +557,7 @@ selectedFile: File | null = null;
       formData.append('company',this.accounts.value.company)
       formData.append('code',this.accounts.value.code)
 
-      fetch('http://localhost:8080/IMS/src/backend/verifyaccount.php', {
+      fetch('backend/verifyaccount.php', {
         method: 'POST',
         body: formData
       })
@@ -566,7 +566,7 @@ selectedFile: File | null = null;
       if (value.data == 'No Data'){
         alert('Code is incorrect')
       }else if(value.data=='Not Found!'){
-        fetch('http://localhost:8080/IMS/src/backend/signup.php', {
+        fetch('backend/signup.php', {
           method: 'POST',
           body: formData
         })
@@ -590,7 +590,7 @@ selectedFile: File | null = null;
     const position: any = localStorage.getItem('position');
     const company : any =localStorage.getItem('company');
     if(position =='administrator' || position =='moderator'){
-      const exportUrl = 'http://localhost:8080/IMS/src/backend/exportdata.php';
+      const exportUrl = 'backend/exportdata.php';
 
       // Create a new FormData object
       const formData = new FormData();
@@ -630,7 +630,7 @@ selectedFile: File | null = null;
         const formData = new FormData();
         formData.append('file', this.selectedFile);
 
-        this.http.post('http://localhost:8080/IMS/src/backend/importData.php', formData)
+        this.http.post('backend/importData.php', formData)
           .subscribe(
             response => {
               alert('File uploaded successfully')
@@ -695,7 +695,7 @@ const content: any = localStorage.getItem('content')
       formData.append('code1',this.qrForm.value.qrForm_itemcode1)
       formData.append('code2',this.qrForm.value.qrForm_itemcode2)
       formData.append('content',content)
-    fetch('http://localhost:8080/IMS/src/backend/newqrgenerator.php', {
+    fetch('backend/newqrgenerator.php', {
       method: 'POST',
       body: formData
     })
@@ -832,7 +832,7 @@ const content: any = localStorage.getItem('content')
       formData.append('parurl',parurl)
       formData.append('newlocation',newlocation)
       formData.append('code',code)
-   fetch('http://localhost:8080/IMS/src/backend/updateInstock.php', {
+   fetch('backend/updateInstock.php', {
         method: 'POST',
         body: formData
       })
@@ -870,7 +870,7 @@ const content: any = localStorage.getItem('content')
     formData.append('position', position);
     formData.append('company', company);
 
-     fetch('http://localhost:8080/IMS/src/backend/searchbar.php', {
+     fetch('backend/searchbar.php', {
      method: 'POST',
      body: formData
    })
@@ -927,7 +927,7 @@ const content: any = localStorage.getItem('content')
       formData.append('code',code)
       formData.append('location',company)
     }
-    fetch('http://localhost:8080/IMS/src/backend/getdeleteInstock.php', {
+    fetch('backend/getdeleteInstock.php', {
       method: 'POST',
       body: formData
     })
@@ -983,7 +983,7 @@ if (position =='administrator'){
   formData.append('code',code)
   formData.append('location',company)
 }
-fetch('http://localhost:8080/IMS/src/backend/getupdateInstock.php', {
+fetch('backend/getupdateInstock.php', {
   method: 'POST',
   body: formData
 })
@@ -1120,7 +1120,7 @@ fetch('http://localhost:8080/IMS/src/backend/getupdateInstock.php', {
       formData.append('val1',val1)
       formData.append('val2',val2)
       formData.append('val3',val3)
-      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+      fetch('backend/code.php', {
         method: 'POST',
         body: formData
       })
@@ -1142,7 +1142,7 @@ fetch('http://localhost:8080/IMS/src/backend/getupdateInstock.php', {
       formData.append('val1',val1)
       formData.append('val2',val2)
       formData.append('val3',val3)
-      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+      fetch('backend/code.php', {
         method: 'POST',
         body: formData
       })
@@ -1162,7 +1162,7 @@ fetch('http://localhost:8080/IMS/src/backend/getupdateInstock.php', {
       formData.append('val',value)
 
       formData.append('val3',val3)
-      fetch('http://localhost:8080/IMS/src/backend/code.php', {
+      fetch('backend/code.php', {
         method: 'POST',
         body: formData
       })
@@ -1261,7 +1261,7 @@ addInstock(){
     formData.append('imgurl',imgurl)
     formData.append('parurl',parurl)
 
-    fetch('http://localhost:8080/IMS/src/backend/addInstock.php', {
+    fetch('backend/addInstock.php', {
       method: 'POST',
       body: formData
     })
@@ -1297,7 +1297,7 @@ addInstock(){
       formData.append('location',company)
       formData.append('position',position)
     }
-    fetch('http://localhost:8080/IMS/src/backend/deleteInstock.php', {
+    fetch('backend/deleteInstock.php', {
       method: 'POST',
       body: formData
     })
@@ -1362,7 +1362,7 @@ addInstock(){
       formData.append('position',position)
       formData.append('location',company)
     }
-    fetch('http://localhost:8080/IMS/src/backend/changingAddDashboard.php', {
+    fetch('backend/changingAddDashboard.php', {
       method: 'POST',
       body: formData
     })
@@ -1403,7 +1403,7 @@ addInstock(){
       formData.append('location',company)
     }
 
-    fetch('http://localhost:8080/IMS/src/backend/changingAddDashboard.php', {
+    fetch('backend/changingAddDashboard.php', {
       method: 'POST',
       body: formData
     })
@@ -1467,7 +1467,7 @@ addInstock(){
   toggleCodeContent(contentId: string): void {
     this.activeContent=contentId;
     const formData = new FormData();
-   fetch('http://localhost:8080/IMS/src/backend/location.php', {
+   fetch('backend/location.php', {
     method: 'POST',
     body: formData
   })
@@ -1510,7 +1510,7 @@ addInstock(){
   toggleCodeContentmema(contentId: string): void {
     this.activeContent = contentId;
     const formData = new FormData();
-   fetch('http://localhost:8080/IMS/src/backend/location.php', {
+   fetch('backend/location.php', {
     method: 'POST',
     body: formData
   })
@@ -1553,7 +1553,7 @@ addInstock(){
           formData.append('location',company)
           formData.append('value',value)
         }
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
+        fetch('backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
         })
@@ -1584,7 +1584,7 @@ addInstock(){
           formData.append('value',value)
 
         }
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
+        fetch('backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
         })
@@ -1621,7 +1621,7 @@ addInstock(){
         }
 
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
+        fetch('backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
         })
@@ -1649,7 +1649,7 @@ addInstock(){
         const value: any = localStorage.getItem('value');
 
         formData.append('value',value)
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
+        fetch('backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
         })
@@ -1688,7 +1688,7 @@ addInstock(){
           formData.append('value',value)
         }
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistAdd.php', {
+        fetch('backend/formViewlistAdd.php', {
           method: 'POST',
           body: formData
         })
@@ -1727,7 +1727,7 @@ addInstock(){
         formData.append('location',location)
         formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1752,7 +1752,7 @@ addInstock(){
         formData.append('location',location)
         formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1781,7 +1781,7 @@ addInstock(){
         formData.append('location',location)
         formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1809,7 +1809,7 @@ addInstock(){
         const value: any = localStorage.getItem('value');
 
         formData.append('value',value)
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1842,7 +1842,7 @@ addInstock(){
         formData.append('location',location)
         formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1876,7 +1876,7 @@ addInstock(){
         formData.append('location',location)
         formData.append('value',value)
 
-        fetch('http://localhost:8080/IMS/src/backend/formViewlistDelete.php', {
+        fetch('backend/formViewlistDelete.php', {
           method: 'POST',
           body: formData
         })
@@ -1988,7 +1988,7 @@ addInstock(){
         formData.append('defectiveForm_quantity',this.defectiveForm.value.defectiveForm_quantity)
         formData.append('defectiveForm_specific',this.defectiveForm.value.defectiveForm_specific)
       }
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2017,7 +2017,7 @@ addInstock(){
         formData.append('personelForm_position',this.personelForm.value.personelForm_position)
       }
 
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2043,7 +2043,7 @@ addInstock(){
         formData.append('categoryForm_name',this.categoryForm.value.categoryForm_name)
         formData.append('categoryForm_location',company.toUpperCase())
       }
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2062,7 +2062,7 @@ addInstock(){
       formData.append('locationForm_name',this.locationForm.value.locationForm_name)
       formData.append('locationForm_floor',this.locationForm.value.locationForm_floor)
 
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2086,7 +2086,7 @@ addInstock(){
         formData.append('projectForm_name',this.projectForm.value.projectForm_name)
         formData.append('projectForm_location',company.toUpperCase())
       }
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2102,7 +2102,7 @@ addInstock(){
       formData.append('position',position)
       formData.append('company',company)
       formData.append('otherForm_name',this.otherForm.value.otherForm_name)
-      fetch('http://localhost:8080/IMS/src/backend/addDashboard.php', {
+      fetch('backend/addDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2135,7 +2135,7 @@ addInstock(){
       }
 
       formData.append('position',position)
-      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
+      fetch('backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2158,7 +2158,7 @@ addInstock(){
         formData.append('personelForm_location',company)
       }
       formData.append('position',position)
-      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
+      fetch('backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2183,7 +2183,7 @@ addInstock(){
       }
 
       formData.append('position',position)
-      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
+      fetch('backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2208,7 +2208,7 @@ addInstock(){
       }
 
       formData.append('position',position)
-      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
+      fetch('backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2224,7 +2224,7 @@ addInstock(){
       formData.append('property',value)
       formData.append('position',position)
       formData.append('otherForm_name',this.otherForm.value.otherForm_name)
-      fetch('http://localhost:8080/IMS/src/backend/deleteDashboard.php', {
+      fetch('backend/deleteDashboard.php', {
         method: 'POST',
         body: formData
       })
@@ -2243,7 +2243,7 @@ addInstock(){
     const formData = new FormData();
     formData.append('companyownership', selectedValue.locationName);
 
-    fetch('http://localhost:8080/IMS/src/backend/changingquantityDashboard.php', {
+    fetch('backend/changingquantityDashboard.php', {
       method: 'POST',
       body: formData
     })
@@ -2263,7 +2263,7 @@ addInstock(){
         this.projectData = [];
 
         // Fetch and update the popup information
-        fetch('http://localhost:8080/IMS/src/backend/changinginfoDashboard.php', {
+        fetch('backend/changinginfoDashboard.php', {
           method: 'POST',
           body: formData
         })
@@ -2608,7 +2608,7 @@ addInstock(){
       const company : any = localStorage.getItem('company')
       formData.append('company',company.toUpperCase())
       formData.append('position',position)
-      fetch('http://localhost:8080/IMS/src/backend/itemlist.php', {
+      fetch('backend/itemlist.php', {
       method: 'POST',
       body: formData
     })
