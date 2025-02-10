@@ -1,36 +1,46 @@
-# Inventory Management System with QR Code Integration
+# 📦 Inventory Management System with QR Code Integration  
 
-The **Inventory Management System** is designed to streamline and increase efficiency in managing inventory by integrating QR code scanning, along with the ability to import and export data in PDF and Excel formats. This system simplifies the process of tracking inventory items, generating reports, and managing product information with minimal manual effort.
+The **Inventory Management System** is designed to streamline and enhance efficiency in managing inventory by integrating **QR code scanning**, along with **import/export** functionality for **PDF and Excel** formats. This system simplifies tracking inventory items, generating reports, and managing product details with minimal manual effort.  
 
-## Features
+---
 
-- **QR Code Integration:**
-  - Scan and generate QR codes for each inventory item.
-  - Quickly access and track product details using QR code scanning.
-  
-- **Inventory Tracking:**
-  - Add, update, and delete inventory items.
-  - Track product quantity, price, and description.
+## 🚀 Tech Stack  
+- **Angular** – Frontend framework for building a dynamic UI.  
+- **TypeScript** – Strongly-typed JavaScript for better maintainability.  
+- **MySQL** – Database management for storing inventory data.  
+- **Native PHP** – Backend logic for data handling and API communication.  
 
-- **Import and Export Data:**
-  - **Export** inventory data to PDF and Excel formats for easy sharing and reporting.
-  - **Import** inventory data from Excel files to quickly populate the system.
+---
 
-- **Product Information:**
-  - Maintain detailed information for each inventory item, including names, descriptions, prices, and quantities.
-  - Manage product categories to easily sort and filter inventory.
+## ✨ Features  
 
-- **Reporting:**
-  - Generate PDF reports with customizable options (e.g., inventory list, stock levels).
-  - Export inventory data in Excel for further analysis and record keeping.
+### 🔍 **QR Code Integration**  
+✅ Scan and generate **QR codes** for each inventory item.  
+✅ Quickly access and track product details using **QR code scanning**.  
 
-## Installation
+### 📦 **Inventory Tracking**  
+✅ Add, update, and delete inventory items seamlessly.  
+✅ Track **product quantity, price, and descriptions** in real time.  
 
-To set up the **Inventory Management System** locally, follow these steps:
+### 📑 **Import and Export Data**  
+✅ **Export** inventory data in **PDF and Excel** formats for easy reporting.  
+✅ **Import** inventory data from **Excel files** to populate the system efficiently.  
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/InventoryManagementSystem.git
+### 🏷 **Product Information Management**  
+✅ Maintain **detailed records** for each inventory item (name, description, price, quantity).  
+✅ Categorize products to enable **efficient sorting and filtering**.  
 
+### 📊 **Reporting & Analytics**  
+✅ Generate **customizable PDF reports** (e.g., inventory list, stock levels).  
+✅ Export inventory data in **Excel format** for deeper analysis and record keeping.  
 
-This version includes your tech stack of **Angular**, **TypeScript**, **MySQL**, and **Native PHP**.
+---
+
+## 🛠 Installation  
+
+To set up the **Inventory Management System** locally, follow these steps:  
+
+### 1️⃣ Clone the repository  
+```bash
+git clone https://github.com/your-username/InventoryManagementSystem.git
+cd InventoryManagementSystem
