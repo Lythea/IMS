@@ -1,27 +1,36 @@
-# IMS
+# Inventory Management System with QR Code Integration
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+The **Inventory Management System** is designed to streamline and increase efficiency in managing inventory by integrating QR code scanning, along with the ability to import and export data in PDF and Excel formats. This system simplifies the process of tracking inventory items, generating reports, and managing product information with minimal manual effort.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **QR Code Integration:**
+  - Scan and generate QR codes for each inventory item.
+  - Quickly access and track product details using QR code scanning.
+  
+- **Inventory Tracking:**
+  - Add, update, and delete inventory items.
+  - Track product quantity, price, and description.
 
-## Code scaffolding
+- **Import and Export Data:**
+  - **Export** inventory data to PDF and Excel formats for easy sharing and reporting.
+  - **Import** inventory data from Excel files to quickly populate the system.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Product Information:**
+  - Maintain detailed information for each inventory item, including names, descriptions, prices, and quantities.
+  - Manage product categories to easily sort and filter inventory.
 
-## Build
+- **Reporting:**
+  - Generate PDF reports with customizable options (e.g., inventory list, stock levels).
+  - Export inventory data in Excel for further analysis and record keeping.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Installation
 
-## Running unit tests
+To set up the **Inventory Management System** locally, follow these steps:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/InventoryManagementSystem.git
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This version includes your tech stack of **Angular**, **TypeScript**, **MySQL**, and **Native PHP**.
